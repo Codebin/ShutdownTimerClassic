@@ -111,7 +111,10 @@ namespace ShutdownTimer
 
             TopMost = !SettingsProvider.Settings.DisableAlwaysOnTop;
 
-            // Prevent font-fallback and subsequent layout issues. This application is currently only in English and doesn't require display of non-Latin characters.
+            // 本次改造新增：恢复窗口尺寸、应用鼠标穿透、给托盘菜单加开关
+            ApplyCountdownSize();
+            BuildClickThroughMenuItem();
+
             // 字体按界面语言选择（中文需要 CJK 字形）
             this.Font = Loc.CreateUiFont(8.25f);
 
@@ -545,6 +548,132 @@ namespace ShutdownTimer
                 notifyIcon.ShowBalloonTip(5000);
             }
         }
+
+        #region "窗口尺寸与鼠标穿透（本次改造新增）"
+
+        // Designer 里的默认客户区尺寸，作为未保存过尺寸时的回退
+        private const int DefaultWidth = 359;
+        private const int DefaultHeight = 146;
+        private const int MinWidth = 200;
+        private const int MinHeight = 90;
+        private const int MaxWidth = 1400;
+        private const int MaxHeight = 900;
+
+        /// <summary>
+        /// 恢复用户上次调整过的窗口尺寸；没有记录时保持 Designer 默认值
+        /// </summary>
+        private void ApplyCountdownSize()
+        {
+            int width = SettingsProvider.Settings.CountdownWidth;
+            int height = SettingsProvider.Settings.CountdownHeight;
+
+            if (width <= 0 || height <= 0)
+            {
+                ExceptionHandler.Log("No saved countdown size; using designer default");
+                return;
+            }
+
+            width = Math.Max(MinWidth, Math.Min(MaxWidth, width));
+            height = Math.Max(MinHeight, Math.Min(MaxHeight, height));
+
+            ClientSize = new Size(width, height);
+            ExceptionHandler.Log($"Restored countdown size {width}x{height}");
+        }
+
+        /// <summary>
+        /// Ctrl + 滚轮缩放窗口。鼠标穿透开启时窗口收不到鼠标消息，直接跳过。
+        /// 尺寸即时写入设置，重启后保持。
+        /// </summary>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if (SettingsProvider.Settings.ClickThrough) return;
+            if ((ModifierKeys & Keys.Control) != Keys.Control) return;
+
+            ResizeCountdown(e.Delta > 0 ? 1 : -1);
+        }
+
+        private void ResizeCountdown(int direction)
+        {
+            int width = Math.Max(MinWidth, Math.Min(MaxWidth, ClientSize.Width + direction * 24));
+            int height = Math.Max(MinHeight, Math.Min(MaxHeight, ClientSize.Height + direction * 14));
+
+            if (width == ClientSize.Width && height == ClientSize.Height) return;
+
+            ClientSize = new Size(width, height);
+            SettingsProvider.Settings.CountdownWidth = width;
+            SettingsProvider.Settings.CountdownHeight = height;
+            SettingsProvider.Save();
+
+            ExceptionHandler.Log($"Countdown resized to {width}x{height}");
+        }
+
+        /// <summary>
+        /// 重置为默认尺寸
+        /// </summary>
+        public void ResetCountdownSize()
+        {
+            ClientSize = new Size(DefaultWidth, DefaultHeight);
+            SettingsProvider.Settings.CountdownWidth = 0;
+            SettingsProvider.Settings.CountdownHeight = 0;
+            SettingsProvider.Save();
+            ExceptionHandler.Log("Countdown size reset to default");
+        }
+
+        /// <summary>
+        /// 托盘菜单里的鼠标穿透开关。穿透后窗口点不动，必须靠这个菜单或设置页关闭，
+        /// 所以菜单项常驻并显示当前状态。
+        /// </summary>
+        private void BuildClickThroughMenuItem()
+        {
+            var item = new ToolStripMenuItem(Loc.T("Countdown.Menu.ToggleClickThrough"))
+            {
+                Name = "toggleClickThroughMenuItem",
+                Checked = SettingsProvider.Settings.ClickThrough
+            };
+            item.Click += ToggleClickThroughMenuItem_Click;
+            contextMenuStrip.Items.Add(item);
+
+            if (SettingsProvider.Settings.ClickThrough)
+            {
+                WindowsAPIs.SetClickThrough(Handle, true);
+            }
+        }
+
+        /// <summary>
+        /// 供设置页调用：按当前设置立即切换穿透，并同步托盘菜单的勾选状态
+        /// </summary>
+        public void ApplyClickThroughSetting()
+        {
+            bool enabled = SettingsProvider.Settings.ClickThrough;
+            WindowsAPIs.SetClickThrough(Handle, enabled);
+
+            foreach (ToolStripItem item in contextMenuStrip.Items)
+            {
+                if (item is ToolStripMenuItem menuItem && item.Name == "toggleClickThroughMenuItem") menuItem.Checked = enabled;
+            }
+        }
+
+        private void ToggleClickThroughMenuItem_Click(object sender, EventArgs e)
+        {
+            bool enabled = !SettingsProvider.Settings.ClickThrough;
+            SettingsProvider.Settings.ClickThrough = enabled;
+            SettingsProvider.Save();
+
+            WindowsAPIs.SetClickThrough(Handle, enabled);
+
+            if (sender is ToolStripMenuItem item) item.Checked = enabled;
+
+            if (enabled && !SettingsProvider.Settings.DisableNotifications)
+            {
+                SendNotification(Loc.T("Countdown.ClickThroughOn"));
+            }
+
+            ExceptionHandler.Log("User toggled click-through to " + enabled);
+        }
+
+        #endregion
 
         #endregion
 

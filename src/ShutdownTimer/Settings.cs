@@ -8,6 +8,8 @@ namespace ShutdownTimer
     public partial class Settings : Form
     {
         private ComboBox languageComboBox;   // 运行时创建，避免改动 Designer 生成代码
+        private CheckBox clickThroughCheckBox;
+        private Button resetSizeButton;
         private string loadedLanguage;       // 打开设置时的语言，用于判断是否需要重启提示
 
         public Settings()
@@ -86,6 +88,66 @@ namespace ShutdownTimer
             ClientSize = new Size(ClientSize.Width, ClientSize.Height + shift);
         }
 
+        /// <summary>
+        /// 在"倒计时窗口"分组里追加鼠标穿透开关与尺寸重置按钮。
+        /// 同样用代码创建，不动 Designer 生成代码。
+        /// </summary>
+        private void BuildCountdownExtras()
+        {
+            if (clickThroughCheckBox != null) return;
+
+            const int rowHeight = 23;
+            int top = hideTrayIconCheckBox.Bottom + 3;
+            int originalBottom = countdownGroupBox.Bottom;
+
+            clickThroughCheckBox = new CheckBox
+            {
+                Name = "clickThroughCheckBox",
+                Text = Loc.T("Settings.ClickThrough"),
+                Location = new Point(6, top),
+                AutoSize = true
+            };
+
+            var tip = new ToolTip();
+            tip.SetToolTip(clickThroughCheckBox, Loc.T("Settings.ClickThroughHint"));
+
+            resetSizeButton = new Button
+            {
+                Name = "resetSizeButton",
+                Text = Loc.T("Settings.CountdownSizeReset"),
+                Location = new Point(countdownGroupBox.Width - 96, top - 2),
+                Size = new Size(90, 23),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            resetSizeButton.Click += ResetSizeButton_Click;
+
+            countdownGroupBox.Controls.Add(clickThroughCheckBox);
+            countdownGroupBox.Controls.Add(resetSizeButton);
+            countdownGroupBox.Height += rowHeight;
+
+            // 把该分组下方的同级控件整体下移，避免重叠
+            foreach (Control sibling in tabPage2.Controls)
+            {
+                if (sibling != countdownGroupBox && sibling.Top >= originalBottom)
+                {
+                    sibling.Top += rowHeight;
+                }
+            }
+        }
+
+        private void ResetSizeButton_Click(object sender, EventArgs e)
+        {
+            // 倒计时窗口开着的话立即重置，否则只清掉保存的尺寸
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is Countdown countdown) countdown.ResetCountdownSize();
+            }
+
+            SettingsProvider.Settings.CountdownWidth = 0;
+            SettingsProvider.Settings.CountdownHeight = 0;
+            ExceptionHandler.Log("User requested countdown size reset from settings");
+        }
+
         private void Settings_Load(object sender, EventArgs e)
         {
             appLabel.Text = Application.ProductName + "@v" + Application.ProductVersion.Remove(Application.ProductVersion.LastIndexOf("."));
@@ -97,6 +159,7 @@ namespace ShutdownTimer
             this.Font = Loc.CreateUiFont(8.25f);
 
             BuildLanguageControls();
+            BuildCountdownExtras();
             LoadSettings();
         }
 
@@ -157,6 +220,7 @@ namespace ShutdownTimer
             passwordCheckBox.Checked = SettingsProvider.Settings.PasswordProtection;
             enableAdaptiveCountdownTextSizeCheckBox.Checked = SettingsProvider.Settings.AdaptiveCountdownTextSize;
             hideTrayIconCheckBox.Checked = SettingsProvider.Settings.HideTrayIcon;
+            if (clickThroughCheckBox != null) clickThroughCheckBox.Checked = SettingsProvider.Settings.ClickThrough;
             if (SettingsProvider.Settings.BackgroundColor == Color.Transparent) { transparentWindowCheckBox.Checked = true; }
             saveLogsCheckBox.Checked = SettingsProvider.Settings.SaveEventLogOnExit;
         }
@@ -204,6 +268,21 @@ namespace ShutdownTimer
             SettingsProvider.Settings.DisableNotifications = disableNotificationsCheckBox.Checked;
             SettingsProvider.Settings.AdaptiveCountdownTextSize = enableAdaptiveCountdownTextSizeCheckBox.Checked;
             SettingsProvider.Settings.HideTrayIcon = hideTrayIconCheckBox.Checked;
+
+            if (clickThroughCheckBox != null)
+            {
+                bool enabled = clickThroughCheckBox.Checked;
+                if (enabled != SettingsProvider.Settings.ClickThrough)
+                {
+                    SettingsProvider.Settings.ClickThrough = enabled;
+
+                    // 倒计时窗口开着就立刻生效，不用等下一次启动
+                    foreach (Form form in Application.OpenForms)
+                    {
+                        if (form is Countdown countdown) countdown.ApplyClickThroughSetting();
+                    }
+                }
+            }
             SettingsProvider.Settings.PasswordProtection = passwordCheckBox.Checked;
             SettingsProvider.Settings.SaveEventLogOnExit = saveLogsCheckBox.Checked;
 

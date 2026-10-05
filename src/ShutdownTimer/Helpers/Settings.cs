@@ -211,6 +211,10 @@ namespace ShutdownTimer.Helpers
         public bool AdaptiveCountdownTextSize { get; set; }
         public bool HideTrayIcon { get; set; }
         public bool SaveEventLogOnExit { get; set; }
+        // 本次改造新增
+        public bool ClickThrough { get; set; }          // 倒计时窗口鼠标穿透
+        public int CountdownWidth { get; set; }         // 0 = 使用默认尺寸
+        public int CountdownHeight { get; set; }        // 0 = 使用默认尺寸
     }
 
     public class TimerData

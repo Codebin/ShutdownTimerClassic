@@ -139,6 +139,8 @@
   <data name="Countdown.Menu.MoveToBackground" xml:space="preserve"><value>移到后台</value></data>
   <data name="Countdown.Menu.ShowCountdownWindow" xml:space="preserve"><value>显示倒计时窗口</value></data>
   <data name="Countdown.Menu.SetNewCountdown" xml:space="preserve"><value>设置新的倒计时</value></data>
+  <data name="Countdown.Menu.ToggleClickThrough" xml:space="preserve"><value>切换鼠标穿透</value></data>
+  <data name="Countdown.ClickThroughOn" xml:space="preserve"><value>鼠标穿透已开启：窗口不接收鼠标输入，请用托盘图标菜单控制计时器。</value></data>
   <data name="Settings.Title" xml:space="preserve"><value>设置</value></data>
   <data name="Settings.WindowTitle" xml:space="preserve"><value>定时关机 - 设置</value></data>
   <data name="Settings.Footer" xml:space="preserve"><value>在德国用 ❤ 制作</value></data>

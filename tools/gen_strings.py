@@ -130,6 +130,9 @@ STRINGS = {
     "Countdown.Menu.MoveToBackground": ("Move to background", "移到后台"),
     "Countdown.Menu.ShowCountdownWindow": ("Show countdown window", "显示倒计时窗口"),
     "Countdown.Menu.SetNewCountdown": ("Set a new countdown", "设置新的倒计时"),
+    "Countdown.Menu.ToggleClickThrough": ("Toggle click-through", "切换鼠标穿透"),
+    "Countdown.ClickThroughOn": ("Click-through is ON. The window ignores mouse input; use the tray icon menu to control the timer.",
+                                 "鼠标穿透已开启：窗口不接收鼠标输入，请用托盘图标菜单控制计时器。"),
 
     # ---------- Settings 设置窗口 ----------
     "Settings.Title": ("Settings", "设置"),

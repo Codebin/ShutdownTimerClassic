@@ -1,0 +1,116 @@
+name: Local build (self-hosted)
+
+# 把编译与测试下发到主人自己的 Windows 机器上跑。
+# 前提：那台机器已注册为本仓库的 self-hosted runner，且带 windows 标签。
+#
+# 为什么单独一个 workflow 而不改 dotnet.yml：
+#   家里的电脑会关机。如果正式 CI 依赖它，任务会一直 pending 直到超时。
+#   所以 dotnet.yml 继续用 GitHub 托管 runner 保证随时能出包，
+#   这个 workflow 用于"就想在自家机器上验证/省托管配额"的场景。
+#
+# 触发：
+#   - 手动（Actions 页面点 Run workflow）—— 默认方式
+#   - 往 fix-local-build 分支 push —— 想自动跑时用
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix-local-build
+
+# 家里机器可能同时只该跑一个任务，避免互相抢资源
+concurrency:
+  group: local-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-on-home-pc:
+    runs-on: [self-hosted, windows]
+
+    # 关键：家里机器可能关机。没有这个超时，job 会一直 pending
+    # 直到 GitHub 侧超时（最长 6 小时），白白占着 runner 队列。
+    timeout-minutes: 30
+
+    steps:
+      - name: 环境自检（缺什么直接说清楚）
+        id: env-check
+        shell: pwsh
+        run: |
+          Write-Host "=== runner 机器信息 ==="
+          Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, OSArchitecture | Format-List
+
+          # 注意：GitHub 的 pwsh 默认 $ErrorActionPreference='Stop'，
+          # 在 catch 里写 Write-Error 会变成终止错误、直接把步骤搞失败，
+          # 和"提示后继续"的意图相反。所以这里用 Get-Command 探测，不用 try/catch。
+          Write-Host "=== .NET SDK ==="
+          if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) {
+            Write-Host "::error::未找到 dotnet，请先在这台机器安装 .NET 8 SDK"
+            exit 1
+          }
+          dotnet --list-sdks
+
+          Write-Host "=== Python（本地化校验脚本需要）==="
+          if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
+            Write-Host "::warning::未找到 python，本地化校验步骤将跳过（编译测试照常跑）"
+            "has_python=false" >> $env:GITHUB_OUTPUT
+          } else {
+            python --version
+            "has_python=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Set up project
+        uses: actions/checkout@v6
+
+      # 与 dotnet.yml / release.yml 对齐：pin 到 8.0.x，
+      # 否则本机装了几个 SDK 就用最新的，和 CI 结果会有漂移。
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Verify localization
+        if: steps.env-check.outputs.has_python != 'false'
+        shell: pwsh
+        run: |
+          python tools/gen_strings.py
+          python tools/check_i18n.py
+          python tools/check_layout.py
+
+      # 资源必须是已提交的最终态，否则本地跑出来的包和仓库里的不一致
+      - name: Fail if generated resources are not committed
+        shell: pwsh
+        run: |
+          git diff --exit-code -- src/ShutdownTimer/Strings.resx src/ShutdownTimer/Strings.zh-CN.resx
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "::error::Strings.resx / Strings.zh-CN.resx 与 tools/gen_strings.py 的对照表不一致，先跑 gen_strings.py 并把结果提交。"
+            exit 1
+          }
+
+      - name: Build（警告即失败）
+        run: dotnet build src\ShutdownTimer\ShutdownTimer.csproj -c Debug --nologo -warnaserror
+
+      # 关键：WinForms 测试只能在真 Windows 上跑，这正是本机验证的价值
+      - name: Test（兼容性契约测试）
+        run: dotnet test tests\ShutdownTimer.Tests\ShutdownTimer.Tests.csproj -c Debug --nologo
+
+      - name: Publish 便携版
+        shell: pwsh
+        run: |
+          # self-hosted runner 的工作区不会像托管 runner 那样每次清空。
+          # 不清的话，换过 RID 之后旧产物会混进同一个 ZIP。
+          if (Test-Path artifacts\publish) { Remove-Item artifacts\publish -Recurse -Force }
+          dotnet publish src\ShutdownTimer\ShutdownTimer.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -o artifacts\publish
+
+      - name: 打包 ZIP
+        shell: pwsh
+        run: |
+          if (Test-Path artifacts\zip) { Remove-Item artifacts\zip -Recurse -Force }
+          New-Item -ItemType Directory -Force -Path artifacts\zip | Out-Null
+          Compress-Archive -Path artifacts\publish\* -DestinationPath artifacts\zip\ShutdownTimerClassic-local.zip -CompressionLevel Optimal
+
+      # 产物仍走 Artifacts 通道，方便从网页下载；本机文件也留在 artifacts\ 下
+      - name: Upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: local-build-result
+          path: artifacts\zip\ShutdownTimerClassic-local.zip
+          compression-level: 9

@@ -52,7 +52,8 @@ def git_facts() -> dict:
     shortstat = sh(["git", "diff", "--shortstat", f"{BASE_BRANCH}..HEAD"])
     m = re.search(r"(\d+) files? changed.*?(\d+) insertions?.*?(\d+) deletions?", shortstat)
     pushed = sh(["git", "rev-parse", "--verify", f"origin/{PUSH_BRANCH}"])
-    dirty = sh(["git", "status", "--porcelain"])
+    # 看板文件自身变化不算「未提交的活」，否则刷新一次就自己报警一次
+    dirty = sh(["git", "status", "--porcelain", "--", ".", ":(exclude)docs/STATUS.md"])
     return {
         "commits": int(ahead or 0),
         "files": int(m.group(1)) if m else 0,

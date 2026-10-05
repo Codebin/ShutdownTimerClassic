@@ -2,30 +2,51 @@ name: .NET
 on: [ push, pull_request ]
 
 jobs:
-  build:
-    runs-on: windows-2025-vs2026
-    steps:      
+  # 快速编译检查：EnableWindowsTargeting 让 WinForms 项目也能在 Linux 上编译，
+  # 反馈比 Windows runner 快得多，用来挡住语法/引用类错误。
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
       - name: Set up project
         uses: actions/checkout@v6
-      
-      - name: Set up MSBuild
-        uses: microsoft/setup-msbuild@v3
-      
-      - name: Set up NuGet
-        uses: NuGet/setup-nuget@v4.0
 
-      - name: Restore NuGet packages
-        working-directory: src
-        run: nuget restore ShutdownTimerClassic.sln
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-      - name: Build Solution
-        working-directory: src
-        run: |
-          msbuild.exe ShutdownTimerClassic.sln /p:platform="Any CPU" /p:configuration="Debug"
+      - name: Restore
+        working-directory: src/ShutdownTimer
+        run: dotnet restore ShutdownTimer.csproj
+
+      - name: Build
+        working-directory: src/ShutdownTimer
+        run: dotnet build ShutdownTimer.csproj -c Debug --no-restore -warnaserror
+
+  # 正式构建：产出可在 Windows 上运行的 exe
+  build:
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: Set up project
+        uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        working-directory: src/ShutdownTimer
+        run: dotnet restore ShutdownTimer.csproj
+
+      - name: Build
+        working-directory: src/ShutdownTimer
+        run: dotnet build ShutdownTimer.csproj -c Debug --no-restore
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
-          path: src\ShutdownTimer\bin\Debug
+          name: shutdown-timer-classic-windows
+          path: src\ShutdownTimer\bin\Debug\net8.0-windows
           compression-level: 9
           include-hidden-files: true

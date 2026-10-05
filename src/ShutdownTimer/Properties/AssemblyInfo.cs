@@ -19,6 +19,9 @@ using System.Runtime.InteropServices;
 // COM aus zugreifen müssen, sollten Sie das ComVisible-Attribut für diesen Typ auf "True" festlegen.
 [assembly: ComVisible(false)]
 
+// 本程序集仅面向 Windows；声明后可消除 .NET 8 交叉编译产生的 CA1416 平台兼容性警告
+[assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
+
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
 [assembly: Guid("ce23bd33-08d8-4895-854c-90d91cba02c6")]
 

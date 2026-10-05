@@ -20,6 +20,10 @@ namespace ShutdownTimer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // .NET 8 不再读取 App.config 里的 DpiAwareness，需显式声明 PerMonitorV2
+            // 以保持原先的高分屏缩放行为
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+
             if (args.Length != 0)
             {
                 ExceptionHandler.Log("Processing CLI args");

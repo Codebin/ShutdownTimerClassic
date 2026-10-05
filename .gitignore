@@ -331,3 +331,5 @@ ASALocalRun/
 
 # 本地化工具的生成物（由 tools/gen_strings.py 产出）
 tools/keys.txt
+tools/__pycache__/
+tools/map_draft.txt

@@ -198,6 +198,15 @@ STRINGS = {
     "Settings.Application": ("Application:", "应用程序："),
 
     "Settings.HideTrayIcon": ("Hide tray icon (not recommended)", "隐藏托盘图标（不推荐）"),
+    "Settings.HideTrayIconWarn": (
+        "Disabling the tray icon will prevent you from interacting with the application when it's running in the background.\n"
+        "Your only choice in such a case is to kill the application with Task Manager.\n\n"
+        "Notifications will also stop working!\n\n"
+        "Are you sure you want to enable this option?",
+        "禁用托盘图标后，当应用在后台运行时你将无法与它交互。\n"
+        "那种情况下你只能用任务管理器结束应用。\n\n"
+        "通知也会一并失效！\n\n"
+        "确定要启用这个选项吗？"),
 
     # ---------- 倒计时窗口新特性（本次改造） ----------
     "Settings.ClickThrough": ("Click-through (ignore mouse input)", "鼠标穿透（忽略鼠标输入）"),
@@ -235,14 +244,97 @@ STRINGS = {
         "执行自定义命令时出错。\n\n你的命令：{0}\n错误：{1}"),
     "Countdown.Err.CustomCommandTitle": ("Countdown Update", "倒计时更新"),
 
-    # ---------- 异常处理 ----------
-    "Error.Title": ("Shutdown Timer - Error", "定时关机 - 错误"),
-    "Error.Message": (
-        "An unexpected error occurred. A log file has been created on your desktop to help diagnose the problem.",
-        "发生了意外错误。已在桌面生成日志文件，便于排查问题。"),
-    "Error.MessageNoLog": (
-        "An unexpected error occurred, but the log file could not be created.",
-        "发生了意外错误，但日志文件未能创建。"),
+    # ---------- 托盘气泡通知 ----------
+    "Tray.Balloon.CountdownFinished": ("The countdown has finished.", "倒计时已结束。"),
+    "Tray.Balloon.CountdownStopped": ("The countdown was stopped.", "倒计时已停止。"),
+
+    # ---------- 取消/停止与剩余时间通知 ----------
+    "Countdown.StoppedNotify": (
+        "Your timer was canceled successfully!\nThe application will now close.",
+        "定时器已成功取消！\n应用即将关闭。"),
+    "Countdown.ResetNotify": (
+        "Timer has been reset. Remaining time until power action will be executed is {0} hours, {1} minutes and {2} seconds.",
+        "定时器已重置。距离执行电源操作还剩 {0} 小时 {1} 分 {2} 秒。"),
+    "Countdown.MovedToBackground": (
+        "Timer has been moved to the background. Right-click the tray icon for more info.",
+        "定时器已移到后台。右键点击托盘图标可查看更多信息。"),
+    "Countdown.Remaining.Hours2": (
+        "2 hours remaining until the power action will be executed",
+        "距离执行电源操作还剩 2 小时"),
+    "Countdown.Remaining.Hours1": (
+        "1 hour remaining until the power action will be executed.",
+        "距离执行电源操作还剩 1 小时。"),
+    "Countdown.Remaining.Minutes30": (
+        "30 minutes remaining until the power action will be executed.",
+        "距离执行电源操作还剩 30 分钟。"),
+    "Countdown.Remaining.Minutes5": (
+        "5 minutes remaining until the power action will be executed.",
+        "距离执行电源操作还剩 5 分钟。"),
+    "Countdown.Remaining.Seconds30": (
+        "30 seconds remaining until the power action will be executed.",
+        "距离执行电源操作还剩 30 秒。"),
+
+    # ---------- 设置新倒计时 ----------
+    "Countdown.UpdateTitle": ("Countdown Update", "倒计时更新"),
+    "Countdown.NewTimeTitle": ("Set a new countdown", "设置新的倒计时"),
+    "Countdown.NewTimePrompt": (
+        "Enter new time for the countdown in the format of HH:mm:ss or HH:mm.\n\nThis will replace the current timer in place.",
+        "请输入新的倒计时时间，格式为 HH:mm:ss 或 HH:mm。\n\n这会直接替换当前的定时器。"),
+    "Countdown.Err.NoTime": (
+        "Operation aborted: You have not supplied a new time value!",
+        "操作已中止：你没有提供新的时间值！"),
+    "Countdown.Err.InvalidTime": (
+        "Operation aborted: You have not supplied a valid time value!",
+        "操作已中止：你提供的时间值无效！"),
+    "Countdown.Err.InternalError": (
+        "Operation aborted: You have either not supplied a valid time value or there was an internal error outside the scope of your input while processing it.",
+        "操作已中止：要么你提供的时间值无效，要么处理过程中出现了与输入无关的内部错误。"),
+
+    # ---------- 密码解锁提示 ----------
+    "Countdown.PasswordPromptByAction": (
+        "This countdown has been protected with a password. Enter your password to release the lock.\n"
+        "You can re-lock the countdown by clicking on the lock icon afterwards.",
+        "此倒计时已受密码保护。输入密码即可解锁。\n"
+        "之后点击锁形图标可以重新上锁。"),
+    "Countdown.PasswordPromptPlain": (
+        "Enter your password to unlock this countdown.\n\n"
+        "You can re-lock the countdown by clicking on the lock icon afterwards.",
+        "输入密码以解锁此倒计时。\n\n"
+        "之后点击锁形图标可以重新上锁。"),
+
+    # ---------- 异常处理对话框 ----------
+    "Error.UnhandledTitle": (
+        "Shutdown Timer Classic crashed and needs to be terminated!",
+        "Shutdown Timer Classic 已崩溃，必须终止！"),
+    "Error.UnhandledMessage": (
+        "An unhandled exception occurred and the application needs to be terminated!\n\n"
+        "A log file containing information about the process and the error has been saved to your desktop.\n"
+        "Please create an issue on GitHub and include the contents of this log file to help identify and fix the issue.\n\n"
+        "GitHub: github.com/lukaslangrock/ShutdownTimerClassic/issues\n"
+        "Email: lukas.langrock@outlook.de",
+        "发生未处理的异常，应用必须终止！\n\n"
+        "一份包含进程与错误信息的日志文件已保存到桌面。\n"
+        "请在 GitHub 上提交 issue，并附上该日志的内容，以便定位并修复问题。\n\n"
+        "GitHub：github.com/lukaslangrock/ShutdownTimerClassic/issues\n"
+        "邮箱：lukas.langrock@outlook.de"),
+    "Error.ThreadTitle": ("Shutdown Timer Classic crashed!", "Shutdown Timer Classic 已崩溃！"),
+    "Error.ThreadMessage": (
+        "A thread exception occurred!\n\n"
+        "A log file containing information about the process and the error has been saved to your desktop.\n"
+        "Please create an issue on GitHub and include the contents of this log file to help identify and fix the issue.\n\n"
+        "Log file location: {0}\n"
+        "GitHub: github.com/lukaslangrock/ShutdownTimerClassic/issues\n"
+        "Email: lukas.langrock@outlook.de\n\n"
+        "The application experienced a critical error and may very well be broken. It is not recommended to keep using this instance of the application!\n"
+        "Would you like to terminate the application?",
+        "发生线程异常！\n\n"
+        "一份包含进程与错误信息的日志文件已保存到桌面。\n"
+        "请在 GitHub 上提交 issue，并附上该日志的内容，以便定位并修复问题。\n\n"
+        "日志文件位置：{0}\n"
+        "GitHub：github.com/lukaslangrock/ShutdownTimerClassic/issues\n"
+        "邮箱：lukas.langrock@outlook.de\n\n"
+        "应用发生了严重错误，很可能已不可用，不建议继续使用当前实例！\n"
+        "是否要终止应用？"),
 }
 
 HEADER = '''<?xml version="1.0" encoding="utf-8"?>

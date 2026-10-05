@@ -192,6 +192,12 @@ Any contributions in the form of issues and PR's are very welcome.</value></data
   <data name="Settings.SourceCode" xml:space="preserve"><value>Sourcecode</value></data>
   <data name="Settings.Application" xml:space="preserve"><value>Application:</value></data>
   <data name="Settings.HideTrayIcon" xml:space="preserve"><value>Hide tray icon (not recommended)</value></data>
+  <data name="Settings.HideTrayIconWarn" xml:space="preserve"><value>Disabling the tray icon will prevent you from interacting with the application when it's running in the background.
+Your only choice in such a case is to kill the application with Task Manager.
+
+Notifications will also stop working!
+
+Are you sure you want to enable this option?</value></data>
   <data name="Settings.ClickThrough" xml:space="preserve"><value>Click-through (ignore mouse input)</value></data>
   <data name="Settings.ClickThroughHint" xml:space="preserve"><value>Mouse clicks pass through the countdown window to whatever is behind it. Use the tray menu to control the timer.</value></data>
   <data name="Settings.CountdownSize" xml:space="preserve"><value>Window size:</value></data>
@@ -213,7 +219,46 @@ Any contributions in the form of issues and PR's are very welcome.</value></data
 Your custom command: {0}
 Error: {1}</value></data>
   <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>Countdown Update</value></data>
-  <data name="Error.Title" xml:space="preserve"><value>Shutdown Timer - Error</value></data>
-  <data name="Error.Message" xml:space="preserve"><value>An unexpected error occurred. A log file has been created on your desktop to help diagnose the problem.</value></data>
-  <data name="Error.MessageNoLog" xml:space="preserve"><value>An unexpected error occurred, but the log file could not be created.</value></data>
+  <data name="Countdown.StoppedNotify" xml:space="preserve"><value>Your timer was canceled successfully!
+The application will now close.</value></data>
+  <data name="Countdown.ResetNotify" xml:space="preserve"><value>Timer has been reset. Remaining time until power action will be executed is {0} hours, {1} minutes and {2} seconds.</value></data>
+  <data name="Countdown.MovedToBackground" xml:space="preserve"><value>Timer has been moved to the background. Right-click the tray icon for more info.</value></data>
+  <data name="Countdown.Remaining.Hours2" xml:space="preserve"><value>2 hours remaining until the power action will be executed</value></data>
+  <data name="Countdown.Remaining.Hours1" xml:space="preserve"><value>1 hour remaining until the power action will be executed.</value></data>
+  <data name="Countdown.Remaining.Minutes30" xml:space="preserve"><value>30 minutes remaining until the power action will be executed.</value></data>
+  <data name="Countdown.Remaining.Minutes5" xml:space="preserve"><value>5 minutes remaining until the power action will be executed.</value></data>
+  <data name="Countdown.Remaining.Seconds30" xml:space="preserve"><value>30 seconds remaining until the power action will be executed.</value></data>
+  <data name="Countdown.UpdateTitle" xml:space="preserve"><value>Countdown Update</value></data>
+  <data name="Countdown.NewTimeTitle" xml:space="preserve"><value>Set a new countdown</value></data>
+  <data name="Countdown.NewTimePrompt" xml:space="preserve"><value>Enter new time for the countdown in the format of HH:mm:ss or HH:mm.
+
+This will replace the current timer in place.</value></data>
+  <data name="Countdown.Err.NoTime" xml:space="preserve"><value>Operation aborted: You have not supplied a new time value!</value></data>
+  <data name="Countdown.Err.InvalidTime" xml:space="preserve"><value>Operation aborted: You have not supplied a valid time value!</value></data>
+  <data name="Countdown.Err.InternalError" xml:space="preserve"><value>Operation aborted: You have either not supplied a valid time value or there was an internal error outside the scope of your input while processing it.</value></data>
+  <data name="Countdown.PasswordPromptByAction" xml:space="preserve"><value>This countdown has been protected with a password. Enter your password to release the lock.
+You can re-lock the countdown by clicking on the lock icon afterwards.</value></data>
+  <data name="Countdown.PasswordPromptPlain" xml:space="preserve"><value>Enter your password to unlock this countdown.
+
+You can re-lock the countdown by clicking on the lock icon afterwards.</value></data>
+  <data name="Error.UnhandledTitle" xml:space="preserve"><value>Shutdown Timer Classic crashed and needs to be terminated!</value></data>
+  <data name="Error.UnhandledMessage" xml:space="preserve"><value>An unhandled exception occurred and the application needs to be terminated!
+
+A log file containing information about the process and the error has been saved to your desktop.
+Please create an issue on GitHub and include the contents of this log file to help identify and fix the issue.
+
+GitHub: github.com/lukaslangrock/ShutdownTimerClassic/issues
+Email: lukas.langrock@outlook.de</value></data>
+  <data name="Error.ThreadTitle" xml:space="preserve"><value>Shutdown Timer Classic crashed!</value></data>
+  <data name="Error.ThreadMessage" xml:space="preserve"><value>A thread exception occurred!
+
+A log file containing information about the process and the error has been saved to your desktop.
+Please create an issue on GitHub and include the contents of this log file to help identify and fix the issue.
+
+Log file location: {0}
+GitHub: github.com/lukaslangrock/ShutdownTimerClassic/issues
+Email: lukas.langrock@outlook.de
+
+The application experienced a critical error and may very well be broken. It is not recommended to keep using this instance of the application!
+Would you like to terminate the application?</value></data>
 </root>

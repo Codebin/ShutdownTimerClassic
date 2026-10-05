@@ -192,6 +192,12 @@
   <data name="Settings.SourceCode" xml:space="preserve"><value>源码</value></data>
   <data name="Settings.Application" xml:space="preserve"><value>应用程序：</value></data>
   <data name="Settings.HideTrayIcon" xml:space="preserve"><value>隐藏托盘图标（不推荐）</value></data>
+  <data name="Settings.HideTrayIconWarn" xml:space="preserve"><value>禁用托盘图标后，当应用在后台运行时你将无法与它交互。
+那种情况下你只能用任务管理器结束应用。
+
+通知也会一并失效！
+
+确定要启用这个选项吗？</value></data>
   <data name="Settings.ClickThrough" xml:space="preserve"><value>鼠标穿透（忽略鼠标输入）</value></data>
   <data name="Settings.ClickThroughHint" xml:space="preserve"><value>鼠标点击会穿过倒计时窗口落到下层内容。请通过托盘菜单控制计时器。</value></data>
   <data name="Settings.CountdownSize" xml:space="preserve"><value>窗口大小：</value></data>
@@ -213,7 +219,46 @@
 你的命令：{0}
 错误：{1}</value></data>
   <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>倒计时更新</value></data>
-  <data name="Error.Title" xml:space="preserve"><value>定时关机 - 错误</value></data>
-  <data name="Error.Message" xml:space="preserve"><value>发生了意外错误。已在桌面生成日志文件，便于排查问题。</value></data>
-  <data name="Error.MessageNoLog" xml:space="preserve"><value>发生了意外错误，但日志文件未能创建。</value></data>
+  <data name="Countdown.StoppedNotify" xml:space="preserve"><value>定时器已成功取消！
+应用即将关闭。</value></data>
+  <data name="Countdown.ResetNotify" xml:space="preserve"><value>定时器已重置。距离执行电源操作还剩 {0} 小时 {1} 分 {2} 秒。</value></data>
+  <data name="Countdown.MovedToBackground" xml:space="preserve"><value>定时器已移到后台。右键点击托盘图标可查看更多信息。</value></data>
+  <data name="Countdown.Remaining.Hours2" xml:space="preserve"><value>距离执行电源操作还剩 2 小时</value></data>
+  <data name="Countdown.Remaining.Hours1" xml:space="preserve"><value>距离执行电源操作还剩 1 小时。</value></data>
+  <data name="Countdown.Remaining.Minutes30" xml:space="preserve"><value>距离执行电源操作还剩 30 分钟。</value></data>
+  <data name="Countdown.Remaining.Minutes5" xml:space="preserve"><value>距离执行电源操作还剩 5 分钟。</value></data>
+  <data name="Countdown.Remaining.Seconds30" xml:space="preserve"><value>距离执行电源操作还剩 30 秒。</value></data>
+  <data name="Countdown.UpdateTitle" xml:space="preserve"><value>倒计时更新</value></data>
+  <data name="Countdown.NewTimeTitle" xml:space="preserve"><value>设置新的倒计时</value></data>
+  <data name="Countdown.NewTimePrompt" xml:space="preserve"><value>请输入新的倒计时时间，格式为 HH:mm:ss 或 HH:mm。
+
+这会直接替换当前的定时器。</value></data>
+  <data name="Countdown.Err.NoTime" xml:space="preserve"><value>操作已中止：你没有提供新的时间值！</value></data>
+  <data name="Countdown.Err.InvalidTime" xml:space="preserve"><value>操作已中止：你提供的时间值无效！</value></data>
+  <data name="Countdown.Err.InternalError" xml:space="preserve"><value>操作已中止：要么你提供的时间值无效，要么处理过程中出现了与输入无关的内部错误。</value></data>
+  <data name="Countdown.PasswordPromptByAction" xml:space="preserve"><value>此倒计时已受密码保护。输入密码即可解锁。
+之后点击锁形图标可以重新上锁。</value></data>
+  <data name="Countdown.PasswordPromptPlain" xml:space="preserve"><value>输入密码以解锁此倒计时。
+
+之后点击锁形图标可以重新上锁。</value></data>
+  <data name="Error.UnhandledTitle" xml:space="preserve"><value>Shutdown Timer Classic 已崩溃，必须终止！</value></data>
+  <data name="Error.UnhandledMessage" xml:space="preserve"><value>发生未处理的异常，应用必须终止！
+
+一份包含进程与错误信息的日志文件已保存到桌面。
+请在 GitHub 上提交 issue，并附上该日志的内容，以便定位并修复问题。
+
+GitHub：github.com/lukaslangrock/ShutdownTimerClassic/issues
+邮箱：lukas.langrock@outlook.de</value></data>
+  <data name="Error.ThreadTitle" xml:space="preserve"><value>Shutdown Timer Classic 已崩溃！</value></data>
+  <data name="Error.ThreadMessage" xml:space="preserve"><value>发生线程异常！
+
+一份包含进程与错误信息的日志文件已保存到桌面。
+请在 GitHub 上提交 issue，并附上该日志的内容，以便定位并修复问题。
+
+日志文件位置：{0}
+GitHub：github.com/lukaslangrock/ShutdownTimerClassic/issues
+邮箱：lukas.langrock@outlook.de
+
+应用发生了严重错误，很可能已不可用，不建议继续使用当前实例！
+是否要终止应用？</value></data>
 </root>

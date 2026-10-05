@@ -1,0 +1,45 @@
+# 由 tools/fill_map.py 从 map_draft.txt 生成；手工改规则后重跑
+Another instance of this application is already running. To allow multiple instances, please check the \"Allow multiple instances\" option in the application settings.\n\nExiting...	Common.AlreadyRunning
+Application already running!	Common.AlreadyRunningTitle
+There seems to be a problem!	Menu.Err.StartFailedTitle
+Warning	Menu.WarnTitle
+Custom command field was empty. Please enter a valid command or use a different action!	Menu.Err.EmptyCommand
+Invalid command!	Menu.Err.EmptyCommandTitle
+Applications that do not exit when prompted automatically get terminated by default to ensure a successful shutdown.\n\nA graceful shutdown, on the other hand, will wait for all applications to exit before continuing with the shutdown.\nThis might result in an unsuccessful shutdown if one or more applications are unresponsive or require a user interaction to exit.	Menu.Tip.Graceful
+Depending on the power settings of your system, it might go to sleep after a certain amount of time due to inactivity.\nThis option will keep the system awake to ensure the timer can properly run and execute a shutdown.	Menu.Tip.PreventSleep
+This will launch the countdown without a visible window but will show a tray icon in your taskbar.	Menu.Tip.RunInBackground
+Will count down from the hours, minutes and seconds selected below,\nlike a countdown timer, and execute the power action when it reaches zero.	Menu.Tip.CountdownMode
+In this mode you can select the target time of day (24h clock) for the power action.\nIf the time has already passed, it will roll over to tomorrow.\n\nWhen you press start, the appropriate countdown will be calculated.\n	Menu.Tip.TimeOfDayMode
+Custom Command	Menu.CustomCommandTitle
+Password Protection	Menu.PasswordTitle
+Please enter the command you want to have executed. If you wish to launch a file, just enter the full file path.\n\nNote: Execution will use this user's permissions.	Menu.CustomCommandPrompt
+Please set a password to enable password protection.\n\nYou can disable this dialog in the settings under Advanced > Password Protection.	Menu.PasswordPrompt
+The timer cannot start at 0 when in countdown mode!\n\n	Menu.Err.ZeroTime
+TimeSpan conversion failed! Please check if your time values are within a reasonable range or represent a valid time of day, if you used the time of day mode.\n\n	Menu.Err.TimeSpanConversion
+Start (with recommended settings)	Menu.StartRecommended
+Would you like to re-lock the countdown?	Countdown.ReLockPrompt
+Operation aborted: You have not supplied a new time value!	Countdown.Err.NoTime
+Countdown Update	Countdown.UpdateTitle
+Operation aborted: You have not supplied a valid time value!	Countdown.Err.InvalidTime
+Operation aborted: You have either not supplied a valid time value or there was an internal error outside the scope of your input while processing it.	Countdown.Err.InternalError
+Incorrect password!\n\nThis countdown will stay locked until the correct password has been entered.	Countdown.PasswordWrong
+Your timer was canceled successfully!\nThe application will now close.	Countdown.StoppedNotify
+Timer has been moved to the background. Right-click the tray icon for more info.	Countdown.MovedToBackground
+2 hours remaining until the power action will be executed	Countdown.Remaining.Hours2
+1 hour remaining until the power action will be executed.	Countdown.Remaining.Hours1
+30 minutes remaining until the power action will be executed.	Countdown.Remaining.Minutes30
+5 minutes remaining until the power action will be executed.	Countdown.Remaining.Minutes5
+30 seconds remaining until the power action will be executed.	Countdown.Remaining.Seconds30
+Set a new countdown	Countdown.NewTimeTitle
+Enter new time for the countdown in the format of HH:mm:ss or HH:mm.\n\nThis will replace the current timer in place.	Countdown.NewTimePrompt
+Are you sure?	Countdown.ConfirmStopTitle
+Do you really want to cancel the timer?	Countdown.ConfirmStop
+This countdown has been protected with a password. Enter your password to release the lock.\nYou can re-lock the countdown by clicking on the lock icon afterwards.	Countdown.PasswordPromptByAction
+Enter your password to unlock this countdown.\n\nYou can re-lock the countdown by clicking on the lock icon afterwards.	Countdown.PasswordPromptPlain
+Resume	Countdown.Menu.Resume
+Pause	Countdown.Menu.Pause
+Countdown	Countdown.Title
+Disabling the tray icon will prevent you from interacting with the application when it's running in the background.\nYour only choice in such a case is to kill the application with Task Manager.\n\nNotifications will also stop working!\n\nAre you sure you want to enable this option?	Settings.HideTrayIconWarn
+Shutdown Timer Classic crashed and needs to be terminated!	Error.UnhandledTitle
+Shutdown Timer Classic crashed!	Error.ThreadTitle
+An unhandled exception occurred and the application needs to be terminated!\n\nA log file containing information about the process and the error has been saved to your desktop.\nPlease create an issue on GitHub and include the contents of this log file to help identify and fix the issue.\n\nGitHub: github.com/lukaslangrock/ShutdownTimerClassic/issues\nEmail: lukas.langrock@outlook.de	Error.UnhandledMessage

@@ -1,4 +1,4 @@
-﻿using ShutdownTimer.Helpers;
+using ShutdownTimer.Helpers;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -201,7 +201,7 @@ namespace ShutdownTimer
                         ExceptionHandler.Log("Failed to start custom command process");
                         ExceptionHandler.Log("Custom command: " + Command);
                         ExceptionHandler.Log("Exception: " + ex.ToString());
-                        MessageBox.Show("There was an error executing your custom command.\n\nYour custom command: " + Command + "\nError: " + ex.Message, "Countdown Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Loc.T("Countdown.Err.CustomCommand", Command, ex.Message), Loc.T("Countdown.UpdateTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     break;
 

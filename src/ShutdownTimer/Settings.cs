@@ -1,4 +1,4 @@
-﻿using ShutdownTimer.Helpers;
+using ShutdownTimer.Helpers;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -223,7 +223,7 @@ namespace ShutdownTimer
                 // ensure user understands implications from this action
                 if (hideTrayIconCheckBox.Focused)
                 {
-                    DialogResult result = MessageBox.Show("Disabling the tray icon will prevent you from interacting with the application when it's running in the background.\nYour only choice in such a case is to kill the application with Task Manager.\n\nNotifications will also stop working!\n\nAre you sure you want to enable this option?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    DialogResult result = MessageBox.Show(Loc.T("Settings.HideTrayIconWarn"),Loc.T("Menu.WarnTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result != DialogResult.Yes)
                     {
                         hideTrayIconCheckBox.Checked = false;

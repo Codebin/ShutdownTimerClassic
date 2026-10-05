@@ -1,4 +1,4 @@
-﻿using ShutdownTimer.Helpers;
+using ShutdownTimer.Helpers;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -45,7 +45,7 @@ namespace ShutdownTimer
                 ExceptionHandler.Log("Checking for running instance");
                 if (!ApplicationInstanceManager.IsSingleInstance())
                 {
-                    MessageBox.Show("Another instance of this application is already running. To allow multiple instances, please check the \"Allow multiple instances\" option in the application settings.\n\nExiting...", "Application already running!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(Loc.T("Common.AlreadyRunning"),Loc.T("Common.AlreadyRunningTitle"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ExceptionHandler.Log("Another instance detected; exiting");
                     Application.Exit();
                 }
@@ -62,14 +62,11 @@ namespace ShutdownTimer
             versionLabel.Text += "_debug";
 #endif
 
-            infoToolTip.SetToolTip(gracefulCheckBox, "Applications that do not exit when prompted automatically get terminated by default to ensure a successful shutdown." +
-                "\n\nA graceful shutdown, on the other hand, will wait for all applications to exit before continuing with the shutdown." +
-                "\nThis might result in an unsuccessful shutdown if one or more applications are unresponsive or require a user interaction to exit.");
-            infoToolTip.SetToolTip(preventSleepCheckBox, "Depending on the power settings of your system, it might go to sleep after a certain amount of time due to inactivity." +
-                "\nThis option will keep the system awake to ensure the timer can properly run and execute a shutdown.");
-            infoToolTip.SetToolTip(backgroundCheckBox, "This will launch the countdown without a visible window but will show a tray icon in your taskbar.");
-            infoToolTip.SetToolTip(countdownModeRadioButton, "Will count down from the hours, minutes and seconds selected below,\nlike a countdown timer, and execute the power action when it reaches zero.");
-            infoToolTip.SetToolTip(timeOfDayModeRadioButton, "In this mode you can select the target time of day (24h clock) for the power action.\nIf the time has already passed, it will roll over to tomorrow.\n\nWhen you press start, the appropriate countdown will be calculated.\n");
+            infoToolTip.SetToolTip(gracefulCheckBox,Loc.T("Menu.Tip.Graceful"));
+            infoToolTip.SetToolTip(preventSleepCheckBox,Loc.T("Menu.Tip.PreventSleep"));
+            infoToolTip.SetToolTip(backgroundCheckBox,Loc.T("Menu.Tip.RunInBackground"));
+            infoToolTip.SetToolTip(countdownModeRadioButton,Loc.T("Menu.Tip.CountdownMode"));
+            infoToolTip.SetToolTip(timeOfDayModeRadioButton,Loc.T("Menu.Tip.TimeOfDayMode"));
 
             // 字体按界面语言选择：中文必须有 CJK 字形，写死 Microsoft Sans Serif 会让中文渲染成方块
             this.Font = Loc.CreateUiFont(8.25f);
@@ -144,13 +141,13 @@ namespace ShutdownTimer
             if (!allChecksPassed)
             {
                 ExceptionHandler.Log("Start aborted: failing checks");
-                MessageBox.Show("The following error(s) occurred:\n\n" + listOfErrorsFound + "Please resolve the problem(s) and try again.", "There seems to be a problem!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Loc.T("Menu.Err.StartFailed", listOfErrorsFound), Loc.T("Menu.Err.StartFailedTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (!listOfWarningsFound.Equals(""))
             {
-                if (MessageBox.Show(listOfWarningsFound, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation) != DialogResult.OK)
+                if (MessageBox.Show(listOfWarningsFound,Loc.T("Menu.WarnTitle"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation) != DialogResult.OK)
                 {
                     ExceptionHandler.Log("User cancelled due to warnings");
                     return;
@@ -162,9 +159,8 @@ namespace ShutdownTimer
                 ExceptionHandler.Log("Custom command requested");
                 using (var form = new InputBox())
                 {
-                    form.Title = "Custom Command";
-                    form.Message = "Please enter the command you want to have executed. If you wish to launch a file, just enter the full file path.\n\n" +
-                        "Note: Execution will use this user's permissions.";
+                    form.Title = Loc.T("Menu.CustomCommandTitle");
+                    form.Message = Loc.T("Menu.CustomCommandPrompt");
 
                     ExceptionHandler.Log("Prompting for custom command");
                     var result = form.ShowDialog();
@@ -178,7 +174,7 @@ namespace ShutdownTimer
                     if (String.IsNullOrWhiteSpace(form.ReturnValue))
                     {
                         ExceptionHandler.Log("Invalid custom command input; aborting");
-                        MessageBox.Show("Custom command field was empty. Please enter a valid command or use a different action!", "Invalid command!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Loc.T("Menu.Err.EmptyCommand"),Loc.T("Menu.Err.EmptyCommandTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -196,9 +192,8 @@ namespace ShutdownTimer
                 ExceptionHandler.Log("Password protection enabled");
                 using (var form = new InputBox())
                 {
-                    form.Title = "Password Protection";
-                    form.Message = "Please set a password to enable password protection.\n\n" +
-                        "You can disable this dialog in the settings under Advanced > Password Protection.";
+                    form.Title = Loc.T("Menu.PasswordTitle");
+                    form.Message = Loc.T("Menu.PasswordPrompt");
                     form.PasswordMode = true;
                     ExceptionHandler.Log("Prompting for password");
                     var result = form.ShowDialog();
@@ -232,7 +227,7 @@ namespace ShutdownTimer
             // Check if all time values are zero when in countdown mode
             if (hoursNumericUpDown.Value == 0 && minutesNumericUpDown.Value == 0 && secondsNumericUpDown.Value == 0 && countdownModeRadioButton.Checked)
             {
-                errMessages += "The timer cannot start at 0 when in countdown mode!\n\n";
+                errMessages += Loc.T("Menu.Err.ZeroTime");
             }
 
             // Respective check for either countdown or timeOfDay mode
@@ -243,14 +238,13 @@ namespace ShutdownTimer
                 // Sanity check
                 if (ts.TotalDays > 100)
                 {
-                    warnMessages += $"Your chosen time equates to {Math.Round(ts.TotalDays)} days ({Math.Round(ts.TotalDays / 365, 2)} years)!\n" +
-                        "It is highly discouraged to choose such an insane amount of time as either your hardware, operating system, or this is app will fail *way* before you even come close to reaching the target!" +
-                        "\n\nBut if you are actually going to do this, please tell me how long this app survived.";
+                    warnMessages += Loc.T("Menu.Warn.HugeTimespan",
+                        Math.Round(ts.TotalDays), Math.Round(ts.TotalDays / 365, 2));
                 }
             }
             catch
             {
-                errMessages += "TimeSpan conversion failed! Please check if your time values are within a reasonable range or represent a valid time of day, if you used the time of day mode.\n\n";
+                errMessages += Loc.T("Menu.Err.TimeSpanConversion");
             }
 
             if (errMessages.Equals(""))
@@ -283,7 +277,7 @@ namespace ShutdownTimer
             if (ArgMode.Equals("Lock"))
             {
                 ExceptionHandler.Log("Setting 'Lock' mode");
-                startButton.Text = "Start (with recommended settings)";
+                startButton.Text = Loc.T("Menu.StartRecommended");
                 settingsButton.Enabled = false;
                 actionGroupBox.Enabled = false;
                 timeGroupBox.Enabled = false;

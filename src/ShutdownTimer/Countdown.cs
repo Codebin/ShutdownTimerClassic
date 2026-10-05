@@ -1,4 +1,4 @@
-﻿using ShutdownTimer.Helpers;
+using ShutdownTimer.Helpers;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -54,7 +54,7 @@ namespace ShutdownTimer
                 ExceptionHandler.Log("Checking for running instance");
                 if (!ApplicationInstanceManager.IsSingleInstance())
                 {
-                    MessageBox.Show("Another instance of this application is already running. To allow multiple instances, please check the \"Allow multiple instances\" option in the application settings.\n\nExiting...", "Application already running!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(Loc.T("Common.AlreadyRunning"),Loc.T("Common.AlreadyRunningTitle"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ExceptionHandler.Log("Another instance detected; exiting");
                     Application.Exit();
                 }
@@ -186,7 +186,7 @@ namespace ShutdownTimer
 
                 case 2: // lock state 'unlocked': change lockstate to 'locked'
                     ExceptionHandler.Log("LockState=unlocked: confirming re-lock");
-                    DialogResult result = MessageBox.Show("Would you like to re-lock the countdown?", "Password Protection", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show(Loc.T("Countdown.ReLockPrompt"),Loc.T("Menu.PasswordTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         ExceptionHandler.Log("User confirmed lock");
@@ -235,8 +235,8 @@ namespace ShutdownTimer
             {
                 e.Cancel = true;
                 ExceptionHandler.Log("Prompting user to confirm exit");
-                string caption = "Are you sure?";
-                string message = "Do you really want to cancel the timer?";
+                string caption = Loc.T("Countdown.ConfirmStopTitle");
+                string message = Loc.T("Countdown.ConfirmStop");
                 DialogResult question = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (question == DialogResult.Yes) { ExceptionHandler.Log("User confirmed exit"); ExitApplication(); return; }
             }
@@ -278,7 +278,7 @@ namespace ShutdownTimer
                 ExceptionHandler.Log("Pausing timer");
                 Timer.Pause();
                 ExceptionHandler.Log("Sending cancellation notification");
-                SendNotification("Your timer was canceled successfully!\nThe application will now close."); // Show windows toast notification as confirmation
+                SendNotification(Loc.T("Countdown.StoppedNotify")); // Show windows toast notification as confirmation
                 ExceptionHandler.Log("Saving settings");
                 SaveSettings();
                 ExceptionHandler.Log("Exit");
@@ -332,7 +332,7 @@ namespace ShutdownTimer
                 Timer.Reset();
                 ExceptionHandler.Log("Update UI");
                 UpdateUI(Timer.CountdownTimeSpan);
-                if (this.WindowState == FormWindowState.Minimized) { SendNotification("Timer has been reset. Remaining time until power action will be executed is " + Timer.CountdownTimeSpan.Hours + " hours, " + Timer.CountdownTimeSpan.Minutes + " minutes and " + Timer.CountdownTimeSpan.Seconds + " seconds."); }
+                if (this.WindowState == FormWindowState.Minimized) { SendNotification(Loc.T("Countdown.ResetNotify", Timer.CountdownTimeSpan.Hours, Timer.CountdownTimeSpan.Minutes, Timer.CountdownTimeSpan.Seconds)); }
             }
         }
 
@@ -344,13 +344,13 @@ namespace ShutdownTimer
             if (Timer.IsRunning())
             {
                 Timer.Pause();
-                contextMenuStrip.Items[0].Text = "Resume";
+                contextMenuStrip.Items[0].Text = Loc.T("Countdown.Menu.Resume");
                 titleLabel.Text = Loc.T("Countdown.TitleFormatPaused", Timer.Action.DisplayName());
             }
             else
             {
                 Timer.Resume();
-                contextMenuStrip.Items[0].Text = "Pause";
+                contextMenuStrip.Items[0].Text = Loc.T("Countdown.Menu.Pause");
                 titleLabel.Text = Loc.T("Countdown.TitleFormat", Timer.Action.DisplayName());
             }
         }
@@ -363,8 +363,8 @@ namespace ShutdownTimer
             ExceptionHandler.Log("Prompting for new countdown time");
             using (var form = new InputBox())
             {
-                form.Title = "Set a new countdown";
-                form.Message = "Enter new time for the countdown in the format of HH:mm:ss or HH:mm.\n\nThis will replace the current timer in place.";
+                form.Title = Loc.T("Countdown.NewTimeTitle");
+                form.Message = Loc.T("Countdown.NewTimePrompt");
                 TopMost = false;
                 form.ShowDialog();
                 TopMost = !SettingsProvider.Settings.DisableAlwaysOnTop;
@@ -375,7 +375,7 @@ namespace ShutdownTimer
                 else if (form.ReturnValue == "" || form.ReturnValue == null)
                 {
                     ExceptionHandler.Log("Update aborted: no input");
-                    MessageBox.Show("Operation aborted: You have not supplied a new time value!", "Countdown Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Loc.T("Countdown.Err.NoTime"),Loc.T("Countdown.UpdateTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -405,13 +405,13 @@ namespace ShutdownTimer
                         else
                         {
                             ExceptionHandler.Log("Update aborted: malformed input");
-                            MessageBox.Show("Operation aborted: You have not supplied a valid time value!", "Countdown Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(Loc.T("Countdown.Err.InvalidTime"),Loc.T("Countdown.UpdateTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     catch (Exception)
                     {
                         ExceptionHandler.Log("Update aborted: input processing error");
-                        MessageBox.Show("Operation aborted: You have either not supplied a valid time value or there was an internal error outside the scope of your input while processing it.", "Countdown Update", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Loc.T("Countdown.Err.InternalError"),Loc.T("Countdown.UpdateTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -433,7 +433,7 @@ namespace ShutdownTimer
             ignoreClose = true; // Prevent closing (and closing dialog) after ShowInTaskbar changed
             Hide();
 
-            SendNotification("Timer has been moved to the background. Right-click the tray icon for more info.");
+            SendNotification(Loc.T("Countdown.MovedToBackground"));
         }
 
         /// <summary>
@@ -502,18 +502,16 @@ namespace ShutdownTimer
             string message;
             if (reasonBecauseOfAction)
             {
-                message = "This countdown has been protected with a password. Enter your password to release the lock.\n" +
-                    "You can re-lock the countdown by clicking on the lock icon afterwards.";
+                message = Loc.T("Countdown.PasswordPromptByAction");
             }
             else
             {
-                message = "Enter your password to unlock this countdown.\n\n" +
-                    "You can re-lock the countdown by clicking on the lock icon afterwards.";
+                message = Loc.T("Countdown.PasswordPromptPlain");
             }
 
             using (var form = new InputBox())
             {
-                form.Title = "Password Protection";
+                form.Title = Loc.T("Menu.PasswordTitle");
                 form.Message = message;
                 form.PasswordMode = true;
                 TopMost = false;
@@ -528,7 +526,7 @@ namespace ShutdownTimer
                 else
                 {
                     ExceptionHandler.Log("Unlock has failed");
-                    MessageBox.Show("Incorrect password!\n\nThis countdown will stay locked until the correct password has been entered.", "Password Protection", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Loc.T("Countdown.PasswordWrong"),Loc.T("Menu.PasswordTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -686,7 +684,7 @@ namespace ShutdownTimer
 
                 if (IsForegroundUI) // UI for countdown window
                 {
-                    this.Text = "Countdown";
+                    this.Text = Loc.T("Countdown.Title");
 
                     // Decide which color/animation to use
                     if (!SettingsProvider.Settings.DisableAnimations)
@@ -703,14 +701,14 @@ namespace ShutdownTimer
                 }
                 else // UI for tray menu
                 {
-                    this.Text = "Countdown - " + elapsedTime;
+                    this.Text = Loc.T("Countdown.Title") + " - " + elapsedTime;
 
                     // Decide which tray message to show          
-                    if (ts.Days == 0 && ts.Hours == 2 && ts.Minutes == 0 && ts.Seconds == 00) { SendNotification("2 hours remaining until the power action will be executed"); }
-                    else if (ts.Days == 0 && ts.Hours == 1 && ts.Minutes == 0 && ts.Seconds == 00) { SendNotification("1 hour remaining until the power action will be executed."); }
-                    else if (ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 30 && ts.Seconds == 00) { SendNotification("30 minutes remaining until the power action will be executed."); }
-                    else if (ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 5 && ts.Seconds == 00) { SendNotification("5 minutes remaining until the power action will be executed."); }
-                    else if (ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 0 && ts.Seconds == 30) { SendNotification("30 seconds remaining until the power action will be executed."); }
+                    if (ts.Days == 0 && ts.Hours == 2 && ts.Minutes == 0 && ts.Seconds == 00) { SendNotification(Loc.T("Countdown.Remaining.Hours2")); }
+                    else if (ts.Days == 0 && ts.Hours == 1 && ts.Minutes == 0 && ts.Seconds == 00) { SendNotification(Loc.T("Countdown.Remaining.Hours1")); }
+                    else if (ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 30 && ts.Seconds == 00) { SendNotification(Loc.T("Countdown.Remaining.Minutes30")); }
+                    else if (ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 5 && ts.Seconds == 00) { SendNotification(Loc.T("Countdown.Remaining.Minutes5")); }
+                    else if (ts.Days == 0 && ts.Hours == 0 && ts.Minutes == 0 && ts.Seconds == 30) { SendNotification(Loc.T("Countdown.Remaining.Seconds30")); }
                 }
             }
 

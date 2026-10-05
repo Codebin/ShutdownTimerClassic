@@ -241,6 +241,10 @@ def main() -> int:
         console(rows, g, i, scores, problems)
         print(json.dumps({"tracks": {k: round(v) for k, v in scores.items()},
                           "problems": problems}, ensure_ascii=False))
+    elif problems:
+        # CI 里只给退出码没用，必须把原因打出来
+        for p in problems:
+            print(f"STATUS 看板与事实不符：{p}", file=sys.stderr)
 
     if not args.check:
         STATUS.write_text(splice(STATUS.read_text(encoding="utf-8"),

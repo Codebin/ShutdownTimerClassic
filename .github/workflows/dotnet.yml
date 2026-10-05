@@ -59,9 +59,13 @@ jobs:
         working-directory: src/ShutdownTimer
         run: dotnet build ShutdownTimer.csproj -c Debug --no-restore
 
-      # 便携版：自包含，解压即用，不要求用户预装 .NET 桌面运行时。
-      # MSI 安装器（.vdproj）目前仍是 .NET Framework 4.8 的配置，尚未适配，
-      # 在这个缺口补上之前，Release 分发以本产物为准。
+      # 兼容性契约测试。WinForms 测试主机需要 Windows 上的
+      # Microsoft.WindowsDesktop.App 运行时，所以只能在 Windows job 里跑；
+      # Linux job 只负责编译检查。
+      - name: Test
+        working-directory: tests/ShutdownTimer.Tests
+        run: dotnet test ShutdownTimer.Tests.csproj -c Debug --nologo
+
       - name: Publish portable build
         working-directory: src/ShutdownTimer
         run: dotnet publish ShutdownTimer.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -o ..\..\artifacts\publish

@@ -180,6 +180,19 @@ dotnet build src/ShutdownTimer/ShutdownTimer.csproj   # 非 Windows 也可做语
 ./tools/verify.sh     # 生成资源 → 校验 key/占位符 → 破版估算 → 编译（警告即失败）
 ```
 
+### 测试
+
+`tests/ShutdownTimer.Tests/` 锁住的是**兼容性契约**——汉化最容易搞坏的不是标签，而是上游"把下拉框显示文本当业务标识用"的地方：
+
+- `PowerActionTests`：上游 `settings.json` / CLI 里的每个值仍能被解析（大小写不敏感、含 `Reboot`/`Logoff` 别名）；`Key()` 拼写被冻结（它会写进用户配置）；优雅模式可用性判断与上游原规则一致；非法输入被拒绝而非静默兜底
+- `LocalizationTests`：中英资源解析正确；标题模板产出 `关机倒计时` 而不是坏掉的"关机 Timer"；缺 key 显示为 `[key]`；语言名保持自描述
+
+⚠️ WinForms 测试主机需要 Windows 上的 `Microsoft.WindowsDesktop.App` 运行时，**测试只能在 Windows 上执行**（Linux/macOS 上仅能编译，`verify.sh` 会做编译检查）：
+
+```powershell
+dotnet test tests\ShutdownTimer.Tests\ShutdownTimer.Tests.csproj
+```
+
 ---
 
 ## 许可 📄

@@ -20,6 +20,8 @@
 - **.NET 8 交叉编译支持**：开启 `EnableWindowsTargeting`，Linux 上也能编译，用于快速 CI 检查
 - **CI**：新增 Linux 编译检查（`-warnaserror`）+ 本地化校验 + 自包含便携版产物
 - **工具链**：`tools/` 下的资源生成、文本替换、key 校验、破版估算与一键验证脚本
+- **兼容性契约测试**：`tests/ShutdownTimer.Tests/` 锁住老 `settings.json` 与 CLI 脚本所依赖的行为（解析规则、Key 拼写、优雅模式判断、资源解析与占位符）。需在 Windows 上执行，CI 的 Windows job 已接入
+- **发布产物**：`tools/publish.ps1` 产出按 RID 自包含的便携 ZIP；CI 的 Windows job 同时上传该产物
 - **文档**：`README.zh-CN.md` 中文文档；`Structure.md` 补充本地化架构说明
 
 ### 变更

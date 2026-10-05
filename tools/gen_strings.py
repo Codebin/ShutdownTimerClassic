@@ -406,7 +406,9 @@ def emit(path, index, note):
         escaped = su.escape(value)
         parts.append(f'  <data name="{key}" xml:space="preserve"><value>{escaped}</value></data>\n')
     parts.append("</root>\n")
-    with open(path, "w", encoding="utf-8") as fh:
+    # newline="\n"：resx 是 CI 守卫比对的对象，必须跨平台产出一致的 LF 换行，
+    # 否则 Windows 上重新生成会写成 CRLF，Linux CI 上 git diff 就报"生成物未提交"。
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("".join(parts))
     print(f"写入 {path}（{len(STRINGS)} 条）")
 

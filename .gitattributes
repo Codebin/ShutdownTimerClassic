@@ -1,0 +1,8 @@
+# Strings.*.resx 是 tools/gen_strings.py 的生成物，CI 守卫按字节比对（git diff --exit-code）。
+# 统一 LF：否则 Windows 工作区签出/写回 CRLF，Linux CI 重新生成后必然报"生成物未提交"。
+src/ShutdownTimer/Strings.resx text eol=lf
+src/ShutdownTimer/Strings.zh-CN.resx text eol=lf
+
+# 生成器脚本里的多行字符串字面量会带上文件自身的换行符：
+# Windows 工作区若是 CRLF，生成出的 resx 就混入 \r，与 Linux CI 的产物不一致。
+*.py text eol=lf

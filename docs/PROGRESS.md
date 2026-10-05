@@ -10,6 +10,15 @@
 
 ## 最后更新
 
+- 时间：2026-10-06（第三轮会话）
+- **S2 / S3 / S4 全部完成**（本轮）：
+  - S2 接线：重启确认框（`RestartApplication(bool confirmed)`，密码续跑不二次确认）、托盘"锁定倒计时"运行时上锁流程（`BuildLockMenuItem` + `Countdown.PasswordPromptLock`，`ChangeLockState` 同步禁用态）、`Countdown.PasswordWrongTitle` 与 `Countdown.Err.CustomCommandTitle` 标题修正（顺带把倒计时窗体密码对话框标题从 `Menu.PasswordTitle` 换成 `Countdown.PasswordTitle`）、设置页"窗口大小："标签、`Timer.EvaluateTimerLoop` 到点先发 `Tray.Balloon.CountdownFinished` 再 `ExitExternal`（notifyIcon 随窗体销毁，顺序不能反）。冗余 key `Countdown.PasswordPromptUnlock` 已删。
+  - 悬浮提示补齐：`UpdateUI` 每秒把 `notifyIcon.Text` 刷成 `Tray.Tooltip.Format`（"定时关机：剩余 HH:MM:SS"）。
+  - S3：`check_i18n.py` 增加 `new LocalizedOption(value, "key")` 扫描，假阳性 6→0。
+  - S4：程序集元数据收口到 csproj（`<Version>1.3.3.0</Version>` + `GenerateAssemblyInfo` 默认开启 + `IncludeSourceRevisionInInformationalVersion=false`），手写 `AssemblyInfo.cs` 只剩 `SupportedOSPlatform`。exe 实测 `ProductVersion=1.3.3.0`（无 gitsha 后缀，迁移解析安全；版本标签仍显示 v1.3.3）。
+  - 双语条目 149→151；新增测试 2 个（接线 key 双语可解析、tooltip 不超 NotifyIcon 127 字符限制）。
+- **本机环境已变**：Windows 真机已装 .NET 8 SDK（8.0.425）与 Python 3.12（winget）。`dotnet build -warnaserror` 0 警告、`dotnet test` 33/33、`check_i18n.py` 通过（未引用 key 仅剩 `App.WindowTitle`、`Tray.Balloon.CountdownStopped` 两个备用文案）。"沙箱无 dotnet"约束解除。
+- 历史（第二轮会话）：
 - 时间：2026-10-05（第二轮会话）
 - 分支：`feat/i18n-zh`，**19 个 commit**，作者已统一为 `Codebin <Codebin@users.noreply.github.com>`
 - 备份 tag：`backup/pre-author-fix` = 改写作者前的快照。`git diff backup/pre-author-fix HEAD` 为空，即只改作者、代码一字未动
@@ -83,12 +92,10 @@
 
 ## 下一步
 
-1. **网络恢复后先 push**：`git push -u origin feat/i18n-zh`，然后 `gh run list` 盯 Actions。
-2. **fork 的 Actions 默认是关闭的**——不启用则 workflow 根本不跑，不是配置问题。仓库页 Actions → *I understand my workflows, go ahead and enable them*，或 `gh api -X PUT repos/Codebin/ShutdownTimerClassic/actions/workflows/dotnet.yml/enable`。
-3. 然后按 `docs/SESSIONS.md` 做 **S2**（接线 6 个孤儿 key）与 **S3**（修 `check_i18n.py` 的 `LocalizedOption` 盲区）。
-4. **S5 必须在 S2/S3 之后**：Windows 真机 `dotnet test` + 目视验证（字体、穿透手感、缩放破版）。沙箱无 dotnet，这一步只能靠 self-hosted runner 或主人本机。
-5. 全部通过后才打 tag `v1.3.3`。**tag 用纯数字，勿加 `-zh.1`**——原因见 `CHANGELOG.md:12-15`（版本迁移代码按 `.` 切 4 段整数，解析失败会误判 v1.3.0 并强制改写用户的 `CountdownMode`）。
-6. 若要把上游后续改动合进来：`git fetch upstream && git rebase upstream/master`（本分支尚未 push 过，改写历史安全；已 push 之后改用 merge）。
+1. ~~push / 启用 Actions / S2 / S3 / S4~~ 全部完成（见上方"最后更新"）。
+2. **S5 目视验证**（只剩这一步挡着发版）：本机跑 `dotnet build src/ShutdownTimer && src/ShutdownTimer/bin/Debug/net8.0-windows/ShutdownTimerClassic.exe`，检查：中文无方块字、托盘悬浮提示每秒刷新剩余时间、"锁定倒计时"上锁/解锁流程、重启确认框、Ctrl+滚轮缩放不破版、切 English 全回英文。
+3. 目视通过后打 tag `v1.3.3` 触发 Release。**tag 用纯数字，勿加 `-zh.1`**——原因见 `CHANGELOG.md` 版本注记（版本迁移按 `.` 切 4 段整数，解析失败会误判 v1.3.0 并强制改写用户的 `CountdownMode`）。
+4. 若要把上游后续改动合进来：`git fetch upstream && git merge upstream/master`（分支已 push，勿 rebase 改写历史）。
 
 ## 环境约束（重要）
 

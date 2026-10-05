@@ -1,40 +1,8 @@
-﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
-// Allgemeine Informationen über eine Assembly werden über die folgenden
-// Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
-// die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("Shutdown Timer Classic")]
-[assembly: AssemblyDescription("Pick a time and let your pc shutdown itself even when you are not there.")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Lukas Langrock")]
-[assembly: AssemblyProduct("ShutdownTimerClassic")]
-[assembly: AssemblyCopyright("Copyright © 2026")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-// Durch Festlegen von ComVisible auf FALSE werden die Typen in dieser Assembly
-// für COM-Komponenten unsichtbar.  Wenn Sie auf einen Typ in dieser Assembly von
-// COM aus zugreifen müssen, sollten Sie das ComVisible-Attribut für diesen Typ auf "True" festlegen.
-[assembly: ComVisible(false)]
+// 版本、标题、公司、Guid、NeutralResourcesLanguage 等程序集元数据已收口到 csproj，
+// 由 SDK 的 GenerateAssemblyInfo 在编译时生成（单一真相源，见 csproj 注释）。
+// 这里只保留生成器不覆盖的声明。
 
 // 本程序集仅面向 Windows；声明后可消除 .NET 8 交叉编译产生的 CA1416 平台兼容性警告
-[assembly: System.Runtime.Versioning.SupportedOSPlatform("windows")]
-
-// Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("ce23bd33-08d8-4895-854c-90d91cba02c6")]
-
-// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
-//
-//      Hauptversion
-//      Nebenversion
-//      Buildnummer
-//      Revision
-//
-// Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
-// indem Sie "*" wie unten gezeigt eingeben:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.3.0")]
-[assembly: AssemblyFileVersion("1.3.3.0")]
-[assembly: NeutralResourcesLanguage("en")]
+[assembly: SupportedOSPlatform("windows")]

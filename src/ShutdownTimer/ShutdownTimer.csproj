@@ -10,8 +10,21 @@
     <ApplicationIcon>Icons\icon.display.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
 
-    <!-- 保留手写的 Properties/AssemblyInfo.cs（含 Guid、NeutralResourcesLanguage 等） -->
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!-- 程序集元数据单一真相源：这里声明，SDK 生成 AssemblyInfo（原先手写文件里只剩 SupportedOSPlatform）。
+         Version 刻意用四段 1.3.3.0：Application.ProductVersion 取 InformationalVersion，
+         Menu/Settings 的版本标签按"去掉最后一段"显示 v1.3.3，与上游行为一致。
+         IncludeSourceRevisionInInformationalVersion=false：防止 ProductVersion 变成 "1.3.3.0+<gitsha>"，
+         那会让 Helpers/Settings.cs 的版本迁移解析失败并误改写用户的 CountdownMode（见 CHANGELOG 版本注记）。 -->
+    <Version>1.3.3.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <AssemblyTitle>Shutdown Timer Classic</AssemblyTitle>
+    <Description>Pick a time and let your pc shutdown itself even when you are not there.</Description>
+    <Company>Lukas Langrock</Company>
+    <Product>ShutdownTimerClassic</Product>
+    <Copyright>Copyright © 2026</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
+    <ComVisible>false</ComVisible>
+    <Guid>ce23bd33-08d8-4895-854c-90d91cba02c6</Guid>
 
     <!-- 允许在 Linux/CI 等非 Windows 机器上编译 WinForms 目标 -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
@@ -26,7 +39,6 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
-    <Version>1.3.3</Version>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 

@@ -9,8 +9,9 @@
 
 ## 一句话结论
 
-**代码基本写完了，但一步都没交付出去。** 19 个 commit 全压在本地分支上，没 push、没跑 CI、没在 Windows 上验证过、没发版。
-当前唯一的关键动作是 push，之后交付轨道才能从 0% 动起来。
+**代码写完、已 push、CI 编译与测试全绿。** 分支 `feat/i18n-zh` 已在 origin 上，
+GitHub Windows runner 真跑 `dotnet test`：**31/31 通过**。
+剩下的是收口项（S2 接线 key、S3 工具盲区、S4 版本号双源）和只有人眼能做的 S5 目视验证。
 
 ---
 
@@ -25,13 +26,13 @@
 | S2 | 接线 6 个孤儿 key（重启确认、上锁密码、结束通知等真功能缺口） | 编码 | todo | M | 小马 | `check_i18n.py` 报 17 个未引用 key |
 | S3 | 修 `check_i18n.py` 的 `LocalizedOption` 盲区（6 个假阳性） | 收口 | todo | S | 小马 | `tools/check_i18n.py:26` |
 | S4 | CI / 发布收口（版本号单一真相源未做） | 收口 | partial | M | 小马 | `49480c8` `1f0eea7`；`csproj:29` 与 `AssemblyInfo.cs:38-39` 仍双源 |
-| D1 | push 分支到 origin | 交付 | todo | S | 小马 | `origin/feat/i18n-zh` 不存在 |
-| D2 | 启用 fork 的 Actions（默认关闭，不启用则 workflow 不跑） | 交付 | todo | S | 主人 | fork 后需手动 enable |
-| S5 | Windows 真机 `dotnet test` + 目视验证 | 交付 | blocked | M | 主人 | 沙箱无 dotnet SDK |
-| D3 | 打 tag `v1.3.3` 出 Release | 交付 | todo | S | 小马 | 依赖 S5 通过 |
+| D1 | push 分支到 origin | 交付 | done | S | 小马 | `fe4d4f3` = `origin/feat/i18n-zh` |
+| D2 | 启用 fork 的 Actions | 交付 | done | S | — | 实测 `{"enabled":true}`、`dotnet.yml` active；原先无需手动开，此前判断有误 |
+| S5 | Windows 真机 `dotnet test` + 目视验证 | 交付 | partial | M | 主人 | run `37340271554`：`Passed: 31, Failed: 0`（net8.0, Windows runner）；目视清单未做 |
+| D3 | 打 tag `v1.3.3` 出 Release | 交付 | todo | S | 小马 | 依赖 S2/S3/S4 收口 + S5 目视通过 |
 | S6 | MSI / MSIX 打包链路 | 交付 | optional | L | 主人 | `vdproj` 只能在 VS 里手工重建 |
 
-**依赖顺序**：`D1 → D2 → (S2 / S3 / S4 收尾) → S5 → D3`。S6 全程可解耦，最后再说。
+**依赖顺序**：~~D1 → D2~~ 已完成 → `(S2 / S3 / S4 收尾)` → `S5 目视` → `D3`。S6 全程可解耦，最后再说。
 
 ---
 
@@ -39,10 +40,11 @@
 
 | 卡点 | 谁能解 | 怎么解 |
 |---|---|---|
-| 19 个 commit 未 push | **小马**（需主人点头，属对外操作） | `git push -u origin feat/i18n-zh` |
-| fork 的 Actions 未启用 | **主人**（网页点一下，或授权我调 `gh api`） | 仓库 Actions 页 → enable，或 `gh api -X PUT repos/Codebin/ShutdownTimerClassic/actions/workflows/dotnet.yml/enable` |
-| 没有 Windows 环境跑测试 | **主人** | 本机跑 `dotnet test`，或给仓库挂一个 self-hosted runner |
+| S2 六个孤儿 key 未接线 | **小马** | 按 `SESSIONS.md` 的 S2 节，单会话干完 |
+| S3 `check_i18n.py` 假阳性 | **小马** | 加 `LocalizedOption(` 引用扫描 |
 | 版本号有两个真相源 | 小马 | `csproj:29` 与 `AssemblyInfo.cs:38-39` 合一，`GenerateAssemblyInfo` 一并调整 |
+| S5 目视验证（方块字 / 破版 / 穿透手感） | **主人** | 下载 CI artifact 里的 exe，本机跑一遍看效果 |
+| 是否给上游提 PR | **主人** | 公开动作，需明确决策 |
 
 ---
 
@@ -57,7 +59,7 @@
 
 ## 验收：什么叫做完
 
-- `dotnet build -warnaserror` 与 `dotnet test` 在 Windows 上全绿
+- ✅ `dotnet build -warnaserror` 与 `dotnet test` 在 Windows 上全绿（CI 已达成：31/31）
 - 中文界面无方块字、无残留英文；语言切 English 能全回英文
 - 倒计时窗口 Ctrl+滚轮缩放不破版
 - `check_i18n.py` 未引用 key 数 ≤ 8
@@ -66,22 +68,25 @@
 ---
 
 <!-- BEGIN METRICS —— 由 tools/progress.py 生成，勿手改 -->
-生成时间：2026-10-05 15:27:23 +0000（最后一次提交）
+生成时间：2026-10-05 16:13:02 +0000（最后一次提交）
 
 | 指标 | 数值 |
 |---|---|
 | 分支 | `feat/i18n-zh` |
-| 领先 master | 19 commits |
-| 改动规模 | 50 文件 / +4265 −426 |
-| 是否已 push | ❌ 否（交付轨道 0%） |
+| 领先 master | 21 commits |
+| 改动规模 | 52 文件 / +4612 −426 |
+| 是否已 push | ✅ 是 |
 | 工作区 | ⚠️ 有未提交改动 |
 | 双语条目 | en=149 / zh-CN=149 ✅ |
 | 未接线 key | 17 个（真缺口 6，假阳性 6，冗余 1，其余 M5 用） |
 | check_i18n | ✅ 通过 |
+| Actions 开关 | ✅ 已启用 |
+| 分支最近 CI | ✅ success (run `37340271554`) |
 
 **轨道完成度**
 
 - 编码：`█████████░░░░░` 67%
 - 收口：`█████░░░░░░░░░` 38%
-- 交付：`░░░░░░░░░░░░░░` 0%
+- 交付：`████████░░░░░░` 58%
 <!-- END METRICS -->
+-- END METRICS -->

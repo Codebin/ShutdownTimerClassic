@@ -78,6 +78,46 @@ def i18n_facts() -> dict:
     }
 
 
+def repo_slug() -> str:
+    """从 origin 解析 owner/repo。
+    坑：本仓库配了 upstream remote，gh 会把命令默认解析到**上游**仓库，
+    于是 run list / pr list 看到的是 lukaslangrock 的数据。必须显式 --repo。
+    """
+    url = sh(["git", "remote", "get-url", "origin"])
+    m = re.search(r"github\.com[:/]([^/]+/[^/.]+)", url)
+    return m.group(1) if m else ""
+
+
+def ci_facts() -> dict:
+    """最近一次跑在我们分支上的 CI 结果 + Actions 开关状态。gh 不可用就返回 unknown。"""
+    slug = repo_slug()
+    if not slug:
+        return {"available": False}
+    raw = sh(["gh", "run", "list", "--repo", slug, "--branch", PUSH_BRANCH,
+              "--limit", "1",
+              "--json", "databaseId,status,conclusion,displayTitle,updatedAt"])
+    try:
+        runs = json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return {"available": False, "slug": slug, "raw": raw[:200]}
+    run = runs[0] if runs else {}
+    perm = sh(["gh", "api", f"repos/{slug}/actions/permissions"])
+    try:
+        actions_enabled = json.loads(perm).get("enabled")
+    except (json.JSONDecodeError, TypeError):
+        actions_enabled = None
+    return {
+        "available": True,
+        "slug": slug,
+        "run_id": run.get("databaseId"),
+        "run_status": run.get("status"),
+        "conclusion": run.get("conclusion"),
+        "run_title": run.get("displayTitle"),
+        "updated": run.get("updatedAt"),
+        "actions_enabled": actions_enabled,
+    }
+
+
 # ---------------------------------------------------------------- 解析看板
 
 def parse_status(text: str) -> list[dict]:
@@ -102,7 +142,7 @@ def parse_status(text: str) -> list[dict]:
 
 # ---------------------------------------------------------------- 校验撒谎
 
-def audit(rows: list[dict], g: dict, i: dict) -> list[str]:
+def audit(rows: list[dict], g: dict, i: dict, ci: dict) -> list[str]:
     """看板声称的状态与客观事实不符 -> 报警。手工看板必然腐烂，靠这个兜底。"""
     problems: list[str] = []
     by_id = {r["id"]: r for r in rows}
@@ -119,15 +159,26 @@ def audit(rows: list[dict], g: dict, i: dict) -> list[str]:
         if "Language.Automatic" in out or "TrayTheme.Dark" in out:
             problems.append("S3 标 done，但 check_i18n 仍误报 Language.*/TrayTheme.*")
 
-    # S5 真机验证：沙箱无 dotnet，标 done 必须有证据
+    # S5 真机验证：标 done 必须有证据，且 CI 必须真的绿
     s5 = by_id.get("S5")
-    if s5 and s5["state"] == "done" and not s5["evidence"].strip():
-        problems.append("S5 标 done 但无证据（需 dotnet test 输出或截图记录）")
+    if s5 and s5["state"] == "done":
+        if not s5["evidence"].strip():
+            problems.append("S5 标 done 但无证据（需 dotnet test 输出或截图记录）")
+        if ci.get("available") and ci.get("conclusion") not in (None, "success"):
+            problems.append(f"S5 标 done，但分支最近一次 CI 是 {ci['conclusion']}")
 
-    # 交付轨道：看板说 pushed=yes 但 origin 上没分支
+    # D1 push：看板说 done 但 origin 上没分支 -> 撒谎
+    d1 = by_id.get("D1")
+    if d1 and d1["state"] == "done" and not g["pushed"]:
+        problems.append("D1 标 done，但 origin 上没有分支")
     if g["commits"] > 0 and not g["pushed"]:
         problems.append(
             f"{g['commits']} 个 commit 未 push 到 origin/{PUSH_BRANCH} —— 交付轨道无法推进")
+
+    # D2 Actions：看板说 done 但 Actions 实际是关的
+    d2 = by_id.get("D2")
+    if d2 and d2["state"] == "done" and ci.get("available") and ci.get("actions_enabled") is False:
+        problems.append("D2 标 done，但 Actions permissions 显示 enabled=false")
 
     if g["dirty"]:
         problems.append("工作区有未提交改动 —— 进度数字不可信")
@@ -163,7 +214,7 @@ def track_scores(rows: list[dict]) -> dict[str, float]:
     return {t: (v[0] / v[1] * 100 if v[1] else 0.0) for t, v in acc.items()}
 
 
-def render(rows: list[dict], g: dict, i: dict, scores: dict[str, float]) -> str:
+def render(rows: list[dict], g: dict, i: dict, ci: dict, scores: dict[str, float]) -> str:
     lines = ["<!-- BEGIN METRICS —— 由 tools/progress.py 生成，勿手改 -->"]
     lines.append(f"生成时间：{sh(['git', 'log', '-1', '--format=%ci'])}（最后一次提交）")
     lines.append("")
@@ -177,6 +228,13 @@ def render(rows: list[dict], g: dict, i: dict, scores: dict[str, float]) -> str:
     lines.append(f"| 双语条目 | en={i['en']} / zh-CN={i['zh']} {'✅' if i['en'] == i['zh'] else '❌'} |")
     lines.append(f"| 未接线 key | {i['unused_keys']} 个（真缺口 6，假阳性 6，冗余 1，其余 M5 用） |")
     lines.append(f"| check_i18n | {'✅ 通过' if i['check_green'] else '❌ 失败'} |")
+    if ci.get("available"):
+        mark = {"success": "✅", "failure": "❌", "cancelled": "⚠️"}.get(ci.get("conclusion"), "⏳")
+        lines.append(f"| Actions 开关 | {'✅ 已启用' if ci.get('actions_enabled') else '❌ 未启用'} |")
+        lines.append(f"| 分支最近 CI | {mark} {ci.get('conclusion') or ci.get('run_status')} "
+                     f"(run `{ci.get('run_id')}`) |")
+    else:
+        lines.append("| 分支最近 CI | ❓ gh 不可用，未校验 |")
     lines.append("")
     lines.append("**轨道完成度**")
     lines.append("")
@@ -195,7 +253,7 @@ def splice(text: str, block: str) -> str:
     return text.rstrip() + "\n\n---\n\n" + block + "\n"
 
 
-def console(rows, g, i, scores, problems) -> None:
+def console(rows, g, i, ci, scores, problems) -> None:
     print(f"\n{'=' * 62}")
     print(f"  {g['branch']}  ·  {g['commits']} commits ahead of {BASE_BRANCH}"
           f"  ·  {g['files']} files +{g['insertions']}/−{g['deletions']}")
@@ -208,6 +266,10 @@ def console(rows, g, i, scores, problems) -> None:
         label = STATE.get(r["state"], ("❓ " + r["state"], 0))[0]
         print(f"  {r['id']:<4} {r['name']:<26} {label:<10} {r['effort']}  {r['owner']}")
     print("-" * 62)
+    if ci.get("available"):
+        print(f"  CI: {ci.get('conclusion') or ci.get('run_status')}"
+              f"  ·  Actions enabled={ci.get('actions_enabled')}"
+              f"  ·  run {ci.get('run_id')}")
     if problems:
         print("  ⚠️  看板与事实不符 / 阻塞：")
         for p in problems:
@@ -233,12 +295,12 @@ def main() -> int:
               file=sys.stderr)
         return 2
 
-    g, i = git_facts(), i18n_facts()
+    g, i, ci = git_facts(), i18n_facts(), ci_facts()
     scores = track_scores(rows)
-    problems = audit(rows, g, i)
+    problems = audit(rows, g, i, ci)
 
     if not args.quiet:
-        console(rows, g, i, scores, problems)
+        console(rows, g, i, ci, scores, problems)
         print(json.dumps({"tracks": {k: round(v) for k, v in scores.items()},
                           "problems": problems}, ensure_ascii=False))
     elif problems:
@@ -248,7 +310,7 @@ def main() -> int:
 
     if not args.check:
         STATUS.write_text(splice(STATUS.read_text(encoding="utf-8"),
-                                 render(rows, g, i, scores)), encoding="utf-8")
+                                 render(rows, g, i, ci, scores)), encoding="utf-8")
         if args.quiet:
             print(f"docs/STATUS.md 已刷新")
 

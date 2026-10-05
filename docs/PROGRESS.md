@@ -1,6 +1,7 @@
 # 项目状态快照 · PROGRESS
 
-> **这是给"下一个会话"看的，不是给人看的。**
+> **这是给"下一个会话"看的，不是给人看的。** 想给人看进度，读 `docs/STATUS.md`（一页看板 + 三条轨道完成度），
+> 刷新用 `python3 tools/progress.py`，防看板撒谎用 `--check`。
 > 任何新会话开场只读这一个文件 + `docs/SESSIONS.md` 对应小节，不要重新读代码。
 > 每次会话结束**必须**更新本文件的「最后更新」和「下一步」两节，然后 commit。
 > 真相来源优先级：`git log` > 本文件 > 对话记忆。对话记忆不可靠，随时会因上下文爆掉而丢失。
@@ -10,7 +11,7 @@
 ## 最后更新
 
 - 时间：2026-10-05（第二轮会话）
-- 分支：`feat/i18n-zh`，**18 个 commit**，作者已统一为 `Codebin <Codebin@users.noreply.github.com>`
+- 分支：`feat/i18n-zh`，**19 个 commit**，作者已统一为 `Codebin <Codebin@users.noreply.github.com>`
 - 备份 tag：`backup/pre-author-fix` = 改写作者前的快照。`git diff backup/pre-author-fix HEAD` 为空，即只改作者、代码一字未动
 - remote 已按标准 fork 工作流重排：
   - `origin` → `https://github.com/Codebin/ShutdownTimerClassic.git`（**已 fork**，parent = lukaslangrock，默认分支 master）

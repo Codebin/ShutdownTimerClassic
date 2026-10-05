@@ -121,7 +121,19 @@ namespace ShutdownTimer
             };
             resetSizeButton.Click += ResetSizeButton_Click;
 
+            // 重置按钮左侧的说明标签（Ctrl+滚轮缩放窗口）
+            var sizeLabel = new Label
+            {
+                Name = "countdownSizeLabel",
+                Text = Loc.T("Settings.CountdownSize"),
+                Location = new Point(countdownGroupBox.Width - 180, top),
+                Size = new Size(78, 23),
+                TextAlign = ContentAlignment.MiddleRight,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+
             countdownGroupBox.Controls.Add(clickThroughCheckBox);
+            countdownGroupBox.Controls.Add(sizeLabel);
             countdownGroupBox.Controls.Add(resetSizeButton);
             countdownGroupBox.Height += rowHeight;
 

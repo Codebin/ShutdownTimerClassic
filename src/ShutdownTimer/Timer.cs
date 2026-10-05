@@ -133,6 +133,7 @@ namespace ShutdownTimer
                 ExceptionHandler.Log("Countdown reached zero");
                 isActive = false; // end looped thread
                 clock.Stop();
+                countdownForm.NotifyCountdownFinished(); // 先弹结束通知，窗口一关 notifyIcon 就没了
                 countdownForm.ExitExternal(); // close countdown window
                 ExecutePowerAction(Action);
 
@@ -201,7 +202,7 @@ namespace ShutdownTimer
                         ExceptionHandler.Log("Failed to start custom command process");
                         ExceptionHandler.Log("Custom command: " + Command);
                         ExceptionHandler.Log("Exception: " + ex.ToString());
-                        MessageBox.Show(Loc.T("Countdown.Err.CustomCommand", Command, ex.Message), Loc.T("Countdown.UpdateTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Loc.T("Countdown.Err.CustomCommand", Command, ex.Message), Loc.T("Countdown.Err.CustomCommandTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     break;
 

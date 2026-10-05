@@ -141,6 +141,8 @@ Exiting...</value></data>
   <data name="Countdown.Menu.ShowCountdownWindow" xml:space="preserve"><value>Show countdown window</value></data>
   <data name="Countdown.Menu.SetNewCountdown" xml:space="preserve"><value>Set a new countdown</value></data>
   <data name="Countdown.Menu.ToggleClickThrough" xml:space="preserve"><value>Toggle click-through</value></data>
+  <data name="Countdown.Menu.Lock" xml:space="preserve"><value>Lock countdown</value></data>
+  <data name="Countdown.LockedNotify" xml:space="preserve"><value>The countdown has been locked. Enter the password to change or stop it.</value></data>
   <data name="Countdown.ClickThroughOn" xml:space="preserve"><value>Click-through is ON. The window ignores mouse input; use the tray icon menu to control the timer.</value></data>
   <data name="Settings.Title" xml:space="preserve"><value>Settings</value></data>
   <data name="Settings.WindowTitle" xml:space="preserve"><value>Shutdown Timer - Settings</value></data>
@@ -207,6 +209,7 @@ Are you sure you want to enable this option?</value></data>
   <data name="Settings.CountdownSizeReset" xml:space="preserve"><value>Reset size</value></data>
   <data name="Tray.Balloon.CountdownStopped" xml:space="preserve"><value>The countdown was stopped.</value></data>
   <data name="Tray.Balloon.CountdownFinished" xml:space="preserve"><value>The countdown has finished.</value></data>
+  <data name="Tray.Tooltip.Format" xml:space="preserve"><value>Shutdown Timer: {0} left</value></data>
   <data name="Countdown.ConfirmStop" xml:space="preserve"><value>Do you really want to stop the countdown and exit the application?</value></data>
   <data name="Countdown.ConfirmStopTitle" xml:space="preserve"><value>Stop countdown?</value></data>
   <data name="Countdown.ConfirmRestart" xml:space="preserve"><value>Do you really want to restart the application? The current countdown will be lost.</value></data>
@@ -215,13 +218,12 @@ Are you sure you want to enable this option?</value></data>
   <data name="Countdown.PasswordWrong" xml:space="preserve"><value>The password you entered is incorrect. The countdown keeps running.</value></data>
   <data name="Countdown.PasswordWrongTitle" xml:space="preserve"><value>Wrong password</value></data>
   <data name="Countdown.PasswordTitle" xml:space="preserve"><value>Password Protection</value></data>
-  <data name="Countdown.PasswordPromptUnlock" xml:space="preserve"><value>Enter the password to unlock the countdown controls.</value></data>
   <data name="Countdown.PasswordPromptLock" xml:space="preserve"><value>Enter a password to lock the countdown controls.</value></data>
   <data name="Countdown.Err.CustomCommand" xml:space="preserve"><value>There was an error executing your custom command.
 
 Your custom command: {0}
 Error: {1}</value></data>
-  <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>Countdown Update</value></data>
+  <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>Custom Command Error</value></data>
   <data name="Countdown.StoppedNotify" xml:space="preserve"><value>Your timer was canceled successfully!
 The application will now close.</value></data>
   <data name="Countdown.ResetNotify" xml:space="preserve"><value>Timer has been reset. Remaining time until power action will be executed is {0} hours, {1} minutes and {2} seconds.</value></data>

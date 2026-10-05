@@ -87,6 +87,46 @@ namespace ShutdownTimer.Tests
         }
 
         [Fact]
+        public void Wired_up_gap_keys_resolve_in_both_languages()
+        {
+            // S2 接线：这些 key 曾"资源已备好但代码未引用"，现在必须双语都能取到真文案
+            string[] keys =
+            {
+                "Countdown.ConfirmRestart", "Countdown.ConfirmRestartTitle",
+                "Countdown.PasswordPromptLock", "Countdown.PasswordWrongTitle",
+                "Countdown.PasswordTitle", "Countdown.Menu.Lock", "Countdown.LockedNotify",
+                "Settings.CountdownSize", "Tray.Balloon.CountdownFinished",
+                "Tray.Tooltip.Format", "Countdown.Err.CustomCommandTitle",
+            };
+
+            foreach (var lang in new[] { Loc.LangEnglish, Loc.LangChinese })
+            {
+                Loc.ApplyLanguage(lang);
+                foreach (var key in keys)
+                {
+                    string value = Loc.T(key);
+                    Assert.NotEqual("[" + key + "]", value);
+                    Assert.False(string.IsNullOrWhiteSpace(value));
+                }
+            }
+        }
+
+        [Fact]
+        public void Tray_tooltip_format_fits_notifyicon_limit()
+        {
+            // NotifyIcon.Text 超过 127 字符会抛异常，格式化后的悬浮提示必须留足余量
+            Loc.ApplyLanguage(Loc.LangChinese);
+            string text = Loc.T("Tray.Tooltip.Format", "999:59:59");
+            Assert.Contains("999:59:59", text);
+            Assert.True(text.Length <= 127);
+
+            Loc.ApplyLanguage(Loc.LangEnglish);
+            text = Loc.T("Tray.Tooltip.Format", "999:59:59");
+            Assert.Contains("999:59:59", text);
+            Assert.True(text.Length <= 127);
+        }
+
+        [Fact]
         public void Tray_theme_values_are_stable_across_languages()
         {
             Loc.ApplyLanguage(Loc.LangChinese);

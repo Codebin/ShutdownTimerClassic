@@ -141,6 +141,8 @@
   <data name="Countdown.Menu.ShowCountdownWindow" xml:space="preserve"><value>显示倒计时窗口</value></data>
   <data name="Countdown.Menu.SetNewCountdown" xml:space="preserve"><value>设置新的倒计时</value></data>
   <data name="Countdown.Menu.ToggleClickThrough" xml:space="preserve"><value>切换鼠标穿透</value></data>
+  <data name="Countdown.Menu.Lock" xml:space="preserve"><value>锁定倒计时</value></data>
+  <data name="Countdown.LockedNotify" xml:space="preserve"><value>倒计时已上锁。更改或停止倒计时需要先输入密码。</value></data>
   <data name="Countdown.ClickThroughOn" xml:space="preserve"><value>鼠标穿透已开启：窗口不接收鼠标输入，请用托盘图标菜单控制计时器。</value></data>
   <data name="Settings.Title" xml:space="preserve"><value>设置</value></data>
   <data name="Settings.WindowTitle" xml:space="preserve"><value>定时关机 - 设置</value></data>
@@ -207,6 +209,7 @@
   <data name="Settings.CountdownSizeReset" xml:space="preserve"><value>重置大小</value></data>
   <data name="Tray.Balloon.CountdownStopped" xml:space="preserve"><value>倒计时已停止。</value></data>
   <data name="Tray.Balloon.CountdownFinished" xml:space="preserve"><value>倒计时已结束。</value></data>
+  <data name="Tray.Tooltip.Format" xml:space="preserve"><value>定时关机：剩余 {0}</value></data>
   <data name="Countdown.ConfirmStop" xml:space="preserve"><value>确定要停止倒计时并退出程序吗？</value></data>
   <data name="Countdown.ConfirmStopTitle" xml:space="preserve"><value>停止倒计时？</value></data>
   <data name="Countdown.ConfirmRestart" xml:space="preserve"><value>确定要重启应用程序吗？当前的倒计时将会丢失。</value></data>
@@ -215,13 +218,12 @@
   <data name="Countdown.PasswordWrong" xml:space="preserve"><value>你输入的密码不正确。倒计时仍在继续。</value></data>
   <data name="Countdown.PasswordWrongTitle" xml:space="preserve"><value>密码错误</value></data>
   <data name="Countdown.PasswordTitle" xml:space="preserve"><value>密码保护</value></data>
-  <data name="Countdown.PasswordPromptUnlock" xml:space="preserve"><value>输入密码以解锁倒计时控件。</value></data>
   <data name="Countdown.PasswordPromptLock" xml:space="preserve"><value>输入密码以锁定倒计时控件。</value></data>
   <data name="Countdown.Err.CustomCommand" xml:space="preserve"><value>执行自定义命令时出错。
 
 你的命令：{0}
 错误：{1}</value></data>
-  <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>倒计时更新</value></data>
+  <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>自定义命令错误</value></data>
   <data name="Countdown.StoppedNotify" xml:space="preserve"><value>定时器已成功取消！
 应用即将关闭。</value></data>
   <data name="Countdown.ResetNotify" xml:space="preserve"><value>定时器已重置。距离执行电源操作还剩 {0} 小时 {1} 分 {2} 秒。</value></data>

@@ -111,9 +111,10 @@ namespace ShutdownTimer
 
             TopMost = !SettingsProvider.Settings.DisableAlwaysOnTop;
 
-            // 本次改造新增：恢复窗口尺寸、应用鼠标穿透、给托盘菜单加开关
+            // 本次改造新增：恢复窗口尺寸、应用鼠标穿透、给托盘菜单加开关、加运行时上锁入口
             ApplyCountdownSize();
             BuildClickThroughMenuItem();
+            BuildLockMenuItem();
 
             // 字体按界面语言选择（中文需要 CJK 字形）
             this.Font = Loc.CreateUiFont(8.25f);
@@ -189,7 +190,7 @@ namespace ShutdownTimer
 
                 case 2: // lock state 'unlocked': change lockstate to 'locked'
                     ExceptionHandler.Log("LockState=unlocked: confirming re-lock");
-                    DialogResult result = MessageBox.Show(Loc.T("Countdown.ReLockPrompt"),Loc.T("Menu.PasswordTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show(Loc.T("Countdown.ReLockPrompt"),Loc.T("Countdown.PasswordTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         ExceptionHandler.Log("User confirmed lock");
@@ -291,14 +292,26 @@ namespace ShutdownTimer
 
         /// <summary>
         /// Restarts the application.
+        /// confirmed=false 时先让用户确认，避免误点托盘菜单丢掉当前倒计时；
+        /// 密码解锁后的递归调用传 confirmed=true，不会二次确认。
         /// </summary>
-        private void RestartApplication()
+        private void RestartApplication(bool confirmed = false)
         {
             ExceptionHandler.Log("Restart requested");
+            if (!confirmed)
+            {
+                DialogResult answer = MessageBox.Show(Loc.T("Countdown.ConfirmRestart"), Loc.T("Countdown.ConfirmRestartTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (answer != DialogResult.Yes)
+                {
+                    ExceptionHandler.Log("Restart aborted by user at confirmation");
+                    return;
+                }
+            }
+
             if (lockState == 1)
             {
                 ExceptionHandler.Log("Restart halted by password protection");
-                if (UnlockUIByPassword(true)) { ExceptionHandler.Log("Password accepted; resuming restart"); RestartApplication(); }
+                if (UnlockUIByPassword(true)) { ExceptionHandler.Log("Password accepted; resuming restart"); RestartApplication(true); }
             }
             else
             {
@@ -496,6 +509,12 @@ namespace ShutdownTimer
                     lockStatePictureBox.Enabled = true;
                     break;
             }
+
+            // 同步托盘菜单"锁定倒计时"项：只有还没设密码（free）时可用
+            foreach (ToolStripItem item in contextMenuStrip.Items)
+            {
+                if (item.Name == "lockCountdownMenuItem") item.Enabled = lockState == 0;
+            }
         }
 
         private bool UnlockUIByPassword(bool reasonBecauseOfAction = false)
@@ -514,7 +533,7 @@ namespace ShutdownTimer
 
             using (var form = new InputBox())
             {
-                form.Title = Loc.T("Menu.PasswordTitle");
+                form.Title = Loc.T("Countdown.PasswordTitle");
                 form.Message = message;
                 form.PasswordMode = true;
                 TopMost = false;
@@ -529,7 +548,7 @@ namespace ShutdownTimer
                 else
                 {
                     ExceptionHandler.Log("Unlock has failed");
-                    MessageBox.Show(Loc.T("Countdown.PasswordWrong"),Loc.T("Menu.PasswordTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Loc.T("Countdown.PasswordWrong"),Loc.T("Countdown.PasswordWrongTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }
@@ -675,6 +694,66 @@ namespace ShutdownTimer
 
         #endregion
 
+        #region "运行时上锁（本次改造新增）"
+
+        /// <summary>
+        /// 托盘菜单里的"锁定倒计时"项：给正在运行的倒计时补设密码并立即上锁。
+        /// 上游只能在启动倒计时前设密码，运行中无法反悔加锁，这里补上这个流程。
+        /// 已有密码（locked/unlocked）时禁用，避免覆盖现有密码。
+        /// </summary>
+        private void BuildLockMenuItem()
+        {
+            var item = new ToolStripMenuItem(Loc.T("Countdown.Menu.Lock"))
+            {
+                Name = "lockCountdownMenuItem",
+                Enabled = lockState == 0
+            };
+            item.Click += LockMenuItem_Click;
+            contextMenuStrip.Items.Add(item);
+        }
+
+        private void LockMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lockState != 0)
+            {
+                ExceptionHandler.Log("Lock requested but a password is already set; ignoring");
+                return;
+            }
+
+            ExceptionHandler.Log("User requested runtime lock");
+            using (var form = new InputBox())
+            {
+                form.Title = Loc.T("Countdown.PasswordTitle");
+                form.Message = Loc.T("Countdown.PasswordPromptLock");
+                form.PasswordMode = true;
+                TopMost = false;
+                var result = form.ShowDialog();
+                TopMost = !SettingsProvider.Settings.DisableAlwaysOnTop;
+
+                if (result != DialogResult.OK || string.IsNullOrEmpty(form.ReturnValue))
+                {
+                    ExceptionHandler.Log("Runtime lock aborted: no password entered");
+                    return;
+                }
+
+                Password = form.ReturnValue;
+                ChangeLockState("locked");
+                SendNotification(Loc.T("Countdown.LockedNotify"));
+                ExceptionHandler.Log("Countdown locked at runtime");
+            }
+        }
+
+        /// <summary>
+        /// 供 Timer 在倒计时到点时调用：先弹结束通知再关窗。
+        /// 窗口一关 notifyIcon 就随窗体销毁，通知必须在 ExitExternal 之前发。
+        /// </summary>
+        public void NotifyCountdownFinished()
+        {
+            this.Invoke(new Action(() => SendNotification(Loc.T("Tray.Balloon.CountdownFinished"))));
+        }
+
+        #endregion
+
         #endregion
 
         #region "tray menu events"
@@ -810,6 +889,9 @@ namespace ShutdownTimer
                 string elapsedTime = Numerics.ConvertTimeSpanToString(ts);
                 timeLabel.Text = elapsedTime;
                 timeMenuItem.Text = elapsedTime;
+
+                // 托盘图标悬浮提示实时显示剩余时间（本次改造新增）
+                notifyIcon.Text = Loc.T("Tray.Tooltip.Format", elapsedTime);
 
                 if (IsForegroundUI) // UI for countdown window
                 {

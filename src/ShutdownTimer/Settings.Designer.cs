@@ -1,4 +1,6 @@
-﻿namespace ShutdownTimer
+using ShutdownTimer.Helpers;
+
+namespace ShutdownTimer
 {
     partial class Settings
     {
@@ -130,7 +132,7 @@
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(113, 31);
             this.titleLabel.TabIndex = 570;
-            this.titleLabel.Text = "Settings";
+            this.titleLabel.Text = Loc.T("Settings.Title");
             // 
             // appLabel
             // 
@@ -152,7 +154,7 @@
             this.footerLabel.Name = "footerLabel";
             this.footerLabel.Size = new System.Drawing.Size(310, 18);
             this.footerLabel.TabIndex = 560;
-            this.footerLabel.Text = "Made with love in Germany";
+            this.footerLabel.Text = Loc.T("Settings.Footer");
             this.footerLabel.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // githubLinkLabel
@@ -164,7 +166,7 @@
             this.githubLinkLabel.Size = new System.Drawing.Size(81, 13);
             this.githubLinkLabel.TabIndex = 590;
             this.githubLinkLabel.TabStop = true;
-            this.githubLinkLabel.Text = "View on GitHub";
+            this.githubLinkLabel.Text = Loc.T("Settings.ViewOnGitHub");
             this.githubLinkLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.githubLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GithubLinkLabel_LinkClicked);
             // 
@@ -193,7 +195,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(296, 412);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "General";
+            this.tabPage1.Text = Loc.T("Settings.TabGeneral");
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -208,7 +210,7 @@
             this.groupBox1.Size = new System.Drawing.Size(284, 76);
             this.groupBox1.TabIndex = 180;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Application behaviour";
+            this.groupBox1.Text = Loc.T("Settings.AppBehaviour");
             // 
             // enableMultipleInstances
             // 
@@ -217,7 +219,7 @@
             this.enableMultipleInstances.Name = "enableMultipleInstances";
             this.enableMultipleInstances.Size = new System.Drawing.Size(137, 17);
             this.enableMultipleInstances.TabIndex = 210;
-            this.enableMultipleInstances.Text = "Allow multiple instances";
+            this.enableMultipleInstances.Text = Loc.T("Settings.AllowMultipleInstances");
             this.enableMultipleInstances.UseVisualStyleBackColor = true;
             // 
             // rememberLastScreenPositionCountdown
@@ -227,7 +229,7 @@
             this.rememberLastScreenPositionCountdown.Name = "rememberLastScreenPositionCountdown";
             this.rememberLastScreenPositionCountdown.Size = new System.Drawing.Size(233, 17);
             this.rememberLastScreenPositionCountdown.TabIndex = 200;
-            this.rememberLastScreenPositionCountdown.Text = "Remember last screen position (Countdown)";
+            this.rememberLastScreenPositionCountdown.Text = Loc.T("Settings.RememberPosCountdown");
             this.rememberLastScreenPositionCountdown.UseVisualStyleBackColor = true;
             // 
             // rememberLastScreenPositionUI
@@ -237,7 +239,7 @@
             this.rememberLastScreenPositionUI.Name = "rememberLastScreenPositionUI";
             this.rememberLastScreenPositionUI.Size = new System.Drawing.Size(206, 17);
             this.rememberLastScreenPositionUI.TabIndex = 190;
-            this.rememberLastScreenPositionUI.Text = "Remember last screen position (Menu)";
+            this.rememberLastScreenPositionUI.Text = Loc.T("Settings.RememberPosMenu");
             this.rememberLastScreenPositionUI.UseVisualStyleBackColor = true;
             // 
             // trayiconGroupBox
@@ -251,7 +253,7 @@
             this.trayiconGroupBox.Size = new System.Drawing.Size(284, 40);
             this.trayiconGroupBox.TabIndex = 220;
             this.trayiconGroupBox.TabStop = false;
-            this.trayiconGroupBox.Text = "System tray menu";
+            this.trayiconGroupBox.Text = Loc.T("Settings.TrayIconGroup");
             // 
             // trayiconThemeComboBox
             // 
@@ -273,7 +275,7 @@
             this.trayiconThemeLabel.Name = "trayiconThemeLabel";
             this.trayiconThemeLabel.Size = new System.Drawing.Size(83, 13);
             this.trayiconThemeLabel.TabIndex = 230;
-            this.trayiconThemeLabel.Text = "Trayicon theme:";
+            this.trayiconThemeLabel.Text = Loc.T("Settings.TrayIconThemeLabel");
             // 
             // clearSettingsButton
             // 
@@ -282,7 +284,7 @@
             this.clearSettingsButton.Name = "clearSettingsButton";
             this.clearSettingsButton.Size = new System.Drawing.Size(129, 23);
             this.clearSettingsButton.TabIndex = 250;
-            this.clearSettingsButton.Text = "Clear Settings";
+            this.clearSettingsButton.Text = Loc.T("Settings.ClearSettings");
             this.clearSettingsButton.UseVisualStyleBackColor = true;
             this.clearSettingsButton.Click += new System.EventHandler(this.ClearSettingsButton_Click);
             // 
@@ -297,7 +299,7 @@
             this.defaultSettingsGroupBox.Size = new System.Drawing.Size(284, 241);
             this.defaultSettingsGroupBox.TabIndex = 20;
             this.defaultSettingsGroupBox.TabStop = false;
-            this.defaultSettingsGroupBox.Text = "Timer defaults";
+            this.defaultSettingsGroupBox.Text = Loc.T("Settings.TimerDefaults");
             // 
             // customDefaultsGroupBox
             // 
@@ -321,7 +323,7 @@
             this.customDefaultsGroupBox.Size = new System.Drawing.Size(272, 194);
             this.customDefaultsGroupBox.TabIndex = 40;
             this.customDefaultsGroupBox.TabStop = false;
-            this.customDefaultsGroupBox.Text = "Custom defaults";
+            this.customDefaultsGroupBox.Text = Loc.T("Settings.CustomDefaults");
             // 
             // timeOfDayModeRadioButton
             // 
@@ -330,7 +332,7 @@
             this.timeOfDayModeRadioButton.Name = "timeOfDayModeRadioButton";
             this.timeOfDayModeRadioButton.Size = new System.Drawing.Size(137, 17);
             this.timeOfDayModeRadioButton.TabIndex = 110;
-            this.timeOfDayModeRadioButton.Text = "At a specific time of day";
+            this.timeOfDayModeRadioButton.Text = Loc.T("Menu.TimeOfDayMode");
             this.timeOfDayModeRadioButton.UseVisualStyleBackColor = true;
             // 
             // countdownModeRadioButton
@@ -340,7 +342,7 @@
             this.countdownModeRadioButton.Name = "countdownModeRadioButton";
             this.countdownModeRadioButton.Size = new System.Drawing.Size(140, 17);
             this.countdownModeRadioButton.TabIndex = 100;
-            this.countdownModeRadioButton.Text = "After a specific timespan";
+            this.countdownModeRadioButton.Text = Loc.T("Menu.CountdownMode");
             this.countdownModeRadioButton.UseVisualStyleBackColor = true;
             // 
             // hoursNumericUpDown
@@ -362,7 +364,7 @@
             this.secondsLabel.Name = "secondsLabel";
             this.secondsLabel.Size = new System.Drawing.Size(49, 13);
             this.secondsLabel.TabIndex = 160;
-            this.secondsLabel.Text = "Seconds";
+            this.secondsLabel.Text = Loc.T("Common.Seconds");
             // 
             // hoursLabel
             // 
@@ -371,7 +373,7 @@
             this.hoursLabel.Name = "hoursLabel";
             this.hoursLabel.Size = new System.Drawing.Size(35, 13);
             this.hoursLabel.TabIndex = 120;
-            this.hoursLabel.Text = "Hours";
+            this.hoursLabel.Text = Loc.T("Common.Hours");
             // 
             // minutesLabel
             // 
@@ -380,7 +382,7 @@
             this.minutesLabel.Name = "minutesLabel";
             this.minutesLabel.Size = new System.Drawing.Size(44, 13);
             this.minutesLabel.TabIndex = 140;
-            this.minutesLabel.Text = "Minutes";
+            this.minutesLabel.Text = Loc.T("Common.Minutes");
             // 
             // minutesNumericUpDown
             // 
@@ -415,7 +417,7 @@
             this.preventSleepCheckBox.Name = "preventSleepCheckBox";
             this.preventSleepCheckBox.Size = new System.Drawing.Size(190, 17);
             this.preventSleepCheckBox.TabIndex = 80;
-            this.preventSleepCheckBox.Text = "Prevent system from going to sleep";
+            this.preventSleepCheckBox.Text = Loc.T("Menu.PreventSleep");
             this.preventSleepCheckBox.UseVisualStyleBackColor = true;
             // 
             // gracefulCheckBox
@@ -425,7 +427,7 @@
             this.gracefulCheckBox.Name = "gracefulCheckBox";
             this.gracefulCheckBox.Size = new System.Drawing.Size(186, 17);
             this.gracefulCheckBox.TabIndex = 70;
-            this.gracefulCheckBox.Text = "Graceful (do not force close apps)";
+            this.gracefulCheckBox.Text = Loc.T("Menu.Graceful");
             this.gracefulCheckBox.UseVisualStyleBackColor = true;
             // 
             // backgroundCheckBox
@@ -435,7 +437,7 @@
             this.backgroundCheckBox.Name = "backgroundCheckBox";
             this.backgroundCheckBox.Size = new System.Drawing.Size(117, 17);
             this.backgroundCheckBox.TabIndex = 90;
-            this.backgroundCheckBox.Text = "Run in background";
+            this.backgroundCheckBox.Text = Loc.T("Menu.RunInBackground");
             this.backgroundCheckBox.UseVisualStyleBackColor = true;
             // 
             // actionLabel
@@ -445,7 +447,7 @@
             this.actionLabel.Name = "actionLabel";
             this.actionLabel.Size = new System.Drawing.Size(87, 13);
             this.actionLabel.TabIndex = 50;
-            this.actionLabel.Text = "Select an action:";
+            this.actionLabel.Text = Loc.T("Menu.SelectAction");
             // 
             // actionComboBox
             // 
@@ -466,7 +468,7 @@
             this.rememberStateCheckBox.Name = "rememberStateCheckBox";
             this.rememberStateCheckBox.Size = new System.Drawing.Size(122, 17);
             this.rememberStateCheckBox.TabIndex = 30;
-            this.rememberStateCheckBox.Text = "Remember last state";
+            this.rememberStateCheckBox.Text = Loc.T("Settings.RememberLastState");
             this.rememberStateCheckBox.UseVisualStyleBackColor = true;
             this.rememberStateCheckBox.CheckedChanged += new System.EventHandler(this.RememberStateCheckBox_CheckedChanged);
             // 
@@ -481,7 +483,7 @@
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(296, 412);
             this.tabPage2.TabIndex = 0;
-            this.tabPage2.Text = "Advanced";
+            this.tabPage2.Text = Loc.T("Settings.TabAdvanced");
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // developerGroupBox
@@ -495,7 +497,7 @@
             this.developerGroupBox.Size = new System.Drawing.Size(284, 58);
             this.developerGroupBox.TabIndex = 410;
             this.developerGroupBox.TabStop = false;
-            this.developerGroupBox.Text = "Developer Options";
+            this.developerGroupBox.Text = Loc.T("Settings.DeveloperOptions");
             // 
             // openAppDataLinkLabel
             // 
@@ -506,7 +508,7 @@
             this.openAppDataLinkLabel.Size = new System.Drawing.Size(104, 13);
             this.openAppDataLinkLabel.TabIndex = 430;
             this.openAppDataLinkLabel.TabStop = true;
-            this.openAppDataLinkLabel.Text = "Open appdata folder";
+            this.openAppDataLinkLabel.Text = Loc.T("Settings.OpenAppData");
             this.openAppDataLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.openAppDataLinkLabel_LinkClicked);
             // 
             // saveLogsCheckBox
@@ -516,7 +518,7 @@
             this.saveLogsCheckBox.Name = "saveLogsCheckBox";
             this.saveLogsCheckBox.Size = new System.Drawing.Size(191, 17);
             this.saveLogsCheckBox.TabIndex = 420;
-            this.saveLogsCheckBox.Text = "Save event logs to appdata on exit";
+            this.saveLogsCheckBox.Text = Loc.T("Settings.SaveLogs");
             this.saveLogsCheckBox.UseVisualStyleBackColor = true;
             // 
             // passwordGroupBox
@@ -530,7 +532,7 @@
             this.passwordGroupBox.Size = new System.Drawing.Size(284, 70);
             this.passwordGroupBox.TabIndex = 380;
             this.passwordGroupBox.TabStop = false;
-            this.passwordGroupBox.Text = "Password protection";
+            this.passwordGroupBox.Text = Loc.T("Settings.PasswordGroup");
             // 
             // passwordLabel
             // 
@@ -538,8 +540,7 @@
             this.passwordLabel.Name = "passwordLabel";
             this.passwordLabel.Size = new System.Drawing.Size(272, 28);
             this.passwordLabel.TabIndex = 390;
-            this.passwordLabel.Text = "Locks the countdown UI with a password you can set when starting a shutdown after" +
-    " clicking start.";
+            this.passwordLabel.Text = Loc.T("Settings.PasswordLabel");
             // 
             // passwordCheckBox
             // 
@@ -548,7 +549,7 @@
             this.passwordCheckBox.Name = "passwordCheckBox";
             this.passwordCheckBox.Size = new System.Drawing.Size(157, 17);
             this.passwordCheckBox.TabIndex = 400;
-            this.passwordCheckBox.Text = "Enable password protection";
+            this.passwordCheckBox.Text = Loc.T("Settings.EnablePassword");
             this.passwordCheckBox.UseVisualStyleBackColor = true;
             // 
             // countdownGroupBox
@@ -567,7 +568,7 @@
             this.countdownGroupBox.Size = new System.Drawing.Size(284, 157);
             this.countdownGroupBox.TabIndex = 310;
             this.countdownGroupBox.TabStop = false;
-            this.countdownGroupBox.Text = "Countdown window";
+            this.countdownGroupBox.Text = Loc.T("Settings.CountdownGroup");
             // 
             // transparentWindowCheckBox
             // 
@@ -577,7 +578,7 @@
             this.transparentWindowCheckBox.Name = "transparentWindowCheckBox";
             this.transparentWindowCheckBox.Size = new System.Drawing.Size(178, 17);
             this.transparentWindowCheckBox.TabIndex = 350;
-            this.transparentWindowCheckBox.Text = "Transparent countdown window";
+            this.transparentWindowCheckBox.Text = Loc.T("Settings.TransparentWindow");
             this.transparentWindowCheckBox.UseVisualStyleBackColor = true;
             this.transparentWindowCheckBox.CheckedChanged += new System.EventHandler(this.TransparentWindowCheckBox_CheckedChanged);
             // 
@@ -588,7 +589,7 @@
             this.enableAdaptiveCountdownTextSizeCheckBox.Name = "enableAdaptiveCountdownTextSizeCheckBox";
             this.enableAdaptiveCountdownTextSizeCheckBox.Size = new System.Drawing.Size(175, 17);
             this.enableAdaptiveCountdownTextSizeCheckBox.TabIndex = 370;
-            this.enableAdaptiveCountdownTextSizeCheckBox.Text = "Adapt clock text to window size";
+            this.enableAdaptiveCountdownTextSizeCheckBox.Text = Loc.T("Settings.AdaptiveTextSize");
             this.enableAdaptiveCountdownTextSizeCheckBox.UseVisualStyleBackColor = true;
             // 
             // setBackgroundColorLinkLabel
@@ -599,7 +600,7 @@
             this.setBackgroundColorLinkLabel.Size = new System.Drawing.Size(113, 13);
             this.setBackgroundColorLinkLabel.TabIndex = 340;
             this.setBackgroundColorLinkLabel.TabStop = true;
-            this.setBackgroundColorLinkLabel.Text = "(set background color)";
+            this.setBackgroundColorLinkLabel.Text = Loc.T("Settings.SetBackgroundColor");
             this.setBackgroundColorLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SetBackgroundColorLinkLabel_LinkClicked);
             // 
             // disableNotificationsCheckBox
@@ -609,7 +610,7 @@
             this.disableNotificationsCheckBox.Name = "disableNotificationsCheckBox";
             this.disableNotificationsCheckBox.Size = new System.Drawing.Size(206, 17);
             this.disableNotificationsCheckBox.TabIndex = 360;
-            this.disableNotificationsCheckBox.Text = "Disable notifications and confirmations";
+            this.disableNotificationsCheckBox.Text = Loc.T("Settings.DisableNotifications");
             this.disableNotificationsCheckBox.UseVisualStyleBackColor = true;
             // 
             // disableAnimationsCheckBox
@@ -619,7 +620,7 @@
             this.disableAnimationsCheckBox.Name = "disableAnimationsCheckBox";
             this.disableAnimationsCheckBox.Size = new System.Drawing.Size(114, 17);
             this.disableAnimationsCheckBox.TabIndex = 330;
-            this.disableAnimationsCheckBox.Text = "Disable animations";
+            this.disableAnimationsCheckBox.Text = Loc.T("Settings.DisableAnimations");
             this.disableAnimationsCheckBox.UseVisualStyleBackColor = true;
             this.disableAnimationsCheckBox.CheckedChanged += new System.EventHandler(this.DisableAnimationsCheckBox_CheckedChanged);
             // 
@@ -630,7 +631,7 @@
             this.disableAlwaysOnTopCheckBox.Name = "disableAlwaysOnTopCheckBox";
             this.disableAlwaysOnTopCheckBox.Size = new System.Drawing.Size(179, 17);
             this.disableAlwaysOnTopCheckBox.TabIndex = 320;
-            this.disableAlwaysOnTopCheckBox.Text = "Disable always on top behaviour";
+            this.disableAlwaysOnTopCheckBox.Text = Loc.T("Settings.DisableAlwaysOnTop");
             this.disableAlwaysOnTopCheckBox.UseVisualStyleBackColor = true;
             // 
             // forceFlagGroupBox
@@ -646,7 +647,7 @@
             this.forceFlagGroupBox.Size = new System.Drawing.Size(284, 92);
             this.forceFlagGroupBox.TabIndex = 260;
             this.forceFlagGroupBox.TabStop = false;
-            this.forceFlagGroupBox.Text = "Force flag";
+            this.forceFlagGroupBox.Text = Loc.T("Settings.ForceFlagGroup");
             // 
             // forceFlagDocsLinkLabel
             // 
@@ -657,7 +658,7 @@
             this.forceFlagDocsLinkLabel.Size = new System.Drawing.Size(79, 13);
             this.forceFlagDocsLinkLabel.TabIndex = 300;
             this.forceFlagDocsLinkLabel.TabStop = true;
-            this.forceFlagDocsLinkLabel.Text = "Documentation";
+            this.forceFlagDocsLinkLabel.Text = Loc.T("Settings.ForceFlagDocs");
             this.forceFlagDocsLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ForceFlagDocsLinkLabel_LinkClicked);
             // 
             // forceFlagRadioButton
@@ -689,8 +690,7 @@
             this.forceFlagLabel.Name = "forceFlagLabel";
             this.forceFlagLabel.Size = new System.Drawing.Size(277, 26);
             this.forceFlagLabel.TabIndex = 270;
-            this.forceFlagLabel.Text = "Changes how running applications are force-closed when\r\nusing a non-graceful shut" +
-    "down.";
+            this.forceFlagLabel.Text = Loc.T("Settings.ForceFlagLabel");
             // 
             // tabPage3
             // 
@@ -701,7 +701,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(296, 412);
             this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "About";
+            this.tabPage3.Text = Loc.T("Settings.TabAbout");
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // aboutGroupBox
@@ -718,7 +718,7 @@
             this.aboutGroupBox.Size = new System.Drawing.Size(284, 345);
             this.aboutGroupBox.TabIndex = 510;
             this.aboutGroupBox.TabStop = false;
-            this.aboutGroupBox.Text = "About this app";
+            this.aboutGroupBox.Text = Loc.T("Settings.AboutGroup");
             // 
             // logButton
             // 
@@ -727,7 +727,7 @@
             this.logButton.Name = "logButton";
             this.logButton.Size = new System.Drawing.Size(80, 23);
             this.logButton.TabIndex = 530;
-            this.logButton.Text = "Create Logfile";
+            this.logButton.Text = Loc.T("Settings.CreateLogfile");
             this.logButton.UseVisualStyleBackColor = true;
             this.logButton.Click += new System.EventHandler(this.LogButton_Click);
             // 
@@ -738,7 +738,7 @@
             this.emailbutton.Name = "emailbutton";
             this.emailbutton.Size = new System.Drawing.Size(60, 23);
             this.emailbutton.TabIndex = 540;
-            this.emailbutton.Text = "Email";
+            this.emailbutton.Text = Loc.T("Settings.Email");
             this.emailbutton.UseVisualStyleBackColor = true;
             this.emailbutton.Click += new System.EventHandler(this.EmailButton_Click);
             // 
@@ -749,7 +749,7 @@
             this.githubButton.Name = "githubButton";
             this.githubButton.Size = new System.Drawing.Size(100, 23);
             this.githubButton.TabIndex = 550;
-            this.githubButton.Text = "GitHub Issues";
+            this.githubButton.Text = Loc.T("Settings.GitHubIssues");
             this.githubButton.UseVisualStyleBackColor = true;
             this.githubButton.Click += new System.EventHandler(this.GithubButton_Click);
             // 
@@ -762,7 +762,7 @@
             this.aboutRichTextBox.Name = "aboutRichTextBox";
             this.aboutRichTextBox.Size = new System.Drawing.Size(272, 291);
             this.aboutRichTextBox.TabIndex = 520;
-            this.aboutRichTextBox.Text = resources.GetString("aboutRichTextBox.Text");
+            this.aboutRichTextBox.Text = Loc.T("Settings.AboutText");
             // 
             // licenseGroupBox
             // 
@@ -779,7 +779,7 @@
             this.licenseGroupBox.Size = new System.Drawing.Size(284, 49);
             this.licenseGroupBox.TabIndex = 440;
             this.licenseGroupBox.TabStop = false;
-            this.licenseGroupBox.Text = "Licenses && Source";
+            this.licenseGroupBox.Text = Loc.T("Settings.LicenseGroup");
             // 
             // faSourceLinkLabel
             // 
@@ -789,7 +789,7 @@
             this.faSourceLinkLabel.Size = new System.Drawing.Size(65, 13);
             this.faSourceLinkLabel.TabIndex = 500;
             this.faSourceLinkLabel.TabStop = true;
-            this.faSourceLinkLabel.Text = "Sourcecode";
+            this.faSourceLinkLabel.Text = Loc.T("Settings.SourceCode");
             this.faSourceLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.FASourceLinkLabel_LinkClicked);
             // 
             // faLicenseLinkLabel
@@ -820,7 +820,7 @@
             this.appSourceLinkLabel.Size = new System.Drawing.Size(65, 13);
             this.appSourceLinkLabel.TabIndex = 470;
             this.appSourceLinkLabel.TabStop = true;
-            this.appSourceLinkLabel.Text = "Sourcecode";
+            this.appSourceLinkLabel.Text = Loc.T("Settings.SourceCode");
             this.appSourceLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.AppSourceLinkLabel_LinkClicked);
             // 
             // appLicenseLinkLabel
@@ -841,7 +841,7 @@
             this.appInfoLabel.Name = "appInfoLabel";
             this.appInfoLabel.Size = new System.Drawing.Size(62, 13);
             this.appInfoLabel.TabIndex = 450;
-            this.appInfoLabel.Text = "Application:";
+            this.appInfoLabel.Text = Loc.T("Settings.Application");
             // 
             // hideTrayIconCheckBox
             // 
@@ -850,7 +850,7 @@
             this.hideTrayIconCheckBox.Name = "hideTrayIconCheckBox";
             this.hideTrayIconCheckBox.Size = new System.Drawing.Size(185, 17);
             this.hideTrayIconCheckBox.TabIndex = 371;
-            this.hideTrayIconCheckBox.Text = "Hide tray icon (not recommended)";
+            this.hideTrayIconCheckBox.Text = Loc.T("Settings.HideTrayIcon");
             this.hideTrayIconCheckBox.UseVisualStyleBackColor = true;
             this.hideTrayIconCheckBox.CheckedChanged += new System.EventHandler(this.hideTrayIconCheckBox_CheckedChanged);
             // 
@@ -872,7 +872,7 @@
             this.Name = "Settings";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Shutdown Timer - Settings";
+            this.Text = Loc.T("Settings.WindowTitle");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Settings_FormClosing);
             this.Load += new System.EventHandler(this.Settings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.titlebarPictureBox)).EndInit();

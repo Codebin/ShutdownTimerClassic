@@ -1,4 +1,6 @@
-﻿namespace ShutdownTimer
+using ShutdownTimer.Helpers;
+
+namespace ShutdownTimer
 {
     partial class Countdown
     {
@@ -76,14 +78,14 @@
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(215, 31);
             this.titleLabel.TabIndex = 10;
-            this.titleLabel.Text = "Shutdown Timer";
+            this.titleLabel.Text = Loc.T("App.Title");
             // 
             // notifyIcon
             // 
             this.notifyIcon.BalloonTipTitle = "Shutdown Timer";
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "Shutdown Timer";
+            this.notifyIcon.Text = Loc.T("App.Title");
             this.notifyIcon.Visible = true;
             // 
             // contextMenuStrip
@@ -107,28 +109,28 @@
             // 
             this.timerPauseMenuItem.Name = "timerPauseMenuItem";
             this.timerPauseMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.timerPauseMenuItem.Text = "Pause";
+            this.timerPauseMenuItem.Text = Loc.T("Countdown.Menu.Pause");
             this.timerPauseMenuItem.Click += new System.EventHandler(this.TimerPauseMenuItem_Click);
             // 
             // timerStopMenuItem
             // 
             this.timerStopMenuItem.Name = "timerStopMenuItem";
             this.timerStopMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.timerStopMenuItem.Text = "Stop and exit";
+            this.timerStopMenuItem.Text = Loc.T("Countdown.Menu.StopAndExit");
             this.timerStopMenuItem.Click += new System.EventHandler(this.TimerStopMenuItem_Click);
             // 
             // timerResetMenuItem
             // 
             this.timerResetMenuItem.Name = "timerResetMenuItem";
             this.timerResetMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.timerResetMenuItem.Text = "Reset timer";
+            this.timerResetMenuItem.Text = Loc.T("Countdown.Menu.ResetTimer");
             this.timerResetMenuItem.Click += new System.EventHandler(this.TimerResetMenuItem_Click);
             // 
             // appRestartMenuItem
             // 
             this.appRestartMenuItem.Name = "appRestartMenuItem";
             this.appRestartMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.appRestartMenuItem.Text = "Restart application";
+            this.appRestartMenuItem.Text = Loc.T("Countdown.Menu.RestartApp");
             this.appRestartMenuItem.Click += new System.EventHandler(this.AppRestartMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -140,7 +142,7 @@
             // 
             this.timerUIHideMenuItem.Name = "timerUIHideMenuItem";
             this.timerUIHideMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.timerUIHideMenuItem.Text = "Move to background";
+            this.timerUIHideMenuItem.Text = Loc.T("Countdown.Menu.MoveToBackground");
             this.timerUIHideMenuItem.Click += new System.EventHandler(this.TimerUIHideMenuItem_Click);
             // 
             // timerUIShowMenuItem
@@ -148,7 +150,7 @@
             this.timerUIShowMenuItem.Enabled = false;
             this.timerUIShowMenuItem.Name = "timerUIShowMenuItem";
             this.timerUIShowMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.timerUIShowMenuItem.Text = "Show countdown window";
+            this.timerUIShowMenuItem.Text = Loc.T("Countdown.Menu.ShowCountdownWindow");
             this.timerUIShowMenuItem.Click += new System.EventHandler(this.TimerUIShowMenuItem_Click);
             // 
             // toolStripSeparator2
@@ -168,7 +170,7 @@
             // 
             this.updateTimeMenuItem.Name = "updateTimeMenuItem";
             this.updateTimeMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.updateTimeMenuItem.Text = "Set a new countdown";
+            this.updateTimeMenuItem.Text = Loc.T("Countdown.Menu.SetNewCountdown");
             this.updateTimeMenuItem.Click += new System.EventHandler(this.UpdateTimeMenuItem_Click);
             // 
             // titlebarPictureBox
@@ -216,7 +218,7 @@
             this.Name = "Countdown";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Countdown";
+            this.Text = Loc.T("Countdown.Title");
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Countdown_FormClosing);
             this.Load += new System.EventHandler(this.Countdown_Load);

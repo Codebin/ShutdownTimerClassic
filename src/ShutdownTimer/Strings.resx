@@ -46,20 +46,18 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-
-  <!-- ===== 电源动作显示名（内部 Key 永远是英文，见 Helpers/PowerAction.cs） ===== -->
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <!-- 中性语言资源（英文），同时作为缺译时的兜底 -->
+  <data name="App.Title" xml:space="preserve"><value>Shutdown Timer</value></data>
+  <data name="App.WindowTitle" xml:space="preserve"><value>Shutdown Timer</value></data>
+  <data name="Common.OK" xml:space="preserve"><value>OK</value></data>
+  <data name="Common.Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Common.Hours" xml:space="preserve"><value>Hours</value></data>
+  <data name="Common.Minutes" xml:space="preserve"><value>Minutes</value></data>
+  <data name="Common.Seconds" xml:space="preserve"><value>Seconds</value></data>
   <data name="Action.Shutdown" xml:space="preserve"><value>Shutdown</value></data>
   <data name="Action.Restart" xml:space="preserve"><value>Restart</value></data>
   <data name="Action.Hibernate" xml:space="preserve"><value>Hibernate</value></data>
@@ -67,25 +65,155 @@
   <data name="Action.Logout" xml:space="preserve"><value>Logout</value></data>
   <data name="Action.Lock" xml:space="preserve"><value>Lock</value></data>
   <data name="Action.CustomCommand" xml:space="preserve"><value>Custom Command</value></data>
-
-  <!-- ===== 通用 ===== -->
-  <data name="App.Title" xml:space="preserve"><value>Shutdown Timer</value></data>
-  <data name="Common.OK" xml:space="preserve"><value>OK</value></data>
-  <data name="Common.Cancel" xml:space="preserve"><value>Cancel</value></data>
-  <data name="Common.Warning" xml:space="preserve"><value>Warning</value></data>
-
-  <!-- ===== 语言选项 ===== -->
-  <data name="Language.Auto" xml:space="preserve"><value>Automatic (follow system)</value></data>
-  <data name="Language.En" xml:space="preserve"><value>English</value></data>
-  <data name="Language.ZhCn" xml:space="preserve"><value>简体中文</value></data>
-
-  <!-- ===== 托盘图标主题 ===== -->
   <data name="TrayTheme.Automatic" xml:space="preserve"><value>Automatic</value></data>
   <data name="TrayTheme.Light" xml:space="preserve"><value>Light</value></data>
   <data name="TrayTheme.Dark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Language.Automatic" xml:space="preserve"><value>Auto (follow system)</value></data>
+  <data name="Language.En" xml:space="preserve"><value>English</value></data>
+  <data name="Language.ZhCn" xml:space="preserve"><value>简体中文</value></data>
+  <data name="Menu.Title" xml:space="preserve"><value>Shutdown Timer</value></data>
+  <data name="Menu.TimeGroup" xml:space="preserve"><value>When to do it?</value></data>
+  <data name="Menu.TimeOfDayMode" xml:space="preserve"><value>At a specific time of day</value></data>
+  <data name="Menu.CountdownMode" xml:space="preserve"><value>After a specific timespan</value></data>
+  <data name="Menu.ActionGroup" xml:space="preserve"><value>What to do?</value></data>
+  <data name="Menu.PreventSleep" xml:space="preserve"><value>Prevent system from going to sleep</value></data>
+  <data name="Menu.Graceful" xml:space="preserve"><value>Graceful (do not force close apps)</value></data>
+  <data name="Menu.RunInBackground" xml:space="preserve"><value>Run in background</value></data>
+  <data name="Menu.SelectAction" xml:space="preserve"><value>Select an action:</value></data>
+  <data name="Menu.Start" xml:space="preserve"><value>Start</value></data>
+  <data name="Menu.StartRecommended" xml:space="preserve"><value>Start (with recommended settings)</value></data>
+  <data name="Menu.Tip.Graceful" xml:space="preserve"><value>Applications that do not exit when prompted automatically get terminated by default to ensure a successful shutdown.
 
-  <!-- ===== 倒计时窗口标题模板（解决中文语序） ===== -->
+A graceful shutdown, on the other hand, will wait for all applications to exit before continuing with the shutdown.
+This might result in an unsuccessful shutdown if one or more applications are unresponsive or require a user interaction to exit.</value></data>
+  <data name="Menu.Tip.PreventSleep" xml:space="preserve"><value>Depending on the power settings of your system, it might go to sleep after a certain amount of time due to inactivity.
+This option will keep the system awake to ensure the timer can properly run and execute a shutdown.</value></data>
+  <data name="Menu.Tip.RunInBackground" xml:space="preserve"><value>This will launch the countdown without a visible window but will show a tray icon in your taskbar.</value></data>
+  <data name="Menu.Tip.CountdownMode" xml:space="preserve"><value>Will count down from the hours, minutes and seconds selected below,
+like a countdown timer, and execute the power action when it reaches zero.</value></data>
+  <data name="Menu.Tip.TimeOfDayMode" xml:space="preserve"><value>In this mode you can select the target time of day (24h clock) for the power action.
+If the time has already passed, it will roll over to tomorrow.
+
+When you press start, the appropriate countdown will be calculated.
+</value></data>
+  <data name="Menu.Err.InvalidAction" xml:space="preserve"><value>Please select a valid action from the dropdown menu!
+
+</value></data>
+  <data name="Menu.Err.ZeroTime" xml:space="preserve"><value>The timer cannot start at 0 when in countdown mode!
+
+</value></data>
+  <data name="Menu.Err.TimeSpanConversion" xml:space="preserve"><value>TimeSpan conversion failed! Please check if your time values are within a reasonable range or represent a valid time of day, if you used the time of day mode.
+
+</value></data>
+  <data name="Menu.Warn.HugeTimespan" xml:space="preserve"><value>Your chosen time equates to {0} days ({1} years)!
+It is highly discouraged to choose such an insane amount of time as either your hardware, operating system, or this app will fail *way* before you even come close to reaching the target!
+
+But if you are actually going to do this, please tell me how long this app survived.</value></data>
+  <data name="Menu.Err.StartFailed" xml:space="preserve"><value>The following error(s) occurred:
+
+{0}Please resolve the problem(s) and try again.</value></data>
+  <data name="Menu.Err.StartFailedTitle" xml:space="preserve"><value>There seems to be a problem!</value></data>
+  <data name="Menu.WarnTitle" xml:space="preserve"><value>Warning</value></data>
+  <data name="Menu.CustomCommandTitle" xml:space="preserve"><value>Custom Command</value></data>
+  <data name="Menu.CustomCommandPrompt" xml:space="preserve"><value>Please enter the command you want to have executed. If you wish to launch a file, just enter the full file path.
+
+Note: Execution will use this user's permissions.</value></data>
+  <data name="Menu.Err.EmptyCommand" xml:space="preserve"><value>Custom command field was empty. Please enter a valid command or use a different action!</value></data>
+  <data name="Menu.Err.EmptyCommandTitle" xml:space="preserve"><value>Invalid command!</value></data>
+  <data name="Menu.PasswordTitle" xml:space="preserve"><value>Password Protection</value></data>
+  <data name="Menu.PasswordPrompt" xml:space="preserve"><value>Please set a password to enable password protection.
+
+You can disable this dialog in the settings under Advanced &gt; Password Protection.</value></data>
+  <data name="Common.AlreadyRunning" xml:space="preserve"><value>Another instance of this application is already running. To allow multiple instances, please check the "Allow multiple instances" option in the application settings.
+
+Exiting...</value></data>
+  <data name="Common.AlreadyRunningTitle" xml:space="preserve"><value>Application already running!</value></data>
+  <data name="Countdown.Title" xml:space="preserve"><value>Countdown</value></data>
   <data name="Countdown.TitleFormat" xml:space="preserve"><value>{0} Timer</value></data>
   <data name="Countdown.TitleFormatPaused" xml:space="preserve"><value>{0} Timer (paused)</value></data>
+  <data name="Countdown.Menu.Pause" xml:space="preserve"><value>Pause</value></data>
+  <data name="Countdown.Menu.Resume" xml:space="preserve"><value>Resume</value></data>
+  <data name="Countdown.Menu.StopAndExit" xml:space="preserve"><value>Stop and exit</value></data>
+  <data name="Countdown.Menu.ResetTimer" xml:space="preserve"><value>Reset timer</value></data>
+  <data name="Countdown.Menu.RestartApp" xml:space="preserve"><value>Restart application</value></data>
+  <data name="Countdown.Menu.MoveToBackground" xml:space="preserve"><value>Move to background</value></data>
+  <data name="Countdown.Menu.ShowCountdownWindow" xml:space="preserve"><value>Show countdown window</value></data>
+  <data name="Countdown.Menu.SetNewCountdown" xml:space="preserve"><value>Set a new countdown</value></data>
+  <data name="Settings.Title" xml:space="preserve"><value>Settings</value></data>
+  <data name="Settings.WindowTitle" xml:space="preserve"><value>Shutdown Timer - Settings</value></data>
+  <data name="Settings.Footer" xml:space="preserve"><value>Made with love in Germany</value></data>
+  <data name="Settings.ViewOnGitHub" xml:space="preserve"><value>View on GitHub</value></data>
+  <data name="Settings.TabGeneral" xml:space="preserve"><value>General</value></data>
+  <data name="Settings.TabAdvanced" xml:space="preserve"><value>Advanced</value></data>
+  <data name="Settings.TabAbout" xml:space="preserve"><value>About</value></data>
+  <data name="Settings.AppBehaviour" xml:space="preserve"><value>Application behaviour</value></data>
+  <data name="Settings.AllowMultipleInstances" xml:space="preserve"><value>Allow multiple instances</value></data>
+  <data name="Settings.RememberPosCountdown" xml:space="preserve"><value>Remember last screen position (Countdown)</value></data>
+  <data name="Settings.RememberPosMenu" xml:space="preserve"><value>Remember last screen position (Menu)</value></data>
+  <data name="Settings.LanguageGroup" xml:space="preserve"><value>Language</value></data>
+  <data name="Settings.LanguageLabel" xml:space="preserve"><value>UI language:</value></data>
+  <data name="Settings.LanguageRestartHint" xml:space="preserve"><value>Changing the language takes effect after restarting the application.</value></data>
+  <data name="Settings.TrayIconGroup" xml:space="preserve"><value>System tray menu</value></data>
+  <data name="Settings.TrayIconThemeLabel" xml:space="preserve"><value>Trayicon theme:</value></data>
+  <data name="Settings.ClearSettings" xml:space="preserve"><value>Clear Settings</value></data>
+  <data name="Settings.TimerDefaults" xml:space="preserve"><value>Timer defaults</value></data>
+  <data name="Settings.CustomDefaults" xml:space="preserve"><value>Custom defaults</value></data>
+  <data name="Settings.RememberLastState" xml:space="preserve"><value>Remember last state</value></data>
+  <data name="Settings.DeveloperOptions" xml:space="preserve"><value>Developer Options</value></data>
+  <data name="Settings.OpenAppData" xml:space="preserve"><value>Open appdata folder</value></data>
+  <data name="Settings.SaveLogs" xml:space="preserve"><value>Save event logs to appdata on exit</value></data>
+  <data name="Settings.PasswordGroup" xml:space="preserve"><value>Password protection</value></data>
+  <data name="Settings.PasswordLabel" xml:space="preserve"><value>Locks the countdown UI with a password you can set when starting a shutdown after clicking start.</value></data>
+  <data name="Settings.EnablePassword" xml:space="preserve"><value>Enable password protection</value></data>
+  <data name="Settings.CountdownGroup" xml:space="preserve"><value>Countdown window</value></data>
+  <data name="Settings.TransparentWindow" xml:space="preserve"><value>Transparent countdown window</value></data>
+  <data name="Settings.AdaptiveTextSize" xml:space="preserve"><value>Adapt clock text to window size</value></data>
+  <data name="Settings.SetBackgroundColor" xml:space="preserve"><value>(set background color)</value></data>
+  <data name="Settings.DisableNotifications" xml:space="preserve"><value>Disable notifications and confirmations</value></data>
+  <data name="Settings.DisableAnimations" xml:space="preserve"><value>Disable animations</value></data>
+  <data name="Settings.DisableAlwaysOnTop" xml:space="preserve"><value>Disable always on top behaviour</value></data>
+  <data name="Settings.ForceFlagGroup" xml:space="preserve"><value>Force flag</value></data>
+  <data name="Settings.ForceFlagDocs" xml:space="preserve"><value>Documentation</value></data>
+  <data name="Settings.ForceFlagLabel" xml:space="preserve"><value>Changes how running applications are force-closed when
+using a non-graceful shutdown.</value></data>
+  <data name="Settings.AboutGroup" xml:space="preserve"><value>About this app</value></data>
+  <data name="Settings.CreateLogfile" xml:space="preserve"><value>Create Logfile</value></data>
+  <data name="Settings.Email" xml:space="preserve"><value>Email</value></data>
+  <data name="Settings.GitHubIssues" xml:space="preserve"><value>GitHub Issues</value></data>
+  <data name="Settings.AboutText" xml:space="preserve"><value>This app is a free open-source project by Lukas Langrock under the MIT license which means there is no warranty provided and I shall not be held liable for any kind of damage!
+After all you may lose unsaved work or mess up another running application. Use this with caution and common sense!
 
+The application is built to be reliable and should accurately measure and count time. I can't exactly guarantee this but I aim to get the application to be as stable and polished as possible.
+In the case you encounter an error or notice the application not working as it should, an issue on GitHub or an Email would be very appreciated so I can fix the mistake.
+
+If you enjoy using this free app, please consider writing a review on the Microsoft Store or starring the project on GitHub.
+Any contributions in the form of issues and PR's are very welcome.</value></data>
+  <data name="Settings.LicenseGroup" xml:space="preserve"><value>Licenses &amp;&amp; Source</value></data>
+  <data name="Settings.SourceCode" xml:space="preserve"><value>Sourcecode</value></data>
+  <data name="Settings.Application" xml:space="preserve"><value>Application:</value></data>
+  <data name="Settings.HideTrayIcon" xml:space="preserve"><value>Hide tray icon (not recommended)</value></data>
+  <data name="Settings.ClickThrough" xml:space="preserve"><value>Click-through (ignore mouse input)</value></data>
+  <data name="Settings.ClickThroughHint" xml:space="preserve"><value>Mouse clicks pass through the countdown window to whatever is behind it. Use the tray menu to control the timer.</value></data>
+  <data name="Settings.CountdownSize" xml:space="preserve"><value>Window size:</value></data>
+  <data name="Settings.CountdownSizeReset" xml:space="preserve"><value>Reset size</value></data>
+  <data name="Tray.Balloon.CountdownStopped" xml:space="preserve"><value>The countdown was stopped.</value></data>
+  <data name="Tray.Balloon.CountdownFinished" xml:space="preserve"><value>The countdown has finished.</value></data>
+  <data name="Countdown.ConfirmStop" xml:space="preserve"><value>Do you really want to stop the countdown and exit the application?</value></data>
+  <data name="Countdown.ConfirmStopTitle" xml:space="preserve"><value>Stop countdown?</value></data>
+  <data name="Countdown.ConfirmRestart" xml:space="preserve"><value>Do you really want to restart the application? The current countdown will be lost.</value></data>
+  <data name="Countdown.ConfirmRestartTitle" xml:space="preserve"><value>Restart application?</value></data>
+  <data name="Countdown.ReLockPrompt" xml:space="preserve"><value>Would you like to re-lock the countdown?</value></data>
+  <data name="Countdown.PasswordWrong" xml:space="preserve"><value>The password you entered is incorrect. The countdown keeps running.</value></data>
+  <data name="Countdown.PasswordWrongTitle" xml:space="preserve"><value>Wrong password</value></data>
+  <data name="Countdown.PasswordTitle" xml:space="preserve"><value>Password Protection</value></data>
+  <data name="Countdown.PasswordPromptUnlock" xml:space="preserve"><value>Enter the password to unlock the countdown controls.</value></data>
+  <data name="Countdown.PasswordPromptLock" xml:space="preserve"><value>Enter a password to lock the countdown controls.</value></data>
+  <data name="Countdown.Err.CustomCommand" xml:space="preserve"><value>There was an error executing your custom command.
+
+Your custom command: {0}
+Error: {1}</value></data>
+  <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>Countdown Update</value></data>
+  <data name="Error.Title" xml:space="preserve"><value>Shutdown Timer - Error</value></data>
+  <data name="Error.Message" xml:space="preserve"><value>An unexpected error occurred. A log file has been created on your desktop to help diagnose the problem.</value></data>
+  <data name="Error.MessageNoLog" xml:space="preserve"><value>An unexpected error occurred, but the log file could not be created.</value></data>
 </root>

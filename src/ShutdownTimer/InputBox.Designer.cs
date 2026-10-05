@@ -1,4 +1,6 @@
-﻿
+using ShutdownTimer.Helpers;
+
+
 namespace ShutdownTimer
 {
     partial class InputBox
@@ -90,7 +92,7 @@ namespace ShutdownTimer
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(86, 23);
             this.okButton.TabIndex = 40;
-            this.okButton.Text = "OK";
+            this.okButton.Text = Loc.T("Common.OK");
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
@@ -102,7 +104,7 @@ namespace ShutdownTimer
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 50;
-            this.cancelButton.Text = "Cancel";
+            this.cancelButton.Text = Loc.T("Common.Cancel");
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 

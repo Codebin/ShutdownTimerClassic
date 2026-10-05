@@ -1,4 +1,6 @@
-﻿namespace ShutdownTimer
+using ShutdownTimer.Helpers;
+
+namespace ShutdownTimer
 {
     partial class Menu
     {
@@ -103,7 +105,7 @@
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(215, 31);
             this.titleLabel.TabIndex = 20;
-            this.titleLabel.Text = "Shutdown Timer";
+            this.titleLabel.Text = Loc.T("App.Title");
             // 
             // titlebarPictureBox
             // 
@@ -123,7 +125,7 @@
             this.hoursLabel.Name = "hoursLabel";
             this.hoursLabel.Size = new System.Drawing.Size(35, 13);
             this.hoursLabel.TabIndex = 140;
-            this.hoursLabel.Text = "Hours";
+            this.hoursLabel.Text = Loc.T("Common.Hours");
             // 
             // minutesLabel
             // 
@@ -132,7 +134,7 @@
             this.minutesLabel.Name = "minutesLabel";
             this.minutesLabel.Size = new System.Drawing.Size(44, 13);
             this.minutesLabel.TabIndex = 160;
-            this.minutesLabel.Text = "Minutes";
+            this.minutesLabel.Text = Loc.T("Common.Minutes");
             // 
             // secondsLabel
             // 
@@ -141,7 +143,7 @@
             this.secondsLabel.Name = "secondsLabel";
             this.secondsLabel.Size = new System.Drawing.Size(49, 13);
             this.secondsLabel.TabIndex = 180;
-            this.secondsLabel.Text = "Seconds";
+            this.secondsLabel.Text = Loc.T("Common.Seconds");
             // 
             // timeGroupBox
             // 
@@ -160,7 +162,7 @@
             this.timeGroupBox.Size = new System.Drawing.Size(252, 107);
             this.timeGroupBox.TabIndex = 110;
             this.timeGroupBox.TabStop = false;
-            this.timeGroupBox.Text = "When to do it?";
+            this.timeGroupBox.Text = Loc.T("Menu.TimeGroup");
             // 
             // timeOfDayModeRadioButton
             // 
@@ -169,7 +171,7 @@
             this.timeOfDayModeRadioButton.Name = "timeOfDayModeRadioButton";
             this.timeOfDayModeRadioButton.Size = new System.Drawing.Size(137, 17);
             this.timeOfDayModeRadioButton.TabIndex = 130;
-            this.timeOfDayModeRadioButton.Text = "At a specific time of day";
+            this.timeOfDayModeRadioButton.Text = Loc.T("Menu.TimeOfDayMode");
             this.timeOfDayModeRadioButton.UseVisualStyleBackColor = true;
             // 
             // countdownModeRadioButton
@@ -179,7 +181,7 @@
             this.countdownModeRadioButton.Name = "countdownModeRadioButton";
             this.countdownModeRadioButton.Size = new System.Drawing.Size(140, 17);
             this.countdownModeRadioButton.TabIndex = 120;
-            this.countdownModeRadioButton.Text = "After a specific timespan";
+            this.countdownModeRadioButton.Text = Loc.T("Menu.CountdownMode");
             this.countdownModeRadioButton.UseVisualStyleBackColor = true;
             // 
             // actionGroupBox
@@ -196,7 +198,7 @@
             this.actionGroupBox.Size = new System.Drawing.Size(252, 119);
             this.actionGroupBox.TabIndex = 50;
             this.actionGroupBox.TabStop = false;
-            this.actionGroupBox.Text = "What to do?";
+            this.actionGroupBox.Text = Loc.T("Menu.ActionGroup");
             // 
             // preventSleepCheckBox
             // 
@@ -207,7 +209,7 @@
             this.preventSleepCheckBox.Name = "preventSleepCheckBox";
             this.preventSleepCheckBox.Size = new System.Drawing.Size(190, 17);
             this.preventSleepCheckBox.TabIndex = 90;
-            this.preventSleepCheckBox.Text = "Prevent system from going to sleep";
+            this.preventSleepCheckBox.Text = Loc.T("Menu.PreventSleep");
             this.preventSleepCheckBox.UseVisualStyleBackColor = true;
             // 
             // gracefulCheckBox
@@ -217,7 +219,7 @@
             this.gracefulCheckBox.Name = "gracefulCheckBox";
             this.gracefulCheckBox.Size = new System.Drawing.Size(186, 17);
             this.gracefulCheckBox.TabIndex = 80;
-            this.gracefulCheckBox.Text = "Graceful (do not force close apps)";
+            this.gracefulCheckBox.Text = Loc.T("Menu.Graceful");
             this.gracefulCheckBox.UseVisualStyleBackColor = true;
             // 
             // backgroundCheckBox
@@ -227,7 +229,7 @@
             this.backgroundCheckBox.Name = "backgroundCheckBox";
             this.backgroundCheckBox.Size = new System.Drawing.Size(117, 17);
             this.backgroundCheckBox.TabIndex = 100;
-            this.backgroundCheckBox.Text = "Run in background";
+            this.backgroundCheckBox.Text = Loc.T("Menu.RunInBackground");
             this.backgroundCheckBox.UseVisualStyleBackColor = true;
             // 
             // actionLabel
@@ -237,7 +239,7 @@
             this.actionLabel.Name = "actionLabel";
             this.actionLabel.Size = new System.Drawing.Size(87, 13);
             this.actionLabel.TabIndex = 60;
-            this.actionLabel.Text = "Select an action:";
+            this.actionLabel.Text = Loc.T("Menu.SelectAction");
             // 
             // actionComboBox
             // 
@@ -262,7 +264,7 @@
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(252, 31);
             this.startButton.TabIndex = 10;
-            this.startButton.Text = "Start";
+            this.startButton.Text = Loc.T("Menu.Start");
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
@@ -318,7 +320,7 @@
             this.Name = "Menu";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Shutdown Timer";
+            this.Text = Loc.T("Menu.Title");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Menu_FormClosing);
             this.Load += new System.EventHandler(this.Menu_Load);
             this.Shown += new System.EventHandler(this.Menu_Shown);

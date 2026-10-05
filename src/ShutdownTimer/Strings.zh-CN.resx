@@ -46,20 +46,18 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-
-  <!-- ===== 电源动作显示名（内部 Key 永远是英文，见 Helpers/PowerAction.cs） ===== -->
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <!-- 简体中文资源 -->
+  <data name="App.Title" xml:space="preserve"><value>定时关机</value></data>
+  <data name="App.WindowTitle" xml:space="preserve"><value>定时关机</value></data>
+  <data name="Common.OK" xml:space="preserve"><value>确定</value></data>
+  <data name="Common.Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="Common.Hours" xml:space="preserve"><value>时</value></data>
+  <data name="Common.Minutes" xml:space="preserve"><value>分</value></data>
+  <data name="Common.Seconds" xml:space="preserve"><value>秒</value></data>
   <data name="Action.Shutdown" xml:space="preserve"><value>关机</value></data>
   <data name="Action.Restart" xml:space="preserve"><value>重启</value></data>
   <data name="Action.Hibernate" xml:space="preserve"><value>休眠</value></data>
@@ -67,25 +65,155 @@
   <data name="Action.Logout" xml:space="preserve"><value>注销</value></data>
   <data name="Action.Lock" xml:space="preserve"><value>锁定</value></data>
   <data name="Action.CustomCommand" xml:space="preserve"><value>自定义命令</value></data>
-
-  <!-- ===== 通用 ===== -->
-  <data name="App.Title" xml:space="preserve"><value>定时关机</value></data>
-  <data name="Common.OK" xml:space="preserve"><value>确定</value></data>
-  <data name="Common.Cancel" xml:space="preserve"><value>取消</value></data>
-  <data name="Common.Warning" xml:space="preserve"><value>警告</value></data>
-
-  <!-- ===== 语言选项（语言名一律自描述，不翻译，否则切错语言找不回来） ===== -->
-  <data name="Language.Auto" xml:space="preserve"><value>自动（跟随系统）</value></data>
-  <data name="Language.En" xml:space="preserve"><value>English</value></data>
-  <data name="Language.ZhCn" xml:space="preserve"><value>简体中文</value></data>
-
-  <!-- ===== 托盘图标主题 ===== -->
   <data name="TrayTheme.Automatic" xml:space="preserve"><value>自动</value></data>
   <data name="TrayTheme.Light" xml:space="preserve"><value>浅色</value></data>
   <data name="TrayTheme.Dark" xml:space="preserve"><value>深色</value></data>
+  <data name="Language.Automatic" xml:space="preserve"><value>自动（跟随系统）</value></data>
+  <data name="Language.En" xml:space="preserve"><value>English</value></data>
+  <data name="Language.ZhCn" xml:space="preserve"><value>简体中文</value></data>
+  <data name="Menu.Title" xml:space="preserve"><value>定时关机</value></data>
+  <data name="Menu.TimeGroup" xml:space="preserve"><value>何时执行？</value></data>
+  <data name="Menu.TimeOfDayMode" xml:space="preserve"><value>在指定时刻</value></data>
+  <data name="Menu.CountdownMode" xml:space="preserve"><value>经过指定时长后</value></data>
+  <data name="Menu.ActionGroup" xml:space="preserve"><value>执行什么操作？</value></data>
+  <data name="Menu.PreventSleep" xml:space="preserve"><value>阻止系统进入睡眠</value></data>
+  <data name="Menu.Graceful" xml:space="preserve"><value>优雅模式（不强制关闭应用）</value></data>
+  <data name="Menu.RunInBackground" xml:space="preserve"><value>在后台运行</value></data>
+  <data name="Menu.SelectAction" xml:space="preserve"><value>选择操作：</value></data>
+  <data name="Menu.Start" xml:space="preserve"><value>开始</value></data>
+  <data name="Menu.StartRecommended" xml:space="preserve"><value>开始（使用推荐设置）</value></data>
+  <data name="Menu.Tip.Graceful" xml:space="preserve"><value>默认情况下，收到退出指令后仍未退出的应用会被强制终止，以确保关机顺利完成。
 
-  <!-- ===== 倒计时窗口标题模板（中文语序：动作在前，无空格） ===== -->
+而优雅关机会等待所有应用退出后再继续关机流程。
+如果某个应用无响应，或退出时需要用户手动操作，关机可能会因此失败。</value></data>
+  <data name="Menu.Tip.PreventSleep" xml:space="preserve"><value>根据系统的电源设置，电脑可能在一段时间无操作后自动进入睡眠。
+启用此选项会让系统保持唤醒，确保计时器正常运行并执行关机。</value></data>
+  <data name="Menu.Tip.RunInBackground" xml:space="preserve"><value>启动倒计时时不显示窗口，只在任务栏显示一个托盘图标。</value></data>
+  <data name="Menu.Tip.CountdownMode" xml:space="preserve"><value>按下面选择的时、分、秒进行倒计时，
+像普通计时器一样，归零时执行所选的电源操作。</value></data>
+  <data name="Menu.Tip.TimeOfDayMode" xml:space="preserve"><value>此模式下可以指定一天中的目标时刻（24 小时制）来执行电源操作。
+如果该时刻已经过去，则顺延到第二天。
+
+点击开始后，程序会自动计算所需的倒计时长度。
+</value></data>
+  <data name="Menu.Err.InvalidAction" xml:space="preserve"><value>请从下拉菜单中选择一个有效的操作！
+
+</value></data>
+  <data name="Menu.Err.ZeroTime" xml:space="preserve"><value>倒计时模式下，时间不能为 0！
+
+</value></data>
+  <data name="Menu.Err.TimeSpanConversion" xml:space="preserve"><value>时间转换失败！请检查所填时间是否在合理范围内；若使用的是指定时刻模式，请确认它是一个有效的时刻。
+
+</value></data>
+  <data name="Menu.Warn.HugeTimespan" xml:space="preserve"><value>你所选的时间相当于 {0} 天（{1} 年）！
+强烈不建议设置这么夸张的时长——在接近目标之前，你的硬件、操作系统或本程序大概率会先出问题！
+
+但如果你真的打算这么做，请务必告诉我这个程序撑了多久。</value></data>
+  <data name="Menu.Err.StartFailed" xml:space="preserve"><value>发生以下错误：
+
+{0}请解决这些问题后重试。</value></data>
+  <data name="Menu.Err.StartFailedTitle" xml:space="preserve"><value>出现问题！</value></data>
+  <data name="Menu.WarnTitle" xml:space="preserve"><value>警告</value></data>
+  <data name="Menu.CustomCommandTitle" xml:space="preserve"><value>自定义命令</value></data>
+  <data name="Menu.CustomCommandPrompt" xml:space="preserve"><value>请输入要执行的命令。如果想打开某个文件，直接填写它的完整路径即可。
+
+注意：命令将以当前用户的权限执行。</value></data>
+  <data name="Menu.Err.EmptyCommand" xml:space="preserve"><value>自定义命令为空。请输入有效的命令，或改用其他操作！</value></data>
+  <data name="Menu.Err.EmptyCommandTitle" xml:space="preserve"><value>命令无效！</value></data>
+  <data name="Menu.PasswordTitle" xml:space="preserve"><value>密码保护</value></data>
+  <data name="Menu.PasswordPrompt" xml:space="preserve"><value>请设置一个密码以启用密码保护。
+
+可在“设置 &gt; 高级 &gt; 密码保护”中关闭此对话框。</value></data>
+  <data name="Common.AlreadyRunning" xml:space="preserve"><value>本程序已有另一个实例在运行。若允许多个实例，请在应用设置中勾选“允许多个实例”。
+
+即将退出...</value></data>
+  <data name="Common.AlreadyRunningTitle" xml:space="preserve"><value>程序已在运行！</value></data>
+  <data name="Countdown.Title" xml:space="preserve"><value>倒计时</value></data>
   <data name="Countdown.TitleFormat" xml:space="preserve"><value>{0}倒计时</value></data>
   <data name="Countdown.TitleFormatPaused" xml:space="preserve"><value>{0}倒计时（已暂停）</value></data>
+  <data name="Countdown.Menu.Pause" xml:space="preserve"><value>暂停</value></data>
+  <data name="Countdown.Menu.Resume" xml:space="preserve"><value>继续</value></data>
+  <data name="Countdown.Menu.StopAndExit" xml:space="preserve"><value>停止并退出</value></data>
+  <data name="Countdown.Menu.ResetTimer" xml:space="preserve"><value>重置计时</value></data>
+  <data name="Countdown.Menu.RestartApp" xml:space="preserve"><value>重启应用程序</value></data>
+  <data name="Countdown.Menu.MoveToBackground" xml:space="preserve"><value>移到后台</value></data>
+  <data name="Countdown.Menu.ShowCountdownWindow" xml:space="preserve"><value>显示倒计时窗口</value></data>
+  <data name="Countdown.Menu.SetNewCountdown" xml:space="preserve"><value>设置新的倒计时</value></data>
+  <data name="Settings.Title" xml:space="preserve"><value>设置</value></data>
+  <data name="Settings.WindowTitle" xml:space="preserve"><value>定时关机 - 设置</value></data>
+  <data name="Settings.Footer" xml:space="preserve"><value>在德国用 ❤ 制作</value></data>
+  <data name="Settings.ViewOnGitHub" xml:space="preserve"><value>在 GitHub 查看</value></data>
+  <data name="Settings.TabGeneral" xml:space="preserve"><value>常规</value></data>
+  <data name="Settings.TabAdvanced" xml:space="preserve"><value>高级</value></data>
+  <data name="Settings.TabAbout" xml:space="preserve"><value>关于</value></data>
+  <data name="Settings.AppBehaviour" xml:space="preserve"><value>应用行为</value></data>
+  <data name="Settings.AllowMultipleInstances" xml:space="preserve"><value>允许多个实例</value></data>
+  <data name="Settings.RememberPosCountdown" xml:space="preserve"><value>记住上次窗口位置（倒计时）</value></data>
+  <data name="Settings.RememberPosMenu" xml:space="preserve"><value>记住上次窗口位置（主界面）</value></data>
+  <data name="Settings.LanguageGroup" xml:space="preserve"><value>界面语言</value></data>
+  <data name="Settings.LanguageLabel" xml:space="preserve"><value>界面语言：</value></data>
+  <data name="Settings.LanguageRestartHint" xml:space="preserve"><value>切换语言后需重启应用才会生效。</value></data>
+  <data name="Settings.TrayIconGroup" xml:space="preserve"><value>系统托盘菜单</value></data>
+  <data name="Settings.TrayIconThemeLabel" xml:space="preserve"><value>托盘图标主题：</value></data>
+  <data name="Settings.ClearSettings" xml:space="preserve"><value>清除设置</value></data>
+  <data name="Settings.TimerDefaults" xml:space="preserve"><value>定时器默认值</value></data>
+  <data name="Settings.CustomDefaults" xml:space="preserve"><value>自定义默认值</value></data>
+  <data name="Settings.RememberLastState" xml:space="preserve"><value>记住上次状态</value></data>
+  <data name="Settings.DeveloperOptions" xml:space="preserve"><value>开发者选项</value></data>
+  <data name="Settings.OpenAppData" xml:space="preserve"><value>打开 appdata 目录</value></data>
+  <data name="Settings.SaveLogs" xml:space="preserve"><value>退出时将事件日志保存到 appdata</value></data>
+  <data name="Settings.PasswordGroup" xml:space="preserve"><value>密码保护</value></data>
+  <data name="Settings.PasswordLabel" xml:space="preserve"><value>锁定倒计时界面，需要在点击开始后的启动过程中设置密码。</value></data>
+  <data name="Settings.EnablePassword" xml:space="preserve"><value>启用密码保护</value></data>
+  <data name="Settings.CountdownGroup" xml:space="preserve"><value>倒计时窗口</value></data>
+  <data name="Settings.TransparentWindow" xml:space="preserve"><value>透明倒计时窗口</value></data>
+  <data name="Settings.AdaptiveTextSize" xml:space="preserve"><value>时钟文字随窗口大小自适应</value></data>
+  <data name="Settings.SetBackgroundColor" xml:space="preserve"><value>（设置背景颜色）</value></data>
+  <data name="Settings.DisableNotifications" xml:space="preserve"><value>禁用通知与确认对话框</value></data>
+  <data name="Settings.DisableAnimations" xml:space="preserve"><value>禁用动画</value></data>
+  <data name="Settings.DisableAlwaysOnTop" xml:space="preserve"><value>禁用始终置顶行为</value></data>
+  <data name="Settings.ForceFlagGroup" xml:space="preserve"><value>强制标志</value></data>
+  <data name="Settings.ForceFlagDocs" xml:space="preserve"><value>文档</value></data>
+  <data name="Settings.ForceFlagLabel" xml:space="preserve"><value>更改在非优雅关机时强制关闭
+正在运行应用的方式。</value></data>
+  <data name="Settings.AboutGroup" xml:space="preserve"><value>关于本应用</value></data>
+  <data name="Settings.CreateLogfile" xml:space="preserve"><value>生成日志文件</value></data>
+  <data name="Settings.Email" xml:space="preserve"><value>发送邮件</value></data>
+  <data name="Settings.GitHubIssues" xml:space="preserve"><value>GitHub Issues</value></data>
+  <data name="Settings.AboutText" xml:space="preserve"><value>本应用是 Lukas Langrock 的免费开源项目，采用 MIT 许可证，因此不提供任何担保，本人也不会对任何形式的损害承担责任！
+毕竟你可能丢失未保存的工作，或影响其他正在运行的程序。请谨慎并凭常识使用！
 
+本应用以可靠为目标构建，应当能够准确计时。我无法做出绝对保证，但会尽力让它稳定、完善。
+如果你遇到错误，或发现程序行为不符合预期，欢迎在 GitHub 提交 issue 或发送邮件，以便我修复问题。
+
+如果你喜欢这款免费应用，欢迎在 Microsoft Store 写评价，或在 GitHub 上给项目加一颗星。
+任何形式的贡献（issue 与 PR）都非常欢迎。</value></data>
+  <data name="Settings.LicenseGroup" xml:space="preserve"><value>许可证与源码</value></data>
+  <data name="Settings.SourceCode" xml:space="preserve"><value>源码</value></data>
+  <data name="Settings.Application" xml:space="preserve"><value>应用程序：</value></data>
+  <data name="Settings.HideTrayIcon" xml:space="preserve"><value>隐藏托盘图标（不推荐）</value></data>
+  <data name="Settings.ClickThrough" xml:space="preserve"><value>鼠标穿透（忽略鼠标输入）</value></data>
+  <data name="Settings.ClickThroughHint" xml:space="preserve"><value>鼠标点击会穿过倒计时窗口落到下层内容。请通过托盘菜单控制计时器。</value></data>
+  <data name="Settings.CountdownSize" xml:space="preserve"><value>窗口大小：</value></data>
+  <data name="Settings.CountdownSizeReset" xml:space="preserve"><value>重置大小</value></data>
+  <data name="Tray.Balloon.CountdownStopped" xml:space="preserve"><value>倒计时已停止。</value></data>
+  <data name="Tray.Balloon.CountdownFinished" xml:space="preserve"><value>倒计时已结束。</value></data>
+  <data name="Countdown.ConfirmStop" xml:space="preserve"><value>确定要停止倒计时并退出程序吗？</value></data>
+  <data name="Countdown.ConfirmStopTitle" xml:space="preserve"><value>停止倒计时？</value></data>
+  <data name="Countdown.ConfirmRestart" xml:space="preserve"><value>确定要重启应用程序吗？当前的倒计时将会丢失。</value></data>
+  <data name="Countdown.ConfirmRestartTitle" xml:space="preserve"><value>重启应用程序？</value></data>
+  <data name="Countdown.ReLockPrompt" xml:space="preserve"><value>要重新锁定倒计时吗？</value></data>
+  <data name="Countdown.PasswordWrong" xml:space="preserve"><value>你输入的密码不正确。倒计时仍在继续。</value></data>
+  <data name="Countdown.PasswordWrongTitle" xml:space="preserve"><value>密码错误</value></data>
+  <data name="Countdown.PasswordTitle" xml:space="preserve"><value>密码保护</value></data>
+  <data name="Countdown.PasswordPromptUnlock" xml:space="preserve"><value>输入密码以解锁倒计时控件。</value></data>
+  <data name="Countdown.PasswordPromptLock" xml:space="preserve"><value>输入密码以锁定倒计时控件。</value></data>
+  <data name="Countdown.Err.CustomCommand" xml:space="preserve"><value>执行自定义命令时出错。
+
+你的命令：{0}
+错误：{1}</value></data>
+  <data name="Countdown.Err.CustomCommandTitle" xml:space="preserve"><value>倒计时更新</value></data>
+  <data name="Error.Title" xml:space="preserve"><value>定时关机 - 错误</value></data>
+  <data name="Error.Message" xml:space="preserve"><value>发生了意外错误。已在桌面生成日志文件，便于排查问题。</value></data>
+  <data name="Error.MessageNoLog" xml:space="preserve"><value>发生了意外错误，但日志文件未能创建。</value></data>
 </root>

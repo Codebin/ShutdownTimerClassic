@@ -28,7 +28,7 @@ Windows 真机 `dotnet build -warnaserror` 零警告、`dotnet test` **33/33 通
 | S4 | CI / 发布收口（版本号单一真相源未做） | 收口 | done | M | 小马 | 元数据收口到 csproj `<Version>1.3.3.0</Version>`，`GenerateAssemblyInfo` 开启，手写 AssemblyInfo 只剩 `SupportedOSPlatform`；exe 实测 `ProductVersion=1.3.3.0` 无 gitsha 后缀 |
 | D1 | push 分支到 origin | 交付 | done | S | 小马 | `fe4d4f3` = `origin/feat/i18n-zh` |
 | D2 | 启用 fork 的 Actions | 交付 | done | S | — | 实测 `{"enabled":true}`、`dotnet.yml` active；原先无需手动开，此前判断有误 |
-| S5 | Windows 真机 `dotnet test` + 目视验证 | 交付 | partial | M | 主人 | run `37340271554`：`Passed: 31, Failed: 0`（net8.0, Windows runner）；目视清单未做 |
+| S5 | Windows 真机 `dotnet test` + 目视验证 | 交付 | partial | M | 主人 | 本地真机 `dotnet test` 33/33 + CI run `37353960470` success；冒烟启动已程序化确认主界面全中文、无方块字、版本标签 v1.3.3。待人工确认：托盘悬浮提示、运行时上锁流程、穿透手感、缩放破版 |
 | D3 | 打 tag `v1.3.3` 出 Release | 交付 | todo | S | 小马 | 依赖 S2/S3/S4 收口 + S5 目视通过 |
 | S6 | MSI / MSIX 打包链路 | 交付 | optional | L | 主人 | `vdproj` 只能在 VS 里手工重建 |
 
@@ -65,25 +65,24 @@ Windows 真机 `dotnet build -warnaserror` 零警告、`dotnet test` **33/33 通
 ---
 
 <!-- BEGIN METRICS —— 由 tools/progress.py 生成，勿手改 -->
-生成时间：2026-10-05 16:33:03 +0000（最后一次提交）
+生成时间：2026-10-06 02:10:28 +0800（最后一次提交）
 
 | 指标 | 数值 |
 |---|---|
 | 分支 | `feat/i18n-zh` |
-| 领先 master | 22 commits |
-| 改动规模 | 52 文件 / +4679 −426 |
+| 领先 master | 29 commits |
+| 改动规模 | 53 文件 / +4863 −463 |
 | 是否已 push | ✅ 是 |
-| 工作区 | ⚠️ 有未提交改动 |
-| 双语条目 | en=149 / zh-CN=149 ✅ |
-| 未接线 key | 17 个（真缺口 6，假阳性 6，冗余 1，其余 M5 用） |
+| 工作区 | ✅ 干净 |
+| 双语条目 | en=151 / zh-CN=151 ✅ |
+| 未接线 key | 2 个（均为备用文案：`App.WindowTitle`、`Tray.Balloon.CountdownStopped`） |
 | check_i18n | ✅ 通过 |
 | Actions 开关 | ✅ 已启用 |
-| 分支最近 CI | ✅ success (run `37341704208`) |
+| 分支最近 CI | ✅ success (run `37353960470`) |
 
 **轨道完成度**
 
-- 编码：`█████████░░░░░` 67%
-- 收口：`█████░░░░░░░░░` 38%
+- 编码：`██████████████` 100%
+- 收口：`██████████████` 100%
 - 交付：`████████░░░░░░` 58%
 <!-- END METRICS -->
--- END METRICS -->

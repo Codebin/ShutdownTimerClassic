@@ -82,7 +82,7 @@ namespace ShutdownTimer
             // 
             // notifyIcon
             // 
-            this.notifyIcon.BalloonTipTitle = "Shutdown Timer";
+            this.notifyIcon.BalloonTipTitle = Loc.T("App.Title");
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = Loc.T("App.Title");

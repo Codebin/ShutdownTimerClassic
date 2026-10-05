@@ -285,7 +285,7 @@ namespace ShutdownTimer
             this.infoToolTip.InitialDelay = 500;
             this.infoToolTip.ReshowDelay = 100;
             this.infoToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.infoToolTip.ToolTipTitle = "Help";
+            this.infoToolTip.ToolTipTitle = Loc.T("Menu.Tip.Title");
             // 
             // settingsButton
             // 

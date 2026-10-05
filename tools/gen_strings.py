@@ -57,6 +57,9 @@ STRINGS = {
     "Menu.StartRecommended": ("Start (with recommended settings)", "开始（使用推荐设置）"),
 
     # Menu 悬停提示
+    # ToolTipTitle 是提示框的标题栏文字。上游在 Menu.Designer.cs 里写死成 "Help"，
+    # 而各条提示正文早已走资源，导致中文界面下正文中文、标题英文。
+    "Menu.Tip.Title": ("Help", "帮助"),
     "Menu.Tip.Graceful": (
         "Applications that do not exit when prompted automatically get terminated by default to ensure a successful shutdown."
         "\n\nA graceful shutdown, on the other hand, will wait for all applications to exit before continuing with the shutdown."

@@ -82,6 +82,7 @@
   <data name="Menu.SelectAction" xml:space="preserve"><value>选择操作：</value></data>
   <data name="Menu.Start" xml:space="preserve"><value>开始</value></data>
   <data name="Menu.StartRecommended" xml:space="preserve"><value>开始（使用推荐设置）</value></data>
+  <data name="Menu.Tip.Title" xml:space="preserve"><value>帮助</value></data>
   <data name="Menu.Tip.Graceful" xml:space="preserve"><value>默认情况下，收到退出指令后仍未退出的应用会被强制终止，以确保关机顺利完成。
 
 而优雅关机会等待所有应用退出后再继续关机流程。

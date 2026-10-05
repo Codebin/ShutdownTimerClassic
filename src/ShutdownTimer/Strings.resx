@@ -82,6 +82,7 @@
   <data name="Menu.SelectAction" xml:space="preserve"><value>Select an action:</value></data>
   <data name="Menu.Start" xml:space="preserve"><value>Start</value></data>
   <data name="Menu.StartRecommended" xml:space="preserve"><value>Start (with recommended settings)</value></data>
+  <data name="Menu.Tip.Title" xml:space="preserve"><value>Help</value></data>
   <data name="Menu.Tip.Graceful" xml:space="preserve"><value>Applications that do not exit when prompted automatically get terminated by default to ensure a successful shutdown.
 
 A graceful shutdown, on the other hand, will wait for all applications to exit before continuing with the shutdown.

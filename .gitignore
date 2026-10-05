@@ -333,3 +333,6 @@ ASALocalRun/
 tools/keys.txt
 tools/__pycache__/
 tools/map_draft.txt
+
+# 发布产物
+artifacts/

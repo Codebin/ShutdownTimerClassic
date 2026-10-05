@@ -19,13 +19,29 @@ jobs:
         working-directory: src/ShutdownTimer
         run: dotnet restore ShutdownTimer.csproj
 
+      - name: Verify localization (resources, keys, placeholders, layout)
+        run: |
+          python3 tools/gen_strings.py
+          python3 tools/check_i18n.py
+          python3 tools/check_layout.py
+
+      - name: Fail if generated resources are not committed
+        run: |
+          if ! git diff --exit-code -- src/ShutdownTimer/Strings.resx src/ShutdownTimer/Strings.zh-CN.resx; then
+            echo "::error::Strings.resx / Strings.zh-CN.resx 与 tools/gen_strings.py 的对照表不一致。"
+            echo "本地跑 python3 tools/gen_strings.py 后把生成结果一起提交。"
+            exit 1
+          fi
+
       - name: Build
         working-directory: src/ShutdownTimer
         run: dotnet build ShutdownTimer.csproj -c Debug --no-restore -warnaserror
 
-  # 正式构建：产出可在 Windows 上运行的 exe
+  # 正式构建：产出可在 Windows 上运行的 exe 与便携版
+  # 上游用的是 windows-2025-vs2026（非标准 hosted 标签，fork 上可能没有对应 runner
+  # 导致任务一直 pending）。改用 dotnet build 后不再依赖特定 VS 版本，用标准镜像。
   build:
-    runs-on: windows-2025-vs2026
+    runs-on: windows-latest
     steps:
       - name: Set up project
         uses: actions/checkout@v6
@@ -43,10 +59,25 @@ jobs:
         working-directory: src/ShutdownTimer
         run: dotnet build ShutdownTimer.csproj -c Debug --no-restore
 
+      # 便携版：自包含，解压即用，不要求用户预装 .NET 桌面运行时。
+      # MSI 安装器（.vdproj）目前仍是 .NET Framework 4.8 的配置，尚未适配，
+      # 在这个缺口补上之前，Release 分发以本产物为准。
+      - name: Publish portable build
+        working-directory: src/ShutdownTimer
+        run: dotnet publish ShutdownTimer.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -o ..\..\artifacts\publish
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
           name: shutdown-timer-classic-windows
           path: src\ShutdownTimer\bin\Debug\net8.0-windows
+          compression-level: 9
+          include-hidden-files: true
+
+      - name: Upload portable artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: shutdown-timer-classic-win-x64-selfcontained
+          path: artifacts\publish
           compression-level: 9
           include-hidden-files: true

@@ -2,6 +2,8 @@
 
 一个小型 Windows 应用：设定时间后让电脑自动**关机、重启、休眠、睡眠、注销或锁定**。
 
+![主界面](media/screenshots/zh-CN/Menu.png)
+
 本仓库是 [lukaslangrock/ShutdownTimerClassic](https://github.com/lukaslangrock/ShutdownTimerClassic) 的**中文汉化 + 改造版**。上游采用 MIT 许可证，本改造遵循同样的条款。
 
 [English README](README.md)
@@ -52,6 +54,8 @@
 
 在下拉菜单里选择电源操作，然后设定时间。倒计时归零时执行所选操作。
 
+![选择操作下拉菜单](media/screenshots/zh-CN/Menu2.png)
+
 **强制关闭提醒**：归零时程序会让 Windows 强制关闭仍在运行的应用，以确保关机不被打断。若担心数据丢失，请留足时间，或改用*睡眠* / *休眠*。
 
 **优雅模式**：若确信所有应用都能正常退出、不需要人工干预，可勾选"优雅模式（不强制关闭应用）"。此时执行的是常规关机，应用可以阻止关机——请谨慎使用。该模式适用于所有会强制关闭应用的操作，不限于关机。
@@ -65,7 +69,16 @@
 | 10–1 分钟 | 橙色 | 无 |
 | < 1 分钟 | 红 / 黑 | 有 |
 
+![绿色倒计时](media/screenshots/zh-CN/CountdownGreen.png)
+![黄色倒计时](media/screenshots/zh-CN/CountdownYellow.png)
+![橙色倒计时](media/screenshots/zh-CN/CountdownOrange.png)
+![红色倒计时](media/screenshots/zh-CN/CountdownRed.png)
+![黑色倒计时](media/screenshots/zh-CN/CountdownBlack.png)
+
 **置顶**：默认始终置顶。可在 设置 → 高级 → 倒计时窗口 里关闭（"禁用始终置顶行为"）。
+
+![设置窗口](media/screenshots/zh-CN/Settings.png)
+![倒计时窗口右键菜单](media/screenshots/zh-CN/RightClickMenu.png)
 
 ---
 
@@ -93,6 +106,8 @@
 ## 托盘菜单 🔧
 
 右键任务栏托盘图标：停止、重置、重新设定倒计时、移到后台 / 显示窗口、切换鼠标穿透、重启应用。
+
+![托盘菜单](media/screenshots/zh-CN/TrayMenu.png)
 
 倒计时窗口内右键也能调出同一菜单。
 

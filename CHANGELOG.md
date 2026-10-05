@@ -16,15 +16,16 @@
 
 ### 新增
 
-- **简体中文界面**：全部可见文本走资源文件，共 148 条双语条目
+- **简体中文界面**：全部可见文本走资源文件，共 149 条双语条目
 - **界面语言切换**：设置 → 常规 → 界面语言，支持 `自动（跟随系统）` / `English` / `简体中文`；切换后重启生效
 - **鼠标穿透**：倒计时窗口可忽略鼠标输入（`WS_EX_TRANSPARENT` + `WS_EX_LAYERED`）；托盘菜单新增常驻开关，开启时弹提示
 - **窗口大小可调**：`Ctrl + 鼠标滚轮` 缩放倒计时窗口，尺寸持久化并在下次启动恢复；设置页提供"重置大小"
 - **.NET 8 交叉编译支持**：开启 `EnableWindowsTargeting`，Linux 上也能编译，用于快速 CI 检查
 - **CI**：新增 Linux 编译检查（`-warnaserror`）+ 本地化校验 + 自包含便携版产物
-- **工具链**：`tools/` 下的资源生成、文本替换、key 校验、破版估算与一键验证脚本
+- **工具链**：`tools/` 下的资源生成、文本替换、key 校验、破版估算、发布说明抽取与一键验证脚本
 - **兼容性契约测试**：`tests/ShutdownTimer.Tests/` 锁住老 `settings.json` 与 CLI 脚本所依赖的行为（解析规则、Key 拼写、优雅模式判断、资源解析与占位符）。需在 Windows 上执行，CI 的 Windows job 已接入
 - **发布产物**：`tools/publish.ps1` 产出按 RID 自包含的便携 ZIP；CI 的 Windows job 同时上传该产物
+- **Release 发版**：打 tag `v*` 自动产出 4 个 ZIP（`win-x64` / `win-arm64` × self-contained / framework-dependent）。`tools/release_notes.py` 只取 CHANGELOG 中对应版本的段落作为发布说明——内部「已知问题 / 待办」不会被打到公开页面上
 - **文档**：`README.zh-CN.md` 中文文档；`Structure.md` 补充本地化架构说明
 
 ### 变更
@@ -41,6 +42,8 @@
 
 - 移除 `Settings.resx` 中已迁移到 `Strings.resx` 的 `aboutRichTextBox.Text` 死条目，避免同一文案存在两份真相
 - 移除 `Settings.Designer.cs` 中托盘主题下拉的英文 `Items` 死代码（运行时已由代码绑定）
+- 补齐两处漏网的硬编码英文：`Menu.Designer.cs` 的 `infoToolTip.ToolTipTitle = "Help"`（中文界面下提示正文已翻译、标题栏仍是英文）与 `Countdown.Designer.cs` 的 `notifyIcon.BalloonTipTitle = "Shutdown Timer"`。前者新增 key `Menu.Tip.Title`，后者复用 `App.Title`
+- 移除 `App.config` 里 .NET Framework 4.8 遗留的 `supportedRuntime` 与 WinForms `DpiAwareness` 两节：.NET 8 均不读取，留着只会让人去改一个不生效的开关
 
 ### 已知问题 / 待办
 

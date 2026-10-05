@@ -28,6 +28,10 @@ It will call `Helpers/ExitWindows.cs` when the timer reaches zero and uses `Help
 
 **`InputBox.cs`** is a dialog intended to ask the user for a text-based input. It's invoked by other forms only.
 
+### Timer state 🕐
+
+**`Timer.cs`** is a static class that owns the countdown state machine and the state shared between forms: `CountdownTimeSpan`, `Action`, `Graceful` and `Command`. It is neither a form nor a helper, which is why it sits at the top level of `src/ShutdownTimer` next to the forms rather than under `Helpers/`. `Menu.cs` writes that state when the user presses start, `Countdown.cs` reads and advances it, and `Program.cs` populates it for CLI-driven starts. It also owns the "timer reached zero" path, including the custom-command execution and its failure dialog.
+
 ### Helpers 🧱
 
 **`Helpers/ApplicationInstanceManager.cs`** contains the logic for detecting multiple instances of the application.

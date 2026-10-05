@@ -24,6 +24,9 @@ RESX = {
 }
 
 CALL_HEAD = re.compile(r'Loc\.T\(\s*"([^"]+)"')
+# LocalizedOption 的显示名 key 是第二个构造参数：new LocalizedOption(value, "Display.Key")。
+# 只扫 Loc.T 会把 Language.* / TrayTheme.* 这 6 个 key 误报成死 key。
+OPTION_HEAD = re.compile(r'new LocalizedOption\([^,]+,\s*"([^"]+)"')
 PLACEHOLDER = re.compile(r"\{(\d+)\}")
 
 
@@ -95,6 +98,8 @@ def main():
             text = fh.read()
         for key, argc in iter_calls(text):
             used[key] = max(used.get(key, -1), argc)
+        for m in OPTION_HEAD.finditer(text):
+            used.setdefault(m.group(1), 0)
 
     problems = []
 
@@ -130,7 +135,7 @@ def main():
             print("  -", p)
 
     if dead:
-        print(f"\n未被引用的 key（{len(dead)} 个，M5 汉化弹窗时会用到）:")
+        print(f"\n未被引用的 key（{len(dead)} 个）:")
         for k in dead:
             print("  ·", k)
 

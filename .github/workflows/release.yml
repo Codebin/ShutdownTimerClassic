@@ -29,11 +29,30 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      # Windows runner 上 Python 官方安装包只创建 python.exe / py.exe，
+      # 没有 python3 —— 原先写 python3 会让这一步直接失败，Release 出不来。
+      # 显式装 Python 并统一用 python，同时避免基础镜像里版本漂移。
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Verify localization before shipping
         run: |
-          python3 tools/gen_strings.py
-          python3 tools/check_i18n.py
-          python3 tools/check_layout.py
+          python tools/gen_strings.py
+          python tools/check_i18n.py
+          python tools/check_layout.py
+        shell: bash
+
+      # 与 dotnet.yml 一致：资源文件必须是已提交的最终态。
+      # 否则发出去的包里可能缺文案（gen_strings.py 现场生成的东西没进 tag）。
+      - name: Fail if generated resources are not committed
+        run: |
+          if ! git diff --exit-code -- src/ShutdownTimer/Strings.resx src/ShutdownTimer/Strings.zh-CN.resx; then
+            echo "::error::Strings.resx / Strings.zh-CN.resx 与 tools/gen_strings.py 的对照表不一致。"
+            echo "本地跑 python3 tools/gen_strings.py 后把生成结果一起提交，再打 tag。"
+            exit 1
+          fi
         shell: bash
 
       - name: Test
@@ -64,11 +83,16 @@ jobs:
           TAG: ${{ github.ref_name }}
         shell: bash
         run: |
+          # Release 说明只取 CHANGELOG 里本版本的段落。
+          # 原先直接 --notes-file CHANGELOG.md 会把「已知问题 / 待办」整段公开出去。
+          # 取不到段落就直接失败——宁可不出 Release，也别出一个没有说明的 Release。
+          python tools/release_notes.py "$TAG" > "$RUNNER_TEMP/notes.md"
+
           # matrix 里两个 RID 并行跑，可能同时尝试创建。
           # 创建失败（已存在）不算错误，后面的 upload --clobber 才是关键。
           gh release create "$TAG" \
             --title "Shutdown Timer Classic $TAG（中文汉化版）" \
-            --notes-file CHANGELOG.md \
+            --notes-file "$RUNNER_TEMP/notes.md" \
             || echo "Release $TAG 已存在（另一个 matrix job 先建好了），继续上传附件"
 
           gh release upload "$TAG" \

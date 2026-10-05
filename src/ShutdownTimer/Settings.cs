@@ -7,12 +7,18 @@ namespace ShutdownTimer
 {
     public partial class Settings : Form
     {
+        private ComboBox languageComboBox;   // 运行时创建，避免改动 Designer 生成代码
+        private string loadedLanguage;       // 打开设置时的语言，用于判断是否需要重启提示
+
         public Settings()
         {
             InitializeComponent();
 
             // 与 Menu 窗体一致：动作下拉框绑定 PowerAction 选项，显示名走本地化资源
             PowerActions.BindTo(actionComboBox);
+
+            // 托盘主题同样改为"稳定取值 + 本地化显示名"
+            LocalizedOptions.BindTo(trayiconThemeComboBox, LocalizedOptions.TrayThemes);
         }
 
         /// <summary>
@@ -22,6 +28,62 @@ namespace ShutdownTimer
         {
             if (actionComboBox.SelectedItem is PowerActionOption option) return option.Value;
             return PowerActions.ParseOrDefault(actionComboBox.Text);
+        }
+
+        /// <summary>
+        /// 动态插入"界面语言"分组。
+        /// 语言选项必须在 LoadSettings 之前建好，才能把当前设置选中。
+        /// 这里不用 Designer 加控件：那个文件是 VS 生成的，手改容易被重新生成覆盖。
+        /// </summary>
+        private void BuildLanguageControls()
+        {
+            if (languageComboBox != null) return;
+
+            var group = new GroupBox
+            {
+                Text = Loc.T("Settings.LanguageGroup"),
+                Location = new Point(6, 331),
+                Size = new Size(284, 62),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+                Name = "languageGroupBox"
+            };
+
+            var label = new Label
+            {
+                Text = Loc.T("Settings.LanguageLabel"),
+                Location = new Point(9, 22),
+                AutoSize = true,
+                Name = "languageLabel"
+            };
+
+            languageComboBox = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Location = new Point(112, 19),
+                Size = new Size(160, 23),
+                Name = "languageComboBox"
+            };
+            LocalizedOptions.BindTo(languageComboBox, LocalizedOptions.Languages);
+
+            var hint = new Label
+            {
+                Text = Loc.T("Settings.LanguageRestartHint"),
+                Location = new Point(9, 42),
+                AutoSize = true,
+                ForeColor = SystemColors.GrayText,
+                Name = "languageHintLabel"
+            };
+
+            group.Controls.Add(label);
+            group.Controls.Add(languageComboBox);
+            group.Controls.Add(hint);
+            tabPage1.Controls.Add(group);
+
+            // 给新分组腾位置：下方控件与窗体整体下移
+            const int shift = 68;
+            trayiconGroupBox.Top += shift;
+            clearSettingsButton.Top += shift;
+            ClientSize = new Size(ClientSize.Width, ClientSize.Height + shift);
         }
 
         private void Settings_Load(object sender, EventArgs e)
@@ -34,6 +96,7 @@ namespace ShutdownTimer
             // 字体按界面语言选择（中文需要 CJK 字形）
             this.Font = Loc.CreateUiFont(8.25f);
 
+            BuildLanguageControls();
             LoadSettings();
         }
 
@@ -66,7 +129,9 @@ namespace ShutdownTimer
         {
             // general controls
             rememberStateCheckBox.Checked = SettingsProvider.Settings.RememberLastState;
-            trayiconThemeComboBox.Text = SettingsProvider.Settings.TrayIconTheme;
+            LocalizedOptions.Select(trayiconThemeComboBox, LocalizedOptions.TrayThemes, SettingsProvider.Settings.TrayIconTheme);
+            LocalizedOptions.Select(languageComboBox, LocalizedOptions.Languages, SettingsProvider.Settings.Language);
+            loadedLanguage = SettingsProvider.Settings.Language;
             rememberLastScreenPositionUI.Checked = SettingsProvider.Settings.RememberLastScreenPositionUI;
             rememberLastScreenPositionCountdown.Checked = SettingsProvider.Settings.RememberLastScreenPositionCountdown;
             enableMultipleInstances.Checked = SettingsProvider.Settings.EnableMultipleInstances;
@@ -100,7 +165,21 @@ namespace ShutdownTimer
         {
             // general controls
             SettingsProvider.Settings.RememberLastState = rememberStateCheckBox.Checked;
-            SettingsProvider.Settings.TrayIconTheme = trayiconThemeComboBox.Text;
+            SettingsProvider.Settings.TrayIconTheme = LocalizedOptions.SelectedValue(trayiconThemeComboBox, LocalizedOptions.TrayThemes);
+
+            // 语言：写入选择值；与打开设置时不同则提示需要重启
+            if (languageComboBox != null)
+            {
+                string chosen = LocalizedOptions.SelectedValue(languageComboBox, LocalizedOptions.Languages);
+                SettingsProvider.Settings.Language = chosen;
+
+                if (!string.Equals(chosen, loadedLanguage, StringComparison.OrdinalIgnoreCase)
+                    && !SettingsProvider.Settings.DisableNotifications)
+                {
+                    MessageBox.Show(Loc.T("Settings.LanguageRestartHint"), Loc.T("Menu.WarnTitle"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
             SettingsProvider.Settings.RememberLastScreenPositionUI = rememberLastScreenPositionUI.Checked;
             SettingsProvider.Settings.RememberLastScreenPositionCountdown = rememberLastScreenPositionCountdown.Checked;
             SettingsProvider.Settings.EnableMultipleInstances = enableMultipleInstances.Checked;

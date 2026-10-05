@@ -143,6 +143,38 @@ ShutdownTimerClassic.exe /SetTime 22:30 /TargetTimeOfDay /SetAction Restart /Set
 
 ---
 
+## 自动构建与下载 📦
+
+推送到 GitHub 后有两条不同的产物通道，**别搞混**：
+
+| 触发 | 工作流 | 产物位置 | 能否给别人直链 | 会过期吗 |
+|---|---|---|---|---|
+| 任意 push / PR | `dotnet.yml` | Actions 页面 → Artifacts | ❌ 需登录 GitHub | ✅ 默认 90 天 |
+| 打 tag（`v*`） | `release.yml` | **Releases** 页面附件 | ✅ 公开直链 | ❌ 不过期 |
+
+`dotnet.yml` 每次提交都会跑：Linux 快速编译检查 + 本地化校验，Windows 编译 + 跑测试 + 产出便携版。这是"开发构建"，上游 README 也提醒过它可能包含未完成功能。
+
+`release.yml` 只在打 tag 时跑，产出 4 个 ZIP：
+
+```
+ShutdownTimerClassic-<tag>-win-x64-selfcontained.zip          ← 解压即用，推荐
+ShutdownTimerClassic-<tag>-win-x64-framework-dependent.zip    ← 体积小，需装 .NET 8 桌面运行时
+ShutdownTimerClassic-<tag>-win-arm64-*.zip                    ← ARM 设备
+```
+
+发版操作：
+
+```bash
+git tag v1.3.3
+git push origin v1.3.3        # tag 一推上去，Release 自动出现
+```
+
+> ⚠️ **fork 上 Actions 默认是关闭的**，第一次要在仓库页面点 **Actions → I understand my workflows, go ahead and enable them**，否则任务不会跑。
+>
+> ⚠️ 版本号 tag 请用纯数字（`v1.3.3`），别加 `-zh.1` 之类后缀，原因见 `CHANGELOG.md`。
+
+---
+
 ## 从源码构建 🛠
 
 需要 **.NET 8 SDK**（Visual Studio 2022 17.8+ 自带）。

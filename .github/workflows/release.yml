@@ -1,0 +1,77 @@
+name: Release
+
+# 打 tag（v1.2.3 之类）就自动出正式可下载的 Release。
+# 与 dotnet.yml 的分工：
+#   dotnet.yml  → 每次 push/PR 的 Artifacts（开发构建，需登录下载、会过期）
+#   release.yml → 打 tag 时的 Release 附件（公开直链、不过期，给别人用的就是这个）
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write   # 创建 Release 需要
+
+jobs:
+  release:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rid: [win-x64, win-arm64]
+
+    steps:
+      - name: Set up project
+        uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Verify localization before shipping
+        run: |
+          python3 tools/gen_strings.py
+          python3 tools/check_i18n.py
+          python3 tools/check_layout.py
+        shell: bash
+
+      - name: Test
+        working-directory: tests/ShutdownTimer.Tests
+        run: dotnet test ShutdownTimer.Tests.csproj -c Release --nologo
+
+      - name: Publish self-contained (解压即用，不要求装 .NET 运行时)
+        working-directory: src/ShutdownTimer
+        run: dotnet publish ShutdownTimer.csproj -c Release -r ${{ matrix.rid }} --self-contained true -p:DebugType=none -o ..\..\artifacts\publish-${{ matrix.rid }}
+
+      - name: Publish framework-dependent (体积最小，需装 .NET 8 桌面运行时)
+        working-directory: src/ShutdownTimer
+        run: dotnet publish ShutdownTimer.csproj -c Release -r ${{ matrix.rid }} --self-contained false -p:DebugType=none -o ..\..\artifacts\publish-${{ matrix.rid }}-fd
+
+      - name: Package zips
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $rid = "${{ matrix.rid }}"
+          Compress-Archive -Path "artifacts\publish-$rid\*" `
+            -DestinationPath "$env:RUNNER_TEMP\ShutdownTimerClassic-$tag-$rid-selfcontained.zip" -CompressionLevel Optimal
+          Compress-Archive -Path "artifacts\publish-$rid-fd\*" `
+            -DestinationPath "$env:RUNNER_TEMP\ShutdownTimerClassic-$tag-$rid-framework-dependent.zip" -CompressionLevel Optimal
+
+      - name: Create or update release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          # matrix 里两个 RID 并行跑，可能同时尝试创建。
+          # 创建失败（已存在）不算错误，后面的 upload --clobber 才是关键。
+          gh release create "$TAG" \
+            --title "Shutdown Timer Classic $TAG（中文汉化版）" \
+            --notes-file CHANGELOG.md \
+            || echo "Release $TAG 已存在（另一个 matrix job 先建好了），继续上传附件"
+
+          gh release upload "$TAG" \
+            "$RUNNER_TEMP/ShutdownTimerClassic-$TAG-${{ matrix.rid }}-selfcontained.zip" \
+            "$RUNNER_TEMP/ShutdownTimerClassic-$TAG-${{ matrix.rid }}-framework-dependent.zip" \
+            --clobber

@@ -244,19 +244,12 @@
             this.actionComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.actionComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.actionComboBox.FormattingEnabled = true;
-            this.actionComboBox.Items.AddRange(new object[] {
-            "Shutdown",
-            "Restart",
-            "Hibernate",
-            "Sleep",
-            "Logout",
-            "Lock",
-            "Custom Command"});
+            // 选项由 Menu.cs 里的 PowerActions.BindTo() 填充：显示名走本地化资源，
+            // 取值是稳定的 PowerAction 枚举，切语言不会破坏配置兼容性与 CLI
             this.actionComboBox.Location = new System.Drawing.Point(99, 19);
             this.actionComboBox.Name = "actionComboBox";
             this.actionComboBox.Size = new System.Drawing.Size(147, 21);
             this.actionComboBox.TabIndex = 70;
-            this.actionComboBox.Text = "Shutdown";
             this.actionComboBox.TextChanged += new System.EventHandler(this.ActionComboBox_TextChanged);
             // 
             // startButton

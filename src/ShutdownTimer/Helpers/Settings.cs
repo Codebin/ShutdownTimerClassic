@@ -107,6 +107,17 @@ namespace ShutdownTimer.Helpers
                 Settings.TrayIconTheme = "Automatic";
             }
 
+            ExceptionHandler.Log("Check Language field");
+            if (string.IsNullOrWhiteSpace(Settings.Language))
+            {
+                ExceptionHandler.Log("Restore Language default (Auto)");
+                Settings.Language = Loc.LangAuto;
+            }
+            else
+            {
+                Settings.Language = Loc.Normalize(Settings.Language);
+            }
+
             ExceptionHandler.Log("Check DefaultTimer field");
             if (Settings.DefaultTimer is null)
             {
@@ -130,6 +141,9 @@ namespace ShutdownTimer.Helpers
                 ExceptionHandler.Log("Restore BackgroundColor defaults");
                 Settings.BackgroundColor = Color.RoyalBlue;
             }
+
+            // 语言必须在任何窗体构造之前生效，CheckSettings 是所有加载路径的必经点
+            Loc.ApplyLanguage(Settings.Language);
 
             ExceptionHandler.Log("Settings validated");
         }
@@ -180,6 +194,7 @@ namespace ShutdownTimer.Helpers
         // general settings
         public bool RememberLastState { get; set; }
         public string TrayIconTheme { get; set; }
+        public string Language { get; set; }
         public TimerData DefaultTimer { get; set; }
         public bool RememberLastScreenPositionUI { get; set; }
         public LastScreenPosition LastScreenPositionUI { get; set; }

@@ -10,7 +10,7 @@ namespace ShutdownTimer
     static class Timer
     {
         public static TimeSpan CountdownTimeSpan { get; set; } // timespan after which the power action gets executed
-        public static string Action { get; set; } // defines what power action to execute (fallback to shutdown if not changed)
+        public static PowerAction Action { get; set; } // defines what power action to execute (fallback to shutdown if not changed)
         public static bool Graceful { get; set; } // uses a graceful shutdown which allows apps to save their work or interrupt the shutdown
         public static bool PreventSystemSleep { get; set; } // tells Windows that the system should stay awake during countdown
         public static string Command { get; set; } // for executing a custom command instead of a power action
@@ -161,37 +161,37 @@ namespace ShutdownTimer
             }
         }
 
-        private static void ExecutePowerAction(string chosenAction)
+        private static void ExecutePowerAction(PowerAction chosenAction)
         {
-            ExceptionHandler.Log($"Executing action: {Action}");
+            ExceptionHandler.Log($"Executing action: {Action.Key()}");
 
             switch (chosenAction)
             {
-                case "Shutdown":
+                case PowerAction.Shutdown:
                     ExitWindows.Shutdown(!Graceful);
                     break;
 
-                case "Restart":
+                case PowerAction.Restart:
                     ExitWindows.Reboot(!Graceful);
                     break;
 
-                case "Hibernate":
+                case PowerAction.Hibernate:
                     Application.SetSuspendState(PowerState.Hibernate, false, false);
                     break;
 
-                case "Sleep":
+                case PowerAction.Sleep:
                     Application.SetSuspendState(PowerState.Suspend, false, false);
                     break;
 
-                case "Logout":
+                case PowerAction.Logout:
                     ExitWindows.LogOff(!Graceful);
                     break;
 
-                case "Lock":
+                case PowerAction.Lock:
                     ExitWindows.Lock();
                     break;
 
-                case "Custom Command":
+                case PowerAction.CustomCommand:
                     try
                     {
                         Process.Start(Command);

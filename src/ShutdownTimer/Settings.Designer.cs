@@ -453,14 +453,7 @@
             this.actionComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.actionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.actionComboBox.FormattingEnabled = true;
-            this.actionComboBox.Items.AddRange(new object[] {
-            "Shutdown",
-            "Restart",
-            "Hibernate",
-            "Sleep",
-            "Logout",
-            "Lock",
-            "Custom Command"});
+            // 选项由 Settings.cs 里的 PowerActions.BindTo() 填充（本地化显示名 + 稳定枚举取值）
             this.actionComboBox.Location = new System.Drawing.Point(99, 13);
             this.actionComboBox.Name = "actionComboBox";
             this.actionComboBox.Size = new System.Drawing.Size(147, 21);

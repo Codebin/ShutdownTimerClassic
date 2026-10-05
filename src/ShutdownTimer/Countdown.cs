@@ -107,12 +107,13 @@ namespace ShutdownTimer
 
             /// Setup UI
 
-            titleLabel.Text = Timer.Action + " Timer";
+            titleLabel.Text = Loc.T("Countdown.TitleFormat", Timer.Action.DisplayName());
 
             TopMost = !SettingsProvider.Settings.DisableAlwaysOnTop;
 
             // Prevent font-fallback and subsequent layout issues. This application is currently only in English and doesn't require display of non-Latin characters.
-            this.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, 0);
+            // 字体按界面语言选择（中文需要 CJK 字形）
+            this.Font = Loc.CreateUiFont(8.25f);
 
             if (!IsForegroundUI)
             {
@@ -344,13 +345,13 @@ namespace ShutdownTimer
             {
                 Timer.Pause();
                 contextMenuStrip.Items[0].Text = "Resume";
-                titleLabel.Text = Timer.Action + " Timer (paused)";
+                titleLabel.Text = Loc.T("Countdown.TitleFormatPaused", Timer.Action.DisplayName());
             }
             else
             {
                 Timer.Resume();
                 contextMenuStrip.Items[0].Text = "Pause";
-                titleLabel.Text = Timer.Action + " Timer";
+                titleLabel.Text = Loc.T("Countdown.TitleFormat", Timer.Action.DisplayName());
             }
         }
 

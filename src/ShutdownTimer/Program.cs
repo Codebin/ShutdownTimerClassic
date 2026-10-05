@@ -68,7 +68,7 @@ namespace ShutdownTimer
 
                         ExceptionHandler.Log("Run Countdown with args");
                         Timer.CountdownTimeSpan = ArgProcessor.argTimeTS;
-                        Timer.Action = ArgProcessor.argAction;
+                        Timer.Action = PowerActions.ParseOrDefault(ArgProcessor.argAction);
                         Timer.Graceful = ArgProcessor.argGraceful;
                         Timer.PreventSystemSleep = ArgProcessor.argPreventSleep;
                         Timer.Start(ArgProcessor.argPassword, !ArgProcessor.argBackground, forced, false);

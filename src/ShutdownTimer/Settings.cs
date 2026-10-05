@@ -10,6 +10,18 @@ namespace ShutdownTimer
         public Settings()
         {
             InitializeComponent();
+
+            // 与 Menu 窗体一致：动作下拉框绑定 PowerAction 选项，显示名走本地化资源
+            PowerActions.BindTo(actionComboBox);
+        }
+
+        /// <summary>
+        /// 取下拉框选中的动作；未选中时回退到默认动作
+        /// </summary>
+        private PowerAction GetSelectedAction()
+        {
+            if (actionComboBox.SelectedItem is PowerActionOption option) return option.Value;
+            return PowerActions.ParseOrDefault(actionComboBox.Text);
         }
 
         private void Settings_Load(object sender, EventArgs e)
@@ -19,8 +31,8 @@ namespace ShutdownTimer
             appLabel.Text += "_debug";
 #endif
 
-            // Prevent font-fallback and subsequent layout issues. This application is currently only in English and doesn't require display of non-Latin characters.
-            this.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, 0);
+            // 字体按界面语言选择（中文需要 CJK 字形）
+            this.Font = Loc.CreateUiFont(8.25f);
 
             LoadSettings();
         }
@@ -60,7 +72,7 @@ namespace ShutdownTimer
             enableMultipleInstances.Checked = SettingsProvider.Settings.EnableMultipleInstances;
 
             // default timer
-            actionComboBox.Text = SettingsProvider.Settings.DefaultTimer.Action;
+            PowerActions.Select(actionComboBox, PowerActions.ParseOrDefault(SettingsProvider.Settings.DefaultTimer.Action));
             gracefulCheckBox.Checked = SettingsProvider.Settings.DefaultTimer.Graceful;
             preventSleepCheckBox.Checked = SettingsProvider.Settings.DefaultTimer.PreventSleep;
             backgroundCheckBox.Checked = SettingsProvider.Settings.DefaultTimer.Background;
@@ -96,7 +108,7 @@ namespace ShutdownTimer
             // default timer
             if (!SettingsProvider.Settings.RememberLastState)
             {
-                SettingsProvider.Settings.DefaultTimer.Action = actionComboBox.Text;
+                SettingsProvider.Settings.DefaultTimer.Action = GetSelectedAction().Key();
                 SettingsProvider.Settings.DefaultTimer.Graceful = gracefulCheckBox.Checked;
                 SettingsProvider.Settings.DefaultTimer.PreventSleep = preventSleepCheckBox.Checked;
                 SettingsProvider.Settings.DefaultTimer.Background = backgroundCheckBox.Checked;

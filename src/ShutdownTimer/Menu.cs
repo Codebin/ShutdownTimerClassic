@@ -26,6 +26,10 @@ namespace ShutdownTimer
         public Menu()
         {
             InitializeComponent();
+
+            // 动作下拉框改为对象绑定：界面显示本地化名，内部始终是 PowerAction 枚举
+            PowerActions.BindTo(actionComboBox);
+            PowerActions.Select(actionComboBox, PowerAction.Shutdown);
         }
 
         #region "form events"
@@ -67,8 +71,8 @@ namespace ShutdownTimer
             infoToolTip.SetToolTip(countdownModeRadioButton, "Will count down from the hours, minutes and seconds selected below,\nlike a countdown timer, and execute the power action when it reaches zero.");
             infoToolTip.SetToolTip(timeOfDayModeRadioButton, "In this mode you can select the target time of day (24h clock) for the power action.\nIf the time has already passed, it will roll over to tomorrow.\n\nWhen you press start, the appropriate countdown will be calculated.\n");
 
-            // Prevent font-fallback and subsequent layout issues. This application is currently only in English and doesn't require display of non-Latin characters.
-            this.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, 0);
+            // 字体按界面语言选择：中文必须有 CJK 字形，写死 Microsoft Sans Serif 会让中文渲染成方块
+            this.Font = Loc.CreateUiFont(8.25f);
 
             ExceptionHandler.Log("Form initialized");
         }
@@ -103,11 +107,25 @@ namespace ShutdownTimer
             }
         }
 
+        /// <summary>
+        /// 读取下拉框当前选中的动作。既支持选中项（对象绑定），也支持用户手输文本，
+        /// 且中英文显示名与英文 Key 都能识别。
+        /// </summary>
+        private bool TryGetSelectedAction(out PowerAction action)
+        {
+            if (actionComboBox.SelectedItem is PowerActionOption option)
+            {
+                action = option.Value;
+                return true;
+            }
+
+            return PowerActions.TryParse(actionComboBox.Text, out action);
+        }
+
         private void ActionComboBox_TextChanged(object sender, EventArgs e)
         {
-            // disables graceful checkbox for all modes which can not be executed gracefully / which always execute gracefully
-            if (actionComboBox.Text == "Shutdown" || actionComboBox.Text == "Restart" || actionComboBox.Text == "Logout") { gracefulCheckBox.Enabled = true; }
-            else { gracefulCheckBox.Enabled = false; }
+            // 只有会强制关闭应用的动作才支持优雅模式；按枚举判断，与界面语言无关
+            gracefulCheckBox.Enabled = TryGetSelectedAction(out var action) && action.SupportsGraceful();
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
@@ -139,7 +157,7 @@ namespace ShutdownTimer
                 }
             }
 
-            if (actionComboBox.Text.Equals("Custom Command"))
+            if (TryGetSelectedAction(out var selectedAction) && selectedAction == PowerAction.CustomCommand)
             {
                 ExceptionHandler.Log("Custom command requested");
                 using (var form = new InputBox())
@@ -206,9 +224,9 @@ namespace ShutdownTimer
             string warnMessages = ""; // warning messages will append to this
 
             // Check if chosen action is a valid option
-            if (!actionComboBox.Items.Contains(actionComboBox.Text))
+            if (!TryGetSelectedAction(out _))
             {
-                errMessages += "Please select a valid action from the dropdown menu!\n\n";
+                errMessages += Loc.T("Menu.Err.InvalidAction");
             }
 
             // Check if all time values are zero when in countdown mode
@@ -252,7 +270,7 @@ namespace ShutdownTimer
         /// </summary>
         private void LoadArgs()
         {
-            actionComboBox.Text = ArgAction;
+            PowerActions.Select(actionComboBox, PowerActions.ParseOrDefault(ArgAction));
             gracefulCheckBox.Checked = ArgGraceful;
             preventSleepCheckBox.Checked = ArgPreventSleep;
             backgroundCheckBox.Checked = ArgBackground;
@@ -277,7 +295,7 @@ namespace ShutdownTimer
         /// </summary>
         private void LoadSettings()
         {
-            actionComboBox.Text = SettingsProvider.Settings.DefaultTimer.Action;
+            PowerActions.Select(actionComboBox, PowerActions.ParseOrDefault(SettingsProvider.Settings.DefaultTimer.Action));
             gracefulCheckBox.Checked = SettingsProvider.Settings.DefaultTimer.Graceful;
             preventSleepCheckBox.Checked = SettingsProvider.Settings.DefaultTimer.PreventSleep;
             backgroundCheckBox.Checked = SettingsProvider.Settings.DefaultTimer.Background;
@@ -307,7 +325,9 @@ namespace ShutdownTimer
 
                 if (SettingsProvider.Settings.RememberLastState)
                 {
-                    SettingsProvider.Settings.DefaultTimer.Action = actionComboBox.Text;
+                    // 存稳定 Key，不存显示名：换语言或系统语言不同都不会让旧配置失效
+                    SettingsProvider.Settings.DefaultTimer.Action =
+                        (TryGetSelectedAction(out var chosenAction) ? chosenAction : PowerAction.Shutdown).Key();
                     SettingsProvider.Settings.DefaultTimer.Graceful = gracefulCheckBox.Checked;
                     SettingsProvider.Settings.DefaultTimer.PreventSleep = preventSleepCheckBox.Checked;
                     SettingsProvider.Settings.DefaultTimer.Background = backgroundCheckBox.Checked;
@@ -357,7 +377,7 @@ namespace ShutdownTimer
             TimeSpan timeSpan = Numerics.CalculateCountdownTimeSpan(hoursNumericUpDown.Value, minutesNumericUpDown.Value, secondsNumericUpDown.Value, timeOfDayModeRadioButton.Checked);
 
             Timer.CountdownTimeSpan = timeSpan;
-            Timer.Action = actionComboBox.Text;
+            Timer.Action = TryGetSelectedAction(out var timerAction) ? timerAction : PowerAction.Shutdown;
             Timer.Graceful = gracefulCheckBox.Checked;
             Timer.PreventSystemSleep = preventSleepCheckBox.Checked;
             Timer.Command = command;

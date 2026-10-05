@@ -50,11 +50,9 @@
        anmelden. Für Windows Forms-Anwendungen für .NET Framework 4.6, die sich für diese Einstellung anmelden, muss 
        auch die Einstellung "'EnableWindowsFormsHighDpiAutoResizing" in der "app.config" auf "true" festgelegt werden. -->
 
-  <application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
-    </windowsSettings>
-  </application>
+  <!-- DPI 感知不再在此声明：.NET 8 下由 Program.cs 里的
+       Application.SetHighDpiMode(HighDpiMode.PerMonitorV2) 统一控制，
+       manifest 里保留 dpiAware 会与 API 设置冲突（编译器警告 WFAC010）。 -->
 
 
   <!-- Designs für allgemeine Windows-Steuerelemente und -Dialogfelder (Windows XP und höher) aktivieren -->

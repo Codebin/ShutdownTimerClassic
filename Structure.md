@@ -54,6 +54,16 @@ The settings do need to be saved to the `settings.json` file before exiting the 
 
 This app depends on `Newtonsoft.Json` for serializing/deserializing the settings to and from the `settings.json` file.
 
+### Localization 🌐（本版本新增）
+
+All user-facing text is resolved through `Helpers/Loc.cs`, which reads from `Strings.resx` (neutral English, also the fallback) and `Strings.zh-CN.resx` (Simplified Chinese). The UI language is a setting (`Auto` / `en` / `zh-CN`) applied inside `Helpers/Settings.cs` before any form is constructed.
+
+`Loc.CreateUiFont()` returns a language-appropriate font. Upstream hardcoded `Microsoft Sans Serif` with a comment stating the app is English-only; that font has no CJK glyphs, so Chinese text would render as boxes.
+
+`Helpers/PowerAction.cs` keeps the power actions as a stable enum. `settings.json`, CLI parsing and logs use the English key, while the UI shows a localized display name — this is what allows translating the dropdown without breaking existing configs or scripts. `Helpers/LocalizedOptions.cs` applies the same pattern to the tray theme and language dropdowns.
+
+The `tools/` directory holds the scripts that generate and verify the resources: `gen_strings.py` (single bilingual source), `localize_designer.py` / `localize_code.py` (mechanical replacement with a report of anything uncovered), `check_i18n.py` (key and placeholder verification) and `check_layout.py` (estimates whether localized text overflows its control).
+
 ### Other files and folders 👾
 
 **`Icons/`** contains the application's icons used for compiling and packaging the application.

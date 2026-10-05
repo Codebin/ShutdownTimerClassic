@@ -138,7 +138,7 @@ STRINGS = {
     "Settings.Title": ("Settings", "设置"),
     "Settings.WindowTitle": ("Shutdown Timer - Settings", "定时关机 - 设置"),
     "Settings.Footer": ("Made with love in Germany", "在德国用 ❤ 制作"),
-    "Settings.ViewOnGitHub": ("View on GitHub", "在 GitHub 查看"),
+    "Settings.ViewOnGitHub": ("View on GitHub", "GitHub 主页"),
     "Settings.TabGeneral": ("General", "常规"),
     "Settings.TabAdvanced": ("Advanced", "高级"),
     "Settings.TabAbout": ("About", "关于"),
@@ -159,7 +159,7 @@ STRINGS = {
     "Settings.RememberLastState": ("Remember last state", "记住上次状态"),
 
     "Settings.DeveloperOptions": ("Developer Options", "开发者选项"),
-    "Settings.OpenAppData": ("Open appdata folder", "打开 appdata 目录"),
+    "Settings.OpenAppData": ("Open appdata folder", "打开 appdata"),
     "Settings.SaveLogs": ("Save event logs to appdata on exit", "退出时将事件日志保存到 appdata"),
     "Settings.PasswordGroup": ("Password protection", "密码保护"),
     "Settings.PasswordLabel": (

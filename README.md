@@ -2,6 +2,8 @@
 
 Shutdown Timer Classic is a small Windows application that allows you to set a timer that will shut down, restart, hibernate, sleep, or lock your PC.
 
+**简体中文版文档 / Chinese documentation: [README.zh-CN.md](README.zh-CN.md)**（含汉化说明、.NET 8 构建方式与新增的鼠标穿透 / 窗口缩放特性）
+
 ![Screenshot of the main menu](media/screenshots/Menu.png)
 
 I am also planning on developing a more advanced and sleek version of this app in the future.
@@ -86,7 +88,9 @@ Argument                 Description
 /SetTime <time>          Sets the time for the countdown. Either type in the seconds, use HH:mm:ss or HH:mm.
 
 /SetAction <action>      Sets the power action which will be executed after the countdown reached zero.
-                         Type in the exact name as seen in the UI (eg: Shutdown, Restart or Sleep. Do not use other variations like shutdown, Reboot, SLEEP, ...).
+                         Accepted values: Shutdown, Restart, Hibernate, Sleep, Logout, Lock, Custom Command.
+                          Matching is case-insensitive; localized UI names (e.g. 关机, 重启) are also accepted,
+                          and the legacy aliases Reboot / Logoff keep working.
 
 /SetMode <mode>          Sets the control mode. This is required for any CLI arguments to take effect. Modes available:
                          Prefill:       Prefills settings but lets the user manually change them too. Timer won't start automatically.

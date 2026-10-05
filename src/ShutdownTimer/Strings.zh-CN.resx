@@ -144,7 +144,7 @@
   <data name="Settings.Title" xml:space="preserve"><value>设置</value></data>
   <data name="Settings.WindowTitle" xml:space="preserve"><value>定时关机 - 设置</value></data>
   <data name="Settings.Footer" xml:space="preserve"><value>在德国用 ❤ 制作</value></data>
-  <data name="Settings.ViewOnGitHub" xml:space="preserve"><value>在 GitHub 查看</value></data>
+  <data name="Settings.ViewOnGitHub" xml:space="preserve"><value>GitHub 主页</value></data>
   <data name="Settings.TabGeneral" xml:space="preserve"><value>常规</value></data>
   <data name="Settings.TabAdvanced" xml:space="preserve"><value>高级</value></data>
   <data name="Settings.TabAbout" xml:space="preserve"><value>关于</value></data>
@@ -162,7 +162,7 @@
   <data name="Settings.CustomDefaults" xml:space="preserve"><value>自定义默认值</value></data>
   <data name="Settings.RememberLastState" xml:space="preserve"><value>记住上次状态</value></data>
   <data name="Settings.DeveloperOptions" xml:space="preserve"><value>开发者选项</value></data>
-  <data name="Settings.OpenAppData" xml:space="preserve"><value>打开 appdata 目录</value></data>
+  <data name="Settings.OpenAppData" xml:space="preserve"><value>打开 appdata</value></data>
   <data name="Settings.SaveLogs" xml:space="preserve"><value>退出时将事件日志保存到 appdata</value></data>
   <data name="Settings.PasswordGroup" xml:space="preserve"><value>密码保护</value></data>
   <data name="Settings.PasswordLabel" xml:space="preserve"><value>锁定倒计时界面，需要在点击开始后的启动过程中设置密码。</value></data>

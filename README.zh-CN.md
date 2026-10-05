@@ -172,8 +172,13 @@ dotnet build src/ShutdownTimer/ShutdownTimer.csproj   # 非 Windows 也可做语
 | `tools/localize_code.py` | 同上，处理弹窗 / 提示 / 通知 |
 | `tools/check_i18n.py` | 校验代码引用的每个 key 都存在、占位符数量匹配 |
 | `tools/check_layout.py` | 估算中文 + 雅黑下的控件宽度，找出可能破版处 |
+| `tools/verify.sh` | **一键跑完上面全部检查 + 编译** |
 
-改文案的正确流程：**只改 `tools/gen_strings.py` 里的对照表 → 跑 `gen_strings.py` → 跑 `check_i18n.py`**。
+改文案的正确流程：**只改 `tools/gen_strings.py` 里的对照表 → 跑 `./tools/verify.sh`**。
+
+```bash
+./tools/verify.sh     # 生成资源 → 校验 key/占位符 → 破版估算 → 编译（警告即失败）
+```
 
 ---
 

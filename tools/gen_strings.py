@@ -134,6 +134,10 @@ STRINGS = {
     "Countdown.Menu.ShowCountdownWindow": ("Show countdown window", "显示倒计时窗口"),
     "Countdown.Menu.SetNewCountdown": ("Set a new countdown", "设置新的倒计时"),
     "Countdown.Menu.ToggleClickThrough": ("Toggle click-through", "切换鼠标穿透"),
+    "Countdown.Menu.Lock": ("Lock countdown", "锁定倒计时"),
+    "Countdown.LockedNotify": (
+        "The countdown has been locked. Enter the password to change or stop it.",
+        "倒计时已上锁。更改或停止倒计时需要先输入密码。"),
     "Countdown.ClickThroughOn": ("Click-through is ON. The window ignores mouse input; use the tray icon menu to control the timer.",
                                  "鼠标穿透已开启：窗口不接收鼠标输入，请用托盘图标菜单控制计时器。"),
 
@@ -225,6 +229,8 @@ STRINGS = {
     # ---------- 托盘气泡与其余弹窗 ----------
     "Tray.Balloon.CountdownStopped": ("The countdown was stopped.", "倒计时已停止。"),
     "Tray.Balloon.CountdownFinished": ("The countdown has finished.", "倒计时已结束。"),
+    # 托盘图标悬停 tooltip：每秒刷新的剩余时间（NotifyIcon.Text 上限 127 字符）
+    "Tray.Tooltip.Format": ("Shutdown Timer: {0} left", "定时关机：剩余 {0}"),
     "Countdown.ConfirmStop": (
         "Do you really want to stop the countdown and exit the application?",
         "确定要停止倒计时并退出程序吗？"),
@@ -239,20 +245,13 @@ STRINGS = {
         "你输入的密码不正确。倒计时仍在继续。"),
     "Countdown.PasswordWrongTitle": ("Wrong password", "密码错误"),
     "Countdown.PasswordTitle": ("Password Protection", "密码保护"),
-    "Countdown.PasswordPromptUnlock": (
-        "Enter the password to unlock the countdown controls.",
-        "输入密码以解锁倒计时控件。"),
     "Countdown.PasswordPromptLock": (
         "Enter a password to lock the countdown controls.",
         "输入密码以锁定倒计时控件。"),
     "Countdown.Err.CustomCommand": (
         "There was an error executing your custom command.\n\nYour custom command: {0}\nError: {1}",
         "执行自定义命令时出错。\n\n你的命令：{0}\n错误：{1}"),
-    "Countdown.Err.CustomCommandTitle": ("Countdown Update", "倒计时更新"),
-
-    # ---------- 托盘气泡通知 ----------
-    "Tray.Balloon.CountdownFinished": ("The countdown has finished.", "倒计时已结束。"),
-    "Tray.Balloon.CountdownStopped": ("The countdown was stopped.", "倒计时已停止。"),
+    "Countdown.Err.CustomCommandTitle": ("Custom Command Error", "自定义命令错误"),
 
     # ---------- 取消/停止与剩余时间通知 ----------
     "Countdown.StoppedNotify": (

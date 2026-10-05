@@ -179,7 +179,7 @@ Exiting...</value></data>
   <data name="Settings.DisableAlwaysOnTop" xml:space="preserve"><value>Disable always on top behaviour</value></data>
   <data name="Settings.ForceFlagGroup" xml:space="preserve"><value>Force flag</value></data>
   <data name="Settings.ForceFlagDocs" xml:space="preserve"><value>Documentation</value></data>
-  <data name="Settings.ForceFlagLabel" xml:space="preserve"><value>Changes how running applications are force-closed when
+  <data name="Settings.ForceFlagLabel" xml:space="preserve"><value>Changes how running applications are force-closed when
 using a non-graceful shutdown.</value></data>
   <data name="Settings.AboutGroup" xml:space="preserve"><value>About this app</value></data>
   <data name="Settings.CreateLogfile" xml:space="preserve"><value>Create Logfile</value></data>

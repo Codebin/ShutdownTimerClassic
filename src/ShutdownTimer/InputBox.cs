@@ -1,3 +1,4 @@
+using ShutdownTimer.Helpers;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -19,13 +20,14 @@ namespace ShutdownTimer
 
         private void InputBox_Load(object sender, EventArgs e)
         {
-            Text = "Shutdown Timer - " + Title;
+            Text = Loc.T("App.Title") + " - " + Title;
             titleLabel.Text = Title;
             messageLabel.Text = Message;
             if (PasswordMode) { inputTextBox.PasswordChar = Convert.ToChar("*"); }
 
-            // Prevent font-fallback and subsequent layout issues. This application is currently only in English and doesn't require display of non-Latin characters.
-            this.Font = new Font("Microsoft Sans Serif", 8.25f, FontStyle.Regular, GraphicsUnit.Point, 0);
+            // 字体按界面语言选择：这个对话框承载密码与自定义命令提示，
+            // 上游同样写死了没有中文字形的 Microsoft Sans Serif
+            this.Font = Loc.CreateUiFont(8.25f);
         }
 
         private void OkButton_Click(object sender, EventArgs e)

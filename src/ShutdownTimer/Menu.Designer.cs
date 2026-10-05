@@ -259,7 +259,8 @@ namespace ShutdownTimer
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.startButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 控件级字体会覆盖窗体级字体，必须同样按语言选择，否则中文按钮变方块
+            this.startButton.Font = Loc.CreateUiFont(9.75f);
             this.startButton.Location = new System.Drawing.Point(18, 305);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(252, 31);

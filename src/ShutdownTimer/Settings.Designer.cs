@@ -149,7 +149,8 @@ namespace ShutdownTimer
             // 
             this.footerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.footerLabel.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // Consolas 没有中文字形，页脚文本已本地化，改用语言感知字体
+            this.footerLabel.Font = Loc.CreateUiFont(8.25f);
             this.footerLabel.Location = new System.Drawing.Point(12, 495);
             this.footerLabel.Name = "footerLabel";
             this.footerLabel.Size = new System.Drawing.Size(310, 18);
@@ -259,10 +260,8 @@ namespace ShutdownTimer
             // 
             this.trayiconThemeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.trayiconThemeComboBox.FormattingEnabled = true;
-            this.trayiconThemeComboBox.Items.AddRange(new object[] {
-            "Automatic",
-            "Light",
-            "Dark"});
+            // 选项由 Settings.cs 里的 LocalizedOptions.BindTo() 填充：
+            // 存 Automatic/Light/Dark 稳定值，显示走本地化资源
             this.trayiconThemeComboBox.Location = new System.Drawing.Point(91, 13);
             this.trayiconThemeComboBox.Name = "trayiconThemeComboBox";
             this.trayiconThemeComboBox.Size = new System.Drawing.Size(121, 21);

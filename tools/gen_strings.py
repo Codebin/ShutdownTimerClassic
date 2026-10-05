@@ -137,7 +137,7 @@ STRINGS = {
     # ---------- Settings 设置窗口 ----------
     "Settings.Title": ("Settings", "设置"),
     "Settings.WindowTitle": ("Shutdown Timer - Settings", "定时关机 - 设置"),
-    "Settings.Footer": ("Made with love in Germany", "在德国用 ❤ 制作"),
+    "Settings.Footer": ("Made with love in Germany", "在德国用心制作"),
     "Settings.ViewOnGitHub": ("View on GitHub", "GitHub 主页"),
     "Settings.TabGeneral": ("General", "常规"),
     "Settings.TabAdvanced": ("Advanced", "高级"),

@@ -87,7 +87,8 @@ namespace ShutdownTimer
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.Enabled = false;
-            this.okButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 控件级字体会覆盖窗体级字体，必须同样按语言选择
+            this.okButton.Font = Loc.CreateUiFont(8.25f);
             this.okButton.Location = new System.Drawing.Point(119, 136);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(86, 23);

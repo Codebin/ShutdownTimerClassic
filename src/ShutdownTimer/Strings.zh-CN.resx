@@ -143,7 +143,7 @@
   <data name="Countdown.ClickThroughOn" xml:space="preserve"><value>鼠标穿透已开启：窗口不接收鼠标输入，请用托盘图标菜单控制计时器。</value></data>
   <data name="Settings.Title" xml:space="preserve"><value>设置</value></data>
   <data name="Settings.WindowTitle" xml:space="preserve"><value>定时关机 - 设置</value></data>
-  <data name="Settings.Footer" xml:space="preserve"><value>在德国用 ❤ 制作</value></data>
+  <data name="Settings.Footer" xml:space="preserve"><value>在德国用心制作</value></data>
   <data name="Settings.ViewOnGitHub" xml:space="preserve"><value>GitHub 主页</value></data>
   <data name="Settings.TabGeneral" xml:space="preserve"><value>常规</value></data>
   <data name="Settings.TabAdvanced" xml:space="preserve"><value>高级</value></data>

@@ -33,15 +33,24 @@ jobs:
       # 没有 python3 —— 原先写 python3 会让这一步直接失败，Release 出不来。
       # 显式装 Python 并统一用 python，同时避免基础镜像里版本漂移。
       - name: Set up Python
+        id: python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Verify localization before shipping
+        # 用 setup-python 输出的绝对路径调用，而不是裸 `python`：
+        # Windows runner 的 bash 里裸 `python` 可能被 WindowsApps 的 stub 抢占而秒退，
+        # 导致这一步在 1-2 秒内失败（脚本本身在 Linux 与本地 Windows 都能跑通）。
+        env:
+          PY: ${{ steps.python.outputs.python-path }}
         run: |
-          python tools/gen_strings.py
-          python tools/check_i18n.py
-          python tools/check_layout.py
+          PY="${PY//\\//}"   # git-bash 用正斜杠更稳
+          echo "using python: $PY"
+          "$PY" --version
+          "$PY" tools/gen_strings.py
+          "$PY" tools/check_i18n.py
+          "$PY" tools/check_layout.py
         shell: bash
 
       # 与 dotnet.yml 一致：资源文件必须是已提交的最终态。

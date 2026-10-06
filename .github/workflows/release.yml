@@ -40,10 +40,13 @@ jobs:
 
       - name: Verify localization before shipping
         # 用 setup-python 输出的绝对路径调用，而不是裸 `python`：
-        # Windows runner 的 bash 里裸 `python` 可能被 WindowsApps 的 stub 抢占而秒退，
-        # 导致这一步在 1-2 秒内失败（脚本本身在 Linux 与本地 Windows 都能跑通）。
+        # Windows runner 的 bash 里裸 `python` 可能被 WindowsApps 的 stub 抢占而秒退。
+        # PYTHONIOENCODING=utf-8：脚本会 print 中文（"写入 …（151 条）"等），
+        # Windows runner 的 stdout 默认 cp1252，print 中文会抛 UnicodeEncodeError；
+        # Linux job 的 stdout 是 UTF-8 所以不受影响。强制 UTF-8 让两边一致。
         env:
           PY: ${{ steps.python.outputs.python-path }}
+          PYTHONIOENCODING: utf-8
         run: |
           PY="${PY//\\//}"   # git-bash 用正斜杠更稳
           echo "using python: $PY"

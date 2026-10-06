@@ -15,6 +15,11 @@ permissions:
 jobs:
   release:
     runs-on: windows-latest
+    # Windows runner 的 stdout 默认 cp1252；tools/ 下的脚本会 print 中文
+    # （gen_strings 的进度行、release_notes 抽取的 CHANGELOG 段落），
+    # 不强制 UTF-8 就会 UnicodeEncodeError。job 级统一设，覆盖所有 python 调用。
+    env:
+      PYTHONIOENCODING: utf-8
     strategy:
       fail-fast: false
       matrix:
